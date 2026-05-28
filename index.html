@@ -3,263 +3,170 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Design System Refs</title>
+  <title>nroad education — Design Refs</title>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --blue: #3182f6;
-      --blue-light: #e8f3ff;
-      --grey-50: #f9fafb;
-      --grey-100: #f2f4f6;
-      --grey-200: #e5e8eb;
-      --grey-500: #8b95a1;
-      --grey-700: #4e5968;
-      --grey-900: #191f28;
-      --sidebar-w: 260px;
+      --blue: #3182f6; --blue-light: #e8f3ff; --blue-hover: #c9e2ff;
+      --g50: #f9fafb; --g100: #f2f4f6; --g200: #e5e8eb;
+      --g400: #b0b8c1; --g500: #8b95a1; --g600: #6b7684;
+      --g700: #4e5968; --g800: #333d4b; --g900: #191f28;
+      --sidebar: 280px;
     }
-
     body {
       font-family: 'Noto Sans KR', -apple-system, sans-serif;
-      background: var(--grey-100);
-      color: var(--grey-900);
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+      background: var(--g100); color: var(--g900);
+      display: flex; flex-direction: column; height: 100vh; overflow: hidden;
     }
 
-    /* Header */
+    /* ── Header ── */
     header {
-      height: 56px;
-      background: #fff;
-      border-bottom: 1px solid var(--grey-200);
-      display: flex;
-      align-items: center;
-      padding: 0 24px;
-      gap: 12px;
-      flex-shrink: 0;
-      z-index: 10;
+      height: 52px; background: #fff; border-bottom: 1px solid var(--g200);
+      display: flex; align-items: center; padding: 0 20px; gap: 10px;
+      flex-shrink: 0; z-index: 10;
     }
+    .logo { font-size: 16px; font-weight: 700; color: var(--blue); letter-spacing: -0.3px; }
+    .logo span { color: var(--g900); }
+    .badge { font-size: 11px; font-weight: 600; background: var(--blue-light); color: var(--blue); border-radius: 5px; padding: 2px 7px; }
+    .hcount { margin-left: auto; font-size: 12px; color: var(--g500); }
 
-    .logo { font-size: 17px; font-weight: 700; color: var(--blue); letter-spacing: -0.3px; }
-    .logo span { color: var(--grey-900); }
+    /* ── Layout ── */
+    .layout { display: flex; flex: 1; overflow: hidden; }
 
-    .header-badge {
-      font-size: 12px; font-weight: 600;
-      background: var(--blue-light); color: var(--blue);
-      border-radius: 6px; padding: 2px 8px;
-    }
-
-    .header-count {
-      margin-left: auto;
-      font-size: 13px; color: var(--grey-500);
-    }
-
-    /* Layout */
-    .layout {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    /* Sidebar */
+    /* ── Sidebar ── */
     aside {
-      width: var(--sidebar-w);
-      background: #fff;
-      border-right: 1px solid var(--grey-200);
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-      overflow: hidden;
+      width: var(--sidebar); background: #fff;
+      border-right: 1px solid var(--g200);
+      display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden;
     }
 
-    .search-wrap {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--grey-200);
-    }
-
+    .search-wrap { padding: 10px 12px; border-bottom: 1px solid var(--g200); }
     .search-wrap input {
-      width: 100%;
-      height: 36px;
-      background: var(--grey-100);
-      border: none;
-      border-radius: 8px;
-      padding: 0 12px;
-      font-size: 14px;
-      font-family: inherit;
-      color: var(--grey-900);
-      outline: none;
+      width: 100%; height: 34px; background: var(--g100);
+      border: none; border-radius: 7px; padding: 0 10px;
+      font-size: 13px; font-family: inherit; color: var(--g900); outline: none;
     }
-
-    .search-wrap input::placeholder { color: var(--grey-500); }
+    .search-wrap input::placeholder { color: var(--g500); }
     .search-wrap input:focus { box-shadow: 0 0 0 2px var(--blue); }
 
-    .brand-list {
-      overflow-y: auto;
-      flex: 1;
-      padding: 8px 0;
+    /* section label */
+    .sec-label {
+      padding: 10px 14px 4px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.6px;
+      color: var(--g400); text-transform: uppercase;
     }
 
-    .brand-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0 16px;
-      height: 44px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--grey-700);
+    .brand-list { overflow-y: auto; flex: 1; padding-bottom: 16px; }
+
+    /* brand row (depth 1) */
+    .brand-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 0 12px; height: 38px; cursor: pointer;
+      font-size: 13px; font-weight: 500; color: var(--g700);
       border-left: 3px solid transparent;
-      transition: background 0.1s;
+      user-select: none;
     }
+    .brand-row:hover { background: var(--g50); }
+    .brand-row.open { color: var(--g900); }
 
-    .brand-item:hover { background: var(--grey-50); }
-
-    .brand-item.active {
-      background: var(--blue-light);
-      color: var(--blue);
-      border-left-color: var(--blue);
-      font-weight: 600;
+    .b-icon {
+      width: 22px; height: 22px; border-radius: 5px;
+      background: var(--g100); display: flex; align-items: center;
+      justify-content: center; font-size: 11px; font-weight: 700;
+      color: var(--g600); flex-shrink: 0; text-transform: uppercase;
     }
+    .brand-row.open .b-icon { background: var(--g900); color: #fff; }
 
-    .brand-icon {
-      width: 24px; height: 24px;
-      border-radius: 6px;
-      background: var(--grey-100);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--grey-700);
-      flex-shrink: 0;
-      text-transform: uppercase;
+    .b-name { flex: 1; }
+
+    .b-arrow {
+      font-size: 10px; color: var(--g400);
+      transition: transform 0.15s;
     }
+    .brand-row.open .b-arrow { transform: rotate(90deg); }
 
-    .brand-item.active .brand-icon {
-      background: var(--blue);
-      color: #fff;
+    /* sub items (depth 2) */
+    .sub-list { display: none; }
+    .sub-list.open { display: block; }
+
+    .sub-item {
+      display: flex; align-items: center; gap: 7px;
+      padding: 0 12px 0 36px; height: 34px; cursor: pointer;
+      font-size: 12px; color: var(--g600);
+      border-left: 3px solid transparent;
     }
-
-    .brand-link {
-      margin-left: auto;
-      display: none;
-      width: 20px; height: 20px;
-      align-items: center; justify-content: center;
-      color: var(--grey-500);
-      border-radius: 4px;
-      flex-shrink: 0;
-      text-decoration: none;
-      font-size: 13px;
+    .sub-item:hover { background: var(--g50); color: var(--g800); }
+    .sub-item.active {
+      background: var(--blue-light); color: var(--blue);
+      border-left-color: var(--blue); font-weight: 600;
     }
+    .sub-item.external { color: var(--g500); }
+    .sub-item.external:hover { color: var(--blue); }
+    .sub-icon { font-size: 12px; flex-shrink: 0; }
 
-    .brand-item:hover .brand-link,
-    .brand-item.active .brand-link {
-      display: flex;
-    }
+    .no-result { padding: 20px 14px; font-size: 13px; color: var(--g500); text-align: center; }
 
-    .brand-item.active .brand-link { color: var(--blue); }
-    .brand-link:hover { background: rgba(0,0,0,0.06); }
-
-    .site-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 24px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--grey-200);
-    }
-
-    .site-bar a {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--blue);
-      background: var(--blue-light);
-      border-radius: 8px;
-      padding: 6px 12px;
-      text-decoration: none;
-      transition: background 0.1s;
-    }
-
-    .site-bar a:hover { background: #c9e2ff; }
-
-    .no-result {
-      padding: 24px 16px;
-      font-size: 13px;
-      color: var(--grey-500);
-      text-align: center;
-    }
-
-    /* Main content */
-    main {
-      flex: 1;
-      overflow-y: auto;
-      padding: 40px 48px;
-    }
+    /* ── Main ── */
+    main { flex: 1; overflow-y: auto; padding: 32px 40px; }
 
     .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      color: var(--grey-500);
-      gap: 12px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      height: 100%; color: var(--g400); gap: 10px;
     }
+    .empty-state .eicon { font-size: 40px; }
+    .empty-state p { font-size: 14px; }
 
-    .empty-state .icon { font-size: 48px; }
-    .empty-state p { font-size: 15px; }
+    /* site card */
+    .site-topbar {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 20px;
+    }
+    .site-topbar a.visit-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 13px; font-weight: 600; color: var(--blue);
+      background: var(--blue-light); border-radius: 7px;
+      padding: 6px 12px; text-decoration: none;
+    }
+    .site-topbar a.visit-btn:hover { background: var(--blue-hover); }
+    .site-topbar .site-url { font-size: 12px; color: var(--g500); }
 
     /* Markdown */
     .md-wrap {
-      max-width: 760px;
-      background: #fff;
-      border-radius: 16px;
-      padding: 40px 48px;
+      max-width: 740px; background: #fff; border-radius: 14px;
+      padding: 36px 44px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 0 1px rgba(0,0,0,0.08);
     }
-
-    .md-wrap h1 { font-size: 24px; font-weight: 700; color: var(--grey-900); letter-spacing: -0.3px; margin-bottom: 8px; }
-    .md-wrap h2 { font-size: 18px; font-weight: 600; color: var(--grey-900); margin-top: 40px; margin-bottom: 16px; padding-top: 16px; border-top: 1px solid var(--grey-200); }
+    .md-wrap h1 { font-size: 22px; font-weight: 700; color: var(--g900); letter-spacing: -0.3px; margin-bottom: 6px; }
+    .md-wrap h2 { font-size: 17px; font-weight: 600; color: var(--g900); margin-top: 36px; margin-bottom: 14px; padding-top: 14px; border-top: 1px solid var(--g200); }
     .md-wrap h2:first-of-type { border-top: none; padding-top: 0; }
-    .md-wrap h3 { font-size: 15px; font-weight: 600; color: var(--grey-700); margin-top: 24px; margin-bottom: 10px; }
-    .md-wrap p { font-size: 15px; color: #333d4b; line-height: 1.7; margin-bottom: 12px; }
-    .md-wrap blockquote { border-left: 3px solid var(--blue); background: var(--blue-light); border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 16px 0 24px; }
-    .md-wrap blockquote p { color: #2272eb; font-size: 14px; margin: 0; }
-    .md-wrap ul, .md-wrap ol { padding-left: 20px; margin-bottom: 16px; }
-    .md-wrap li { font-size: 15px; color: #333d4b; margin-bottom: 5px; line-height: 1.6; }
-    .md-wrap hr { border: none; border-top: 1px solid var(--grey-200); margin: 28px 0; }
-    .md-wrap strong { font-weight: 600; color: var(--grey-900); }
-    .md-wrap code { font-family: 'SF Mono', Consolas, monospace; font-size: 13px; background: var(--grey-100); color: var(--blue); padding: 2px 6px; border-radius: 4px; }
-    .md-wrap pre { background: var(--grey-50); border: 1px solid var(--grey-200); border-radius: 10px; padding: 20px; overflow-x: auto; margin: 14px 0 20px; }
-    .md-wrap pre code { background: none; color: #333d4b; padding: 0; font-size: 13px; line-height: 1.7; }
-    .md-wrap table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 14px; border-radius: 10px; overflow: hidden; border: 1px solid var(--grey-200); }
-    .md-wrap thead { background: var(--grey-50); }
-    .md-wrap th { padding: 10px 14px; text-align: left; font-weight: 600; font-size: 13px; color: var(--grey-700); border-bottom: 1px solid var(--grey-200); }
-    .md-wrap td { padding: 10px 14px; border-bottom: 1px solid var(--grey-100); color: #333d4b; font-size: 14px; vertical-align: top; }
+    .md-wrap h3 { font-size: 14px; font-weight: 600; color: var(--g700); margin-top: 20px; margin-bottom: 8px; }
+    .md-wrap p { font-size: 14px; color: var(--g800); line-height: 1.7; margin-bottom: 10px; }
+    .md-wrap blockquote { border-left: 3px solid var(--blue); background: var(--blue-light); border-radius: 0 7px 7px 0; padding: 10px 14px; margin: 14px 0 20px; }
+    .md-wrap blockquote p { color: #2272eb; font-size: 13px; margin: 0; }
+    .md-wrap ul, .md-wrap ol { padding-left: 18px; margin-bottom: 14px; }
+    .md-wrap li { font-size: 14px; color: var(--g800); margin-bottom: 4px; line-height: 1.6; }
+    .md-wrap hr { border: none; border-top: 1px solid var(--g200); margin: 24px 0; }
+    .md-wrap strong { font-weight: 600; color: var(--g900); }
+    .md-wrap code { font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--g100); color: var(--blue); padding: 2px 5px; border-radius: 4px; }
+    .md-wrap pre { background: var(--g50); border: 1px solid var(--g200); border-radius: 9px; padding: 16px; overflow-x: auto; margin: 12px 0 18px; }
+    .md-wrap pre code { background: none; color: var(--g800); padding: 0; font-size: 12px; line-height: 1.7; }
+    .md-wrap table { width: 100%; border-collapse: collapse; margin: 12px 0 18px; font-size: 13px; border-radius: 9px; overflow: hidden; border: 1px solid var(--g200); }
+    .md-wrap thead { background: var(--g50); }
+    .md-wrap th { padding: 9px 13px; text-align: left; font-weight: 600; font-size: 12px; color: var(--g700); border-bottom: 1px solid var(--g200); }
+    .md-wrap td { padding: 9px 13px; border-bottom: 1px solid var(--g100); color: var(--g800); font-size: 13px; vertical-align: top; }
     .md-wrap tr:last-child td { border-bottom: none; }
-    .md-wrap tbody tr:hover { background: var(--grey-50); }
-
-    /* Mobile */
-    @media (max-width: 768px) {
-      aside { width: 100%; display: none; }
-      aside.open { display: flex; position: fixed; inset: 56px 0 0 0; width: 100%; z-index: 20; }
-      main { padding: 24px 16px; }
-      .md-wrap { padding: 24px 20px; }
-    }
+    .md-wrap tbody tr:hover { background: var(--g50); }
   </style>
 </head>
 <body>
 
 <header>
   <span class="logo">nroad <span>education</span></span>
-  <span class="header-badge">Design Refs</span>
-  <span class="header-count" id="count"></span>
+  <span class="badge">Design Refs</span>
+  <span class="hcount" id="hcount"></span>
 </header>
 
 <div class="layout">
@@ -272,146 +179,162 @@
 
   <main id="main">
     <div class="empty-state">
-      <div class="icon">📐</div>
+      <div class="eicon">📐</div>
       <p>왼쪽에서 브랜드를 선택하세요</p>
     </div>
   </main>
 </div>
 
 <script>
-  const brandData = {
-    "airbnb":      { url: "https://airbnb.com" },
-    "airtable":    { url: "https://airtable.com" },
-    "apple":       { url: "https://apple.com" },
-    "binance":     { url: "https://binance.com" },
-    "bmw":         { url: "https://bmw.com" },
-    "bmw-m":       { url: "https://www.bmw.com/en/bmw-models/bmw-m.html" },
-    "bugatti":     { url: "https://bugatti.com" },
-    "cal":         { url: "https://cal.com" },
-    "claude":      { url: "https://claude.ai" },
-    "clay":        { url: "https://clay.com" },
-    "clickhouse":  { url: "https://clickhouse.com" },
-    "cohere":      { url: "https://cohere.com" },
-    "coinbase":    { url: "https://coinbase.com" },
-    "composio":    { url: "https://composio.dev" },
-    "cursor":      { url: "https://cursor.com" },
-    "elevenlabs":  { url: "https://elevenlabs.io" },
-    "expo":        { url: "https://expo.dev" },
-    "ferrari":     { url: "https://ferrari.com" },
-    "figma":       { url: "https://figma.com" },
-    "framer":      { url: "https://framer.com" },
-    "hashicorp":   { url: "https://hashicorp.com" },
-    "ibm":         { url: "https://ibm.com" },
-    "intercom":    { url: "https://intercom.com" },
-    "kraken":      { url: "https://kraken.com" },
-    "lamborghini": { url: "https://lamborghini.com" },
-    "linear.app":  { url: "https://linear.app" },
-    "lovable":     { url: "https://lovable.dev" },
-    "mastercard":  { url: "https://mastercard.com" },
-    "meta":        { url: "https://meta.com" },
-    "minimax":     { url: "https://minimaxi.com" },
-    "mintlify":    { url: "https://mintlify.com" },
-    "miro":        { url: "https://miro.com" },
-    "mistral.ai":  { url: "https://mistral.ai" },
-    "mongodb":     { url: "https://mongodb.com" },
-    "nike":        { url: "https://nike.com" },
-    "notion":      { url: "https://notion.so" },
-    "nvidia":      { url: "https://nvidia.com" },
-    "ollama":      { url: "https://ollama.com" },
-    "opencode.ai": { url: "https://opencode.ai" },
-    "pinterest":   { url: "https://pinterest.com" },
-    "playstation": { url: "https://playstation.com" },
-    "posthog":     { url: "https://posthog.com" },
-    "raycast":     { url: "https://raycast.com" },
-    "renault":     { url: "https://renault.com" },
-    "replicate":   { url: "https://replicate.com" },
-    "resend":      { url: "https://resend.com" },
-    "revolut":     { url: "https://revolut.com" },
-    "runwayml":    { url: "https://runwayml.com" },
-    "sanity":      { url: "https://sanity.io" },
-    "sentry":      { url: "https://sentry.io" },
-    "shopify":     { url: "https://shopify.com" },
-    "slack":       { url: "https://slack.com" },
-    "spacex":      { url: "https://spacex.com" },
-    "spotify":     { url: "https://spotify.com" },
-    "starbucks":   { url: "https://starbucks.com" },
-    "stripe":      { url: "https://stripe.com" },
-    "supabase":    { url: "https://supabase.com" },
-    "superhuman":  { url: "https://superhuman.com" },
-    "tesla":       { url: "https://tesla.com" },
-    "theverge":    { url: "https://theverge.com" },
-    "together.ai": { url: "https://together.ai" },
-    "toss":        { url: "https://toss.im" },
-    "uber":        { url: "https://uber.com" },
-    "vercel":      { url: "https://vercel.com" },
-    "vodafone":    { url: "https://vodafone.com" },
-    "voltagent":   { url: "https://voltagent.dev" },
-    "warp":        { url: "https://warp.dev" },
-    "webflow":     { url: "https://webflow.com" },
-    "wired":       { url: "https://wired.com" },
-    "wise":        { url: "https://wise.com" },
-    "x.ai":        { url: "https://x.ai" },
-    "zapier":      { url: "https://zapier.com" },
-  };
-  const brands = Object.keys(brandData);
+const brandData = {
+  "airbnb":      "https://airbnb.com",
+  "airtable":    "https://airtable.com",
+  "apple":       "https://apple.com",
+  "binance":     "https://binance.com",
+  "bmw":         "https://bmw.com",
+  "bmw-m":       "https://www.bmw.com/en/bmw-models/bmw-m.html",
+  "bugatti":     "https://bugatti.com",
+  "cal":         "https://cal.com",
+  "claude":      "https://claude.ai",
+  "clay":        "https://clay.com",
+  "clickhouse":  "https://clickhouse.com",
+  "cohere":      "https://cohere.com",
+  "coinbase":    "https://coinbase.com",
+  "composio":    "https://composio.dev",
+  "cursor":      "https://cursor.com",
+  "elevenlabs":  "https://elevenlabs.io",
+  "expo":        "https://expo.dev",
+  "ferrari":     "https://ferrari.com",
+  "figma":       "https://figma.com",
+  "framer":      "https://framer.com",
+  "hashicorp":   "https://hashicorp.com",
+  "ibm":         "https://ibm.com",
+  "intercom":    "https://intercom.com",
+  "kraken":      "https://kraken.com",
+  "lamborghini": "https://lamborghini.com",
+  "linear.app":  "https://linear.app",
+  "lovable":     "https://lovable.dev",
+  "mastercard":  "https://mastercard.com",
+  "meta":        "https://meta.com",
+  "minimax":     "https://minimaxi.com",
+  "mintlify":    "https://mintlify.com",
+  "miro":        "https://miro.com",
+  "mistral.ai":  "https://mistral.ai",
+  "mongodb":     "https://mongodb.com",
+  "nike":        "https://nike.com",
+  "notion":      "https://notion.so",
+  "nvidia":      "https://nvidia.com",
+  "ollama":      "https://ollama.com",
+  "opencode.ai": "https://opencode.ai",
+  "pinterest":   "https://pinterest.com",
+  "playstation": "https://playstation.com",
+  "posthog":     "https://posthog.com",
+  "raycast":     "https://raycast.com",
+  "renault":     "https://renault.com",
+  "replicate":   "https://replicate.com",
+  "resend":      "https://resend.com",
+  "revolut":     "https://revolut.com",
+  "runwayml":    "https://runwayml.com",
+  "sanity":      "https://sanity.io",
+  "sentry":      "https://sentry.io",
+  "shopify":     "https://shopify.com",
+  "slack":       "https://slack.com",
+  "spacex":      "https://spacex.com",
+  "spotify":     "https://spotify.com",
+  "starbucks":   "https://starbucks.com",
+  "stripe":      "https://stripe.com",
+  "supabase":    "https://supabase.com",
+  "superhuman":  "https://superhuman.com",
+  "tesla":       "https://tesla.com",
+  "theverge":    "https://theverge.com",
+  "together.ai": "https://together.ai",
+  "toss":        "https://toss.im",
+  "uber":        "https://uber.com",
+  "vercel":      "https://vercel.com",
+  "vodafone":    "https://vodafone.com",
+  "voltagent":   "https://voltagent.dev",
+  "warp":        "https://warp.dev",
+  "webflow":     "https://webflow.com",
+  "wired":       "https://wired.com",
+  "wise":        "https://wise.com",
+  "x.ai":        "https://x.ai",
+  "zapier":      "https://zapier.com",
+};
 
-  document.getElementById('count').textContent = `${brands.length}개 브랜드`;
+const brands = Object.keys(brandData);
+let currentBrand = null;
+let currentSub = null; // 'design' | 'site'
+const cache = {};
+let openBrand = null;
 
-  let current = null;
-  const cache = {};
+document.getElementById('hcount').textContent = `${brands.length}개 브랜드`;
 
-  function renderList(filter = '') {
-    const list = document.getElementById('brandList');
-    const filtered = brands.filter(b => b.toLowerCase().includes(filter.toLowerCase()));
-    if (filtered.length === 0) {
-      list.innerHTML = '<div class="no-result">검색 결과 없음</div>';
-      return;
-    }
-    list.innerHTML = filtered.map(b => `
-      <div class="brand-item ${b === current ? 'active' : ''}" data-brand="${b}" onclick="loadBrand('${b}')">
-        <div class="brand-icon">${b[0]}</div>
-        ${b}
-        <a class="brand-link" href="${brandData[b].url}" target="_blank" onclick="event.stopPropagation()" title="${brandData[b].url}">↗</a>
+function renderList(filter = '') {
+  const list = document.getElementById('brandList');
+  const filtered = brands.filter(b => b.toLowerCase().includes(filter.toLowerCase()));
+  if (!filtered.length) { list.innerHTML = '<div class="no-result">검색 결과 없음</div>'; return; }
+
+  list.innerHTML = `<div class="sec-label">디자인 레퍼런스</div>` + filtered.map(b => {
+    const isOpen = openBrand === b;
+    return `
+      <div class="brand-row ${isOpen ? 'open' : ''}" onclick="toggleBrand('${b}')">
+        <div class="b-icon">${b[0]}</div>
+        <span class="b-name">${b}</span>
+        <span class="b-arrow">▶</span>
       </div>
-    `).join('');
-  }
-
-  async function loadBrand(brand) {
-    current = brand;
-    renderList(document.getElementById('search').value);
-
-    const main = document.getElementById('main');
-    main.innerHTML = '<div class="empty-state"><p>불러오는 중...</p></div>';
-
-    try {
-      let md;
-      if (cache[brand]) {
-        md = cache[brand];
-      } else {
-        const res = await fetch(`design-md/${brand}/DESIGN.md`);
-        if (!res.ok) throw new Error('not found');
-        md = await res.text();
-        cache[brand] = md;
-      }
-      const siteUrl = brandData[brand].url;
-      main.innerHTML = `<div class="md-wrap">
-        <div class="site-bar">
-          <a href="${siteUrl}" target="_blank">↗ 공식 사이트 방문</a>
-          <span style="font-size:13px;color:var(--grey-500)">${siteUrl}</span>
+      <div class="sub-list ${isOpen ? 'open' : ''}">
+        <div class="sub-item ${currentBrand===b && currentSub==='design' ? 'active' : ''}"
+             onclick="loadDesign('${b}')">
+          <span class="sub-icon">📄</span> 디자인 레퍼런스
         </div>
-        ${marked.parse(md)}
-      </div>`;
-      main.scrollTop = 0;
-    } catch {
-      main.innerHTML = '<div class="empty-state"><p>파일을 불러올 수 없습니다.</p></div>';
+        <div class="sub-item external" onclick="window.open('${brandData[b]}','_blank')">
+          <span class="sub-icon">🌐</span> 레퍼런스 사이트 ↗
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleBrand(brand) {
+  openBrand = openBrand === brand ? null : brand;
+  renderList(document.getElementById('search').value);
+}
+
+async function loadDesign(brand) {
+  currentBrand = brand;
+  currentSub = 'design';
+  renderList(document.getElementById('search').value);
+
+  const main = document.getElementById('main');
+  main.innerHTML = '<div class="empty-state"><p>불러오는 중...</p></div>';
+
+  try {
+    let md = cache[brand];
+    if (!md) {
+      const res = await fetch(`design-md/${brand}/DESIGN.md`);
+      if (!res.ok) throw new Error();
+      md = await res.text();
+      cache[brand] = md;
     }
+    const url = brandData[brand];
+    main.innerHTML = `
+      <div class="site-topbar">
+        <a class="visit-btn" href="${url}" target="_blank">↗ 공식 사이트</a>
+        <span class="site-url">${url}</span>
+      </div>
+      <div class="md-wrap">${marked.parse(md)}</div>`;
+    main.scrollTop = 0;
+  } catch {
+    main.innerHTML = '<div class="empty-state"><div class="eicon">⚠️</div><p>파일을 불러올 수 없습니다.</p></div>';
   }
+}
 
-  document.getElementById('search').addEventListener('input', e => {
-    renderList(e.target.value);
-  });
+document.getElementById('search').addEventListener('input', e => {
+  openBrand = null;
+  renderList(e.target.value);
+});
 
-  renderList();
+renderList();
 </script>
 </body>
 </html>
