@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nroad education — Design Refs</title>
+  <title>nroad education</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --blue: #3182f6; --blue-light: #e8f3ff; --blue-hover: #c9e2ff;
+      --blue: #3182f6; --blue-bg: #e8f3ff; --blue-hover: #c9e2ff;
       --g50: #f9fafb; --g100: #f2f4f6; --g200: #e5e8eb;
-      --g400: #b0b8c1; --g500: #8b95a1; --g600: #6b7684;
-      --g700: #4e5968; --g800: #333d4b; --g900: #191f28;
-      --sidebar: 280px;
+      --g300: #d1d6db; --g400: #b0b8c1; --g500: #8b95a1;
+      --g600: #6b7684; --g700: #4e5968; --g800: #333d4b; --g900: #191f28;
+      --sidebar-w: 272px;
     }
     body {
       font-family: 'Noto Sans KR', -apple-system, sans-serif;
@@ -20,129 +20,160 @@
       display: flex; flex-direction: column; height: 100vh; overflow: hidden;
     }
 
-    /* ── Header ── */
+    /* ── Header */
     header {
       height: 52px; background: #fff; border-bottom: 1px solid var(--g200);
       display: flex; align-items: center; padding: 0 20px; gap: 10px;
-      flex-shrink: 0; z-index: 10;
+      flex-shrink: 0; z-index: 20;
     }
-    .logo { font-size: 16px; font-weight: 700; color: var(--blue); letter-spacing: -0.3px; }
+    .logo { font-size: 15px; font-weight: 700; color: var(--blue); }
     .logo span { color: var(--g900); }
-    .badge { font-size: 11px; font-weight: 600; background: var(--blue-light); color: var(--blue); border-radius: 5px; padding: 2px 7px; }
-    .hcount { margin-left: auto; font-size: 12px; color: var(--g500); }
+    .logo-badge {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.4px;
+      background: var(--blue-bg); color: var(--blue);
+      border-radius: 5px; padding: 2px 7px; text-transform: uppercase;
+    }
 
-    /* ── Layout ── */
+    /* ── Layout */
     .layout { display: flex; flex: 1; overflow: hidden; }
 
-    /* ── Sidebar ── */
+    /* ── Sidebar */
     aside {
-      width: var(--sidebar); background: #fff;
+      width: var(--sidebar-w); background: #fff;
       border-right: 1px solid var(--g200);
       display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden;
     }
-    .search-wrap { padding: 10px 12px; border-bottom: 1px solid var(--g200); }
-    .search-wrap input {
-      width: 100%; height: 34px; background: var(--g100);
+
+    .search-box {
+      padding: 10px 12px; border-bottom: 1px solid var(--g200); flex-shrink: 0;
+    }
+    .search-box input {
+      width: 100%; height: 32px; background: var(--g100);
       border: none; border-radius: 7px; padding: 0 10px;
-      font-size: 13px; font-family: inherit; color: var(--g900); outline: none;
+      font-size: 12px; font-family: inherit; color: var(--g900); outline: none;
     }
-    .search-wrap input::placeholder { color: var(--g500); }
-    .search-wrap input:focus { box-shadow: 0 0 0 2px var(--blue); }
+    .search-box input::placeholder { color: var(--g500); }
+    .search-box input:focus { box-shadow: 0 0 0 2px var(--blue); }
 
-    .sec-label {
-      padding: 10px 14px 4px;
-      font-size: 10px; font-weight: 700; letter-spacing: 0.6px;
-      color: var(--g400); text-transform: uppercase;
-    }
-    .brand-list { overflow-y: auto; flex: 1; padding-bottom: 16px; }
+    .nav-tree { overflow-y: auto; flex: 1; }
 
-    /* brand row (depth 1) */
-    .brand-row {
-      display: flex; align-items: center; gap: 8px;
-      padding: 0 12px; height: 38px; cursor: pointer;
-      font-size: 13px; font-weight: 500; color: var(--g700);
-      border-left: 3px solid transparent;
+    /* ── Depth 1: Category */
+    .d1-item {
+      display: flex; align-items: center; gap: 9px;
+      padding: 0 14px; height: 44px; cursor: pointer;
+      border-bottom: 1px solid var(--g100);
       user-select: none;
     }
-    .brand-row:hover { background: var(--g50); }
-    .brand-row.open { color: var(--g900); }
-    .b-icon {
-      width: 22px; height: 22px; border-radius: 5px;
+    .d1-item:hover { background: var(--g50); }
+    .d1-icon { font-size: 15px; flex-shrink: 0; }
+    .d1-label {
+      flex: 1; font-size: 13px; font-weight: 700;
+      color: var(--g900); letter-spacing: -0.2px;
+    }
+    .d1-arrow {
+      font-size: 9px; color: var(--g400);
+      transition: transform 0.15s;
+    }
+    .d1-item.open .d1-arrow { transform: rotate(90deg); }
+    .d1-item.open { background: var(--g50); }
+    .d1-count {
+      font-size: 10px; font-weight: 600; color: var(--g500);
+      background: var(--g100); border-radius: 10px;
+      padding: 1px 6px; flex-shrink: 0;
+    }
+
+    .d1-body { display: none; }
+    .d1-body.open { display: block; }
+
+    /* ── Depth 2: Brand / Sub-section */
+    .d2-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 0 12px 0 28px; height: 36px; cursor: pointer;
+      font-size: 12px; font-weight: 500; color: var(--g700);
+      user-select: none;
+    }
+    .d2-item:hover { background: var(--g50); }
+    .d2-item.open { color: var(--g900); font-weight: 600; }
+    .d2-icon {
+      width: 20px; height: 20px; border-radius: 4px;
       background: var(--g100); display: flex; align-items: center;
-      justify-content: center; font-size: 11px; font-weight: 700;
+      justify-content: center; font-size: 10px; font-weight: 700;
       color: var(--g600); flex-shrink: 0; text-transform: uppercase;
     }
-    .brand-row.open .b-icon { background: var(--g900); color: #fff; }
-    .b-name { flex: 1; }
-    .b-arrow { font-size: 10px; color: var(--g400); transition: transform 0.15s; }
-    .brand-row.open .b-arrow { transform: rotate(90deg); }
+    .d2-item.open .d2-icon { background: var(--g900); color: #fff; }
+    .d2-label { flex: 1; }
+    .d2-arrow {
+      font-size: 9px; color: var(--g400);
+      transition: transform 0.15s;
+    }
+    .d2-item.open .d2-arrow { transform: rotate(90deg); }
 
-    /* sub items (depth 2) */
-    .sub-list { display: none; }
-    .sub-list.open { display: block; }
-    .sub-item {
+    .d2-body { display: none; }
+    .d2-body.open { display: block; }
+
+    /* ── Depth 3: Actions */
+    .d3-item {
       display: flex; align-items: center; gap: 7px;
-      padding: 0 12px 0 36px; height: 34px; cursor: pointer;
-      font-size: 12px; color: var(--g600);
-      border-left: 3px solid transparent;
+      padding: 0 12px 0 52px; height: 32px; cursor: pointer;
+      font-size: 11px; color: var(--g600);
+      border-left: 2px solid transparent;
       user-select: none;
     }
-    .sub-item:hover { background: var(--g50); color: var(--g800); }
-    .sub-item.active {
-      background: var(--blue-light); color: var(--blue);
+    .d3-item:hover { background: var(--g50); color: var(--g800); }
+    .d3-item.active {
+      background: var(--blue-bg); color: var(--blue);
       border-left-color: var(--blue); font-weight: 600;
     }
-    .sub-icon { font-size: 12px; flex-shrink: 0; }
-    .no-result { padding: 20px 14px; font-size: 13px; color: var(--g500); text-align: center; }
+    .d3-icon { font-size: 11px; flex-shrink: 0; }
 
-    /* ── Main ── */
-    main { flex: 1; overflow: hidden; position: relative; }
+    /* empty depth2 */
+    .d2-empty {
+      padding: 14px 28px 16px;
+      font-size: 12px; color: var(--g400); font-style: italic;
+    }
+    .no-result { padding: 16px 14px; font-size: 12px; color: var(--g500); text-align: center; }
+
+    /* ── Main */
+    main { flex: 1; overflow: hidden; position: relative; background: var(--g100); }
 
     .empty-state {
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       height: 100%; color: var(--g400); gap: 10px;
     }
-    .empty-state .eicon { font-size: 40px; }
-    .empty-state p { font-size: 14px; }
+    .empty-state .eicon { font-size: 36px; }
+    .empty-state .etitle { font-size: 14px; font-weight: 600; color: var(--g600); }
+    .empty-state .esub { font-size: 12px; color: var(--g400); }
 
-    /* iframe view */
-    #site-frame {
-      width: 100%; height: 100%;
-      border: none; display: none;
-    }
+    /* iframe */
+    #site-frame { width: 100%; height: 100%; border: none; display: none; }
     #site-frame.visible { display: block; }
 
-    /* iframe blocked fallback */
-    .blocked-card {
-      display: none;
-      flex-direction: column; align-items: center; justify-content: center;
-      height: 100%; gap: 16px; color: var(--g600);
+    /* iframe blocked */
+    .blocked-wrap {
+      display: none; flex-direction: column;
+      align-items: center; justify-content: center;
+      height: 100%; gap: 14px;
     }
-    .blocked-card.visible { display: flex; }
-    .blocked-card .big-icon { font-size: 48px; }
-    .blocked-card p { font-size: 14px; color: var(--g500); }
+    .blocked-wrap.visible { display: flex; }
+    .blocked-wrap .b-icon { font-size: 44px; }
+    .blocked-wrap p { font-size: 13px; color: var(--g500); }
     .open-btn {
       display: inline-flex; align-items: center; gap: 6px;
-      background: var(--blue); color: #fff;
-      font-size: 14px; font-weight: 600;
-      border-radius: 10px; padding: 11px 20px;
-      text-decoration: none; border: none; cursor: pointer;
-      font-family: inherit;
+      background: var(--blue); color: #fff; font-size: 13px; font-weight: 600;
+      border-radius: 9px; padding: 10px 18px; text-decoration: none;
+      font-family: inherit; border: none; cursor: pointer;
     }
     .open-btn:hover { background: #2272eb; }
 
-    /* download toast */
+    /* toast */
     .toast {
-      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
-      background: var(--g900); color: #fff;
-      font-size: 13px; font-weight: 500;
-      border-radius: 10px; padding: 11px 20px;
-      display: flex; align-items: center; gap: 8px;
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: var(--g900); color: #fff; font-size: 12px; font-weight: 500;
+      border-radius: 9px; padding: 10px 18px;
+      display: flex; align-items: center; gap: 7px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.2s;
-      z-index: 999;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 999;
     }
     .toast.show { opacity: 1; }
   </style>
@@ -151,36 +182,39 @@
 
 <header>
   <span class="logo">nroad <span>education</span></span>
-  <span class="badge">Design Refs</span>
-  <span class="hcount" id="hcount"></span>
+  <span class="logo-badge">AI Learning</span>
 </header>
 
 <div class="layout">
   <aside>
-    <div class="search-wrap">
-      <input type="text" id="search" placeholder="브랜드 검색..." autocomplete="off" />
+    <div class="search-box">
+      <input type="text" id="search" placeholder="검색..." autocomplete="off" />
     </div>
-    <div class="brand-list" id="brandList"></div>
+    <div class="nav-tree" id="navTree"></div>
   </aside>
 
   <main id="main">
     <div class="empty-state" id="emptyState">
-      <div class="eicon">📐</div>
-      <p>왼쪽에서 브랜드를 선택하세요</p>
+      <div class="eicon">🎓</div>
+      <div class="etitle">nroad education</div>
+      <div class="esub">왼쪽에서 항목을 선택하세요</div>
     </div>
-    <iframe id="site-frame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
-    <div class="blocked-card" id="blockedCard">
-      <div class="big-icon">🔒</div>
-      <p id="blockedMsg">이 사이트는 iframe 내 표시를 허용하지 않습니다.</p>
+    <iframe id="site-frame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
+    <div class="blocked-wrap" id="blockedWrap">
+      <div class="b-icon">🔒</div>
+      <p id="blockedMsg">이 사이트는 iframe 표시를 허용하지 않습니다.</p>
       <a id="openExternal" class="open-btn" href="#" target="_blank">↗ 새 탭으로 열기</a>
     </div>
   </main>
 </div>
 
-<div class="toast" id="toast">⬇️ <span id="toastMsg">다운로드 시작됨</span></div>
+<div class="toast" id="toast">⬇️ <span id="toastMsg"></span></div>
 
 <script>
-const brandData = {
+/* ─────────────────────────────
+   데이터
+───────────────────────────── */
+const designBrands = {
   "airbnb":      "https://airbnb.com",
   "airtable":    "https://airtable.com",
   "apple":       "https://apple.com",
@@ -255,60 +289,112 @@ const brandData = {
   "zapier":      "https://zapier.com",
 };
 
-const brands = Object.keys(brandData);
-let currentBrand = null;
-let currentSub = null;
-let openBrand = null;
+// 뎁스 1 카테고리 정의
+const categories = [
+  {
+    id: 'study',
+    icon: '📚',
+    label: '개발 스터디',
+    empty: '콘텐츠 준비 중...',
+    d2: [] // 추후 추가
+  },
+  {
+    id: 'design',
+    icon: '🎨',
+    label: '개발 디자인',
+    d2: Object.keys(designBrands).map(b => ({
+      id: b,
+      label: b,
+      icon: b[0].toUpperCase(),
+      d3: [
+        { id: 'dl', icon: '⬇️', label: '디자인 레퍼런스', action: () => downloadDesign(b) },
+        { id: 'site', icon: '🌐', label: '레퍼런스 사이트', action: () => loadSite(b) },
+      ]
+    }))
+  }
+];
 
-document.getElementById('hcount').textContent = `${brands.length}개 브랜드`;
+/* ─────────────────────────────
+   상태
+───────────────────────────── */
+let openD1 = 'design';
+let openD2 = null;
+let activeKey = null; // `${catId}/${brandId}/${d3Id}`
 
-// ── 토스트 알림
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
+/* ─────────────────────────────
+   렌더
+───────────────────────────── */
+function render(filter = '') {
+  const tree = document.getElementById('navTree');
+  const q = filter.toLowerCase();
 
-// ── 사이드바 렌더
-function renderList(filter = '') {
-  const list = document.getElementById('brandList');
-  const filtered = brands.filter(b => b.toLowerCase().includes(filter.toLowerCase()));
-  if (!filtered.length) { list.innerHTML = '<div class="no-result">검색 결과 없음</div>'; return; }
+  tree.innerHTML = categories.map(cat => {
+    const isD1Open = openD1 === cat.id;
 
-  list.innerHTML = `<div class="sec-label">디자인 레퍼런스</div>` + filtered.map(b => {
-    const isOpen = openBrand === b;
+    // 검색 필터링
+    const filtered = cat.d2.filter(d2 => !q || d2.label.toLowerCase().includes(q));
+    const show = !q || filtered.length > 0;
+    if (!show) return '';
+
+    const d2Html = filtered.length === 0
+      ? `<div class="d2-empty">${cat.empty || '항목 없음'}</div>`
+      : filtered.map(d2 => {
+          const isD2Open = openD2 === `${cat.id}/${d2.id}`;
+          const d3Html = d2.d3.map(d3 => {
+            const key = `${cat.id}/${d2.id}/${d3.id}`;
+            return `<div class="d3-item ${activeKey === key ? 'active' : ''}"
+                        onclick="handleD3('${cat.id}','${d2.id}','${d3.id}')">
+                      <span class="d3-icon">${d3.icon}</span>${d3.label}
+                    </div>`;
+          }).join('');
+          return `
+            <div class="d2-item ${isD2Open ? 'open' : ''}"
+                 onclick="toggleD2('${cat.id}','${d2.id}')">
+              <div class="d2-icon">${d2.icon}</div>
+              <span class="d2-label">${d2.label}</span>
+              <span class="d2-arrow">▶</span>
+            </div>
+            <div class="d2-body ${isD2Open ? 'open' : ''}">${d3Html}</div>
+          `;
+        }).join('');
+
     return `
-      <div class="brand-row ${isOpen ? 'open' : ''}" onclick="toggleBrand('${b}')">
-        <div class="b-icon">${b[0]}</div>
-        <span class="b-name">${b}</span>
-        <span class="b-arrow">▶</span>
+      <div class="d1-item ${isD1Open ? 'open' : ''}" onclick="toggleD1('${cat.id}')">
+        <span class="d1-icon">${cat.icon}</span>
+        <span class="d1-label">${cat.label}</span>
+        ${cat.d2.length ? `<span class="d1-count">${cat.d2.length}</span>` : ''}
+        <span class="d1-arrow">▶</span>
       </div>
-      <div class="sub-list ${isOpen ? 'open' : ''}">
-        <div class="sub-item ${currentBrand===b && currentSub==='design' ? 'active' : ''}"
-             onclick="downloadDesign('${b}')">
-          <span class="sub-icon">⬇️</span> 디자인 레퍼런스
-        </div>
-        <div class="sub-item ${currentBrand===b && currentSub==='site' ? 'active' : ''}"
-             onclick="loadSite('${b}')">
-          <span class="sub-icon">🌐</span> 레퍼런스 사이트
-        </div>
-      </div>
+      <div class="d1-body ${isD1Open ? 'open' : ''}">${d2Html}</div>
     `;
   }).join('');
 }
 
-function toggleBrand(brand) {
-  openBrand = openBrand === brand ? null : brand;
-  renderList(document.getElementById('search').value);
+function toggleD1(id) {
+  openD1 = openD1 === id ? null : id;
+  render(document.getElementById('search').value);
 }
 
-// ── 디자인 레퍼런스 → 파일 다운로드
-function downloadDesign(brand) {
-  currentBrand = brand;
-  currentSub = 'design';
-  renderList(document.getElementById('search').value);
+function toggleD2(catId, d2Id) {
+  const key = `${catId}/${d2Id}`;
+  openD2 = openD2 === key ? null : key;
+  render(document.getElementById('search').value);
+}
 
+function handleD3(catId, d2Id, d3Id) {
+  activeKey = `${catId}/${d2Id}/${d3Id}`;
+  // find action
+  const cat = categories.find(c => c.id === catId);
+  const d2 = cat?.d2.find(d => d.id === d2Id);
+  const d3 = d2?.d3.find(d => d.id === d3Id);
+  d3?.action();
+  render(document.getElementById('search').value);
+}
+
+/* ─────────────────────────────
+   액션: 다운로드
+───────────────────────────── */
+function downloadDesign(brand) {
   const a = document.createElement('a');
   a.href = `design-md/${brand}/DESIGN.md`;
   a.download = `${brand}-DESIGN.md`;
@@ -318,51 +404,68 @@ function downloadDesign(brand) {
   showToast(`${brand} DESIGN.md 다운로드 중...`);
 }
 
-// ── 레퍼런스 사이트 → 우측 iframe
+/* ─────────────────────────────
+   액션: 사이트 iframe
+───────────────────────────── */
 function loadSite(brand) {
-  currentBrand = brand;
-  currentSub = 'site';
-  renderList(document.getElementById('search').value);
-
-  const url = brandData[brand];
+  const url = designBrands[brand];
   const frame = document.getElementById('site-frame');
-  const blocked = document.getElementById('blockedCard');
+  const blocked = document.getElementById('blockedWrap');
   const empty = document.getElementById('emptyState');
 
   empty.style.display = 'none';
   blocked.classList.remove('visible');
   frame.classList.remove('visible');
-
-  // iframe 로드 시도
   frame.src = '';
+
   setTimeout(() => {
     frame.src = url;
     frame.classList.add('visible');
-  }, 50);
+  }, 30);
 
-  // X-Frame-Options 차단 감지 (load 이벤트가 와도 접근 불가)
-  frame.onload = () => {
+  frame.onerror = () => showBlocked(url);
+
+  // 일부 사이트는 load 이벤트는 오지만 빈 페이지 — 타임아웃으로 감지
+  const timer = setTimeout(() => {
     try {
-      // 같은 origin이면 접근 가능, 다르면 SecurityError
-      const _ = frame.contentWindow.location.href;
-    } catch(e) {
-      // cross-origin이지만 로드 성공 — 정상 표시 유지
-    }
-  };
-  frame.onerror = () => {
-    frame.classList.remove('visible');
-    document.getElementById('openExternal').href = url;
-    document.getElementById('blockedMsg').textContent = `${url} — 이 사이트는 iframe 표시를 허용하지 않습니다.`;
-    blocked.classList.add('visible');
-  };
+      if (!frame.contentDocument || frame.contentDocument.body?.innerHTML === '')
+        showBlocked(url);
+    } catch(e) { /* cross-origin — 정상 */ }
+  }, 5000);
+  frame.onload = () => clearTimeout(timer);
 }
 
+function showBlocked(url) {
+  const frame = document.getElementById('site-frame');
+  const blocked = document.getElementById('blockedWrap');
+  frame.classList.remove('visible');
+  document.getElementById('openExternal').href = url;
+  document.getElementById('blockedMsg').textContent = `이 사이트는 iframe 표시를 허용하지 않습니다.`;
+  blocked.classList.add('visible');
+}
+
+/* ─────────────────────────────
+   토스트
+───────────────────────────── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* ─────────────────────────────
+   검색
+───────────────────────────── */
 document.getElementById('search').addEventListener('input', e => {
-  openBrand = null;
-  renderList(e.target.value);
+  if (e.target.value) openD1 = 'design';
+  render(e.target.value);
 });
 
-renderList();
+/* ─────────────────────────────
+   초기화
+───────────────────────────── */
+render();
 </script>
 </body>
 </html>
