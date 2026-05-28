@@ -289,6 +289,13 @@ const designBrands = {
   "zapier":      "https://zapier.com",
 };
 
+// ── 구현 샘플 데이터 (추가/수정 시 여기만 편집)
+const mySamples = [
+  // { id: 'toss-card', label: 'Toss-Card', icon: '💳', previewUrl: 'samples/toss-card.html' },
+  // { id: 'clean-dashboard', label: 'Clean-Dashboard', icon: '📊', previewUrl: 'samples/clean-dashboard.html' },
+  // 새 샘플 추가: { id: '파일명', label: '표시이름', icon: '이모지', previewUrl: 'samples/파일명.html' }
+];
+
 // 뎁스 1 카테고리 정의
 const categories = [
   {
@@ -296,7 +303,22 @@ const categories = [
     icon: '📚',
     label: '개발 스터디',
     empty: '콘텐츠 준비 중...',
-    d2: [] // 추후 추가
+    d2: []
+  },
+  {
+    id: 'samples',
+    icon: '🖥️',
+    label: '구현 샘플',
+    empty: '샘플을 추가해주세요',
+    d2: mySamples.map(s => ({
+      id: s.id,
+      label: s.label,
+      icon: s.icon || s.label[0].toUpperCase(),
+      d3: [
+        { id: 'preview', icon: '👁️', label: '미리보기', action: () => loadSample(s.previewUrl, s.label) },
+        { id: 'download', icon: '⬇️', label: '파일 다운로드', action: () => downloadSample(s.previewUrl, s.id) },
+      ]
+    }))
   },
   {
     id: 'design',
@@ -392,7 +414,35 @@ function handleD3(catId, d2Id, d3Id) {
 }
 
 /* ─────────────────────────────
-   액션: 다운로드
+   액션: 구현 샘플 미리보기
+───────────────────────────── */
+function loadSample(url, label) {
+  const frame = document.getElementById('site-frame');
+  const blocked = document.getElementById('blockedWrap');
+  const empty = document.getElementById('emptyState');
+  empty.style.display = 'none';
+  blocked.classList.remove('visible');
+  frame.classList.remove('visible');
+  frame.src = '';
+  setTimeout(() => { frame.src = url; frame.classList.add('visible'); }, 30);
+  frame.onerror = () => showBlocked(url);
+}
+
+/* ─────────────────────────────
+   액션: 구현 샘플 다운로드
+───────────────────────────── */
+function downloadSample(url, id) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${id}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast(`${id}.html 다운로드 중...`);
+}
+
+/* ─────────────────────────────
+   액션: 디자인 레퍼런스 다운로드
 ───────────────────────────── */
 function downloadDesign(brand) {
   const a = document.createElement('a');
