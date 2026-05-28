@@ -143,6 +143,51 @@
       color: #fff;
     }
 
+    .brand-link {
+      margin-left: auto;
+      display: none;
+      width: 20px; height: 20px;
+      align-items: center; justify-content: center;
+      color: var(--grey-500);
+      border-radius: 4px;
+      flex-shrink: 0;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .brand-item:hover .brand-link,
+    .brand-item.active .brand-link {
+      display: flex;
+    }
+
+    .brand-item.active .brand-link { color: var(--blue); }
+    .brand-link:hover { background: rgba(0,0,0,0.06); }
+
+    .site-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--grey-200);
+    }
+
+    .site-bar a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--blue-light);
+      border-radius: 8px;
+      padding: 6px 12px;
+      text-decoration: none;
+      transition: background 0.1s;
+    }
+
+    .site-bar a:hover { background: #c9e2ff; }
+
     .no-result {
       padding: 24px 16px;
       font-size: 13px;
@@ -234,7 +279,81 @@
 </div>
 
 <script>
-  const brands = ["airbnb","airtable","apple","binance","bmw","bmw-m","bugatti","cal","claude","clay","clickhouse","cohere","coinbase","composio","cursor","elevenlabs","expo","ferrari","figma","framer","hashicorp","ibm","intercom","kraken","lamborghini","linear.app","lovable","mastercard","meta","minimax","mintlify","miro","mistral.ai","mongodb","nike","notion","nvidia","ollama","opencode.ai","pinterest","playstation","posthog","raycast","renault","replicate","resend","revolut","runwayml","sanity","sentry","shopify","slack","spacex","spotify","starbucks","stripe","supabase","superhuman","tesla","theverge","together.ai","toss","uber","vercel","vodafone","voltagent","warp","webflow","wired","wise","x.ai","zapier"];
+  const brandData = {
+    "airbnb":      { url: "https://airbnb.com" },
+    "airtable":    { url: "https://airtable.com" },
+    "apple":       { url: "https://apple.com" },
+    "binance":     { url: "https://binance.com" },
+    "bmw":         { url: "https://bmw.com" },
+    "bmw-m":       { url: "https://www.bmw.com/en/bmw-models/bmw-m.html" },
+    "bugatti":     { url: "https://bugatti.com" },
+    "cal":         { url: "https://cal.com" },
+    "claude":      { url: "https://claude.ai" },
+    "clay":        { url: "https://clay.com" },
+    "clickhouse":  { url: "https://clickhouse.com" },
+    "cohere":      { url: "https://cohere.com" },
+    "coinbase":    { url: "https://coinbase.com" },
+    "composio":    { url: "https://composio.dev" },
+    "cursor":      { url: "https://cursor.com" },
+    "elevenlabs":  { url: "https://elevenlabs.io" },
+    "expo":        { url: "https://expo.dev" },
+    "ferrari":     { url: "https://ferrari.com" },
+    "figma":       { url: "https://figma.com" },
+    "framer":      { url: "https://framer.com" },
+    "hashicorp":   { url: "https://hashicorp.com" },
+    "ibm":         { url: "https://ibm.com" },
+    "intercom":    { url: "https://intercom.com" },
+    "kraken":      { url: "https://kraken.com" },
+    "lamborghini": { url: "https://lamborghini.com" },
+    "linear.app":  { url: "https://linear.app" },
+    "lovable":     { url: "https://lovable.dev" },
+    "mastercard":  { url: "https://mastercard.com" },
+    "meta":        { url: "https://meta.com" },
+    "minimax":     { url: "https://minimaxi.com" },
+    "mintlify":    { url: "https://mintlify.com" },
+    "miro":        { url: "https://miro.com" },
+    "mistral.ai":  { url: "https://mistral.ai" },
+    "mongodb":     { url: "https://mongodb.com" },
+    "nike":        { url: "https://nike.com" },
+    "notion":      { url: "https://notion.so" },
+    "nvidia":      { url: "https://nvidia.com" },
+    "ollama":      { url: "https://ollama.com" },
+    "opencode.ai": { url: "https://opencode.ai" },
+    "pinterest":   { url: "https://pinterest.com" },
+    "playstation": { url: "https://playstation.com" },
+    "posthog":     { url: "https://posthog.com" },
+    "raycast":     { url: "https://raycast.com" },
+    "renault":     { url: "https://renault.com" },
+    "replicate":   { url: "https://replicate.com" },
+    "resend":      { url: "https://resend.com" },
+    "revolut":     { url: "https://revolut.com" },
+    "runwayml":    { url: "https://runwayml.com" },
+    "sanity":      { url: "https://sanity.io" },
+    "sentry":      { url: "https://sentry.io" },
+    "shopify":     { url: "https://shopify.com" },
+    "slack":       { url: "https://slack.com" },
+    "spacex":      { url: "https://spacex.com" },
+    "spotify":     { url: "https://spotify.com" },
+    "starbucks":   { url: "https://starbucks.com" },
+    "stripe":      { url: "https://stripe.com" },
+    "supabase":    { url: "https://supabase.com" },
+    "superhuman":  { url: "https://superhuman.com" },
+    "tesla":       { url: "https://tesla.com" },
+    "theverge":    { url: "https://theverge.com" },
+    "together.ai": { url: "https://together.ai" },
+    "toss":        { url: "https://toss.im" },
+    "uber":        { url: "https://uber.com" },
+    "vercel":      { url: "https://vercel.com" },
+    "vodafone":    { url: "https://vodafone.com" },
+    "voltagent":   { url: "https://voltagent.dev" },
+    "warp":        { url: "https://warp.dev" },
+    "webflow":     { url: "https://webflow.com" },
+    "wired":       { url: "https://wired.com" },
+    "wise":        { url: "https://wise.com" },
+    "x.ai":        { url: "https://x.ai" },
+    "zapier":      { url: "https://zapier.com" },
+  };
+  const brands = Object.keys(brandData);
 
   document.getElementById('count').textContent = `${brands.length}개 브랜드`;
 
@@ -252,6 +371,7 @@
       <div class="brand-item ${b === current ? 'active' : ''}" data-brand="${b}" onclick="loadBrand('${b}')">
         <div class="brand-icon">${b[0]}</div>
         ${b}
+        <a class="brand-link" href="${brandData[b].url}" target="_blank" onclick="event.stopPropagation()" title="${brandData[b].url}">↗</a>
       </div>
     `).join('');
   }
@@ -273,7 +393,14 @@
         md = await res.text();
         cache[brand] = md;
       }
-      main.innerHTML = `<div class="md-wrap">${marked.parse(md)}</div>`;
+      const siteUrl = brandData[brand].url;
+      main.innerHTML = `<div class="md-wrap">
+        <div class="site-bar">
+          <a href="${siteUrl}" target="_blank">↗ 공식 사이트 방문</a>
+          <span style="font-size:13px;color:var(--grey-500)">${siteUrl}</span>
+        </div>
+        ${marked.parse(md)}
+      </div>`;
       main.scrollTop = 0;
     } catch {
       main.innerHTML = '<div class="empty-state"><p>파일을 불러올 수 없습니다.</p></div>';
