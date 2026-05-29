@@ -226,6 +226,68 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 
 /* divider */
 .divider { height: 1px; background: var(--border); margin: 8px 10px; }
+
+/* study items */
+.study-cat-row {
+  display: flex; align-items: center; gap: 8px;
+  height: 40px; padding: 0 10px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background 0.1s;
+}
+.study-cat-row:hover { background: var(--bg); }
+.study-cat-row.active { background: var(--orange-light); border-left-color: var(--orange); }
+.study-cat-icon { font-size: 14px; flex-shrink: 0; }
+.study-cat-text { font-size: 13px; color: var(--text-secondary); flex: 1; }
+.study-cat-row.active .study-cat-text { color: var(--text-primary); font-weight: 600; }
+.study-cat-chevron { font-size: 10px; color: var(--text-tertiary); transition: transform 0.15s; display: inline-block; }
+.study-cat-chevron.open { transform: rotate(90deg); }
+.study-item-row {
+  display: flex; align-items: center; gap: 8px;
+  height: 34px; padding-left: 32px; padding-right: 10px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background 0.1s;
+}
+.study-item-row:hover { background: var(--bg); }
+.study-item-row.active { background: var(--orange-light); border-left-color: var(--orange); }
+.study-item-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+.study-item-row.active .study-item-dot { background: var(--orange); }
+.study-item-text { font-size: 12px; color: var(--text-secondary); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.study-item-row.active .study-item-text { color: var(--text-primary); font-weight: 600; }
+
+/* study view panel */
+.study-view-wrap { padding: 32px 40px 48px; max-width: 800px; }
+.study-view-header { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.study-view-title { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+.study-view-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.study-view-category { font-size: 12px; font-weight: 700; color: var(--orange); background: var(--orange-light); padding: 3px 10px; border-radius: 999px; }
+.study-view-date { font-size: 12px; color: var(--text-tertiary); }
+.study-content { font-size: 14px; line-height: 1.8; color: var(--text-primary); }
+.study-content h2 { font-size: 18px; font-weight: 800; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--orange); display: inline-block; }
+.study-content h3 { font-size: 15px; font-weight: 700; margin: 20px 0 8px; color: var(--text-primary); }
+.study-content p { margin-bottom: 12px; }
+.study-content ul, .study-content ol { padding-left: 20px; margin-bottom: 14px; }
+.study-content li { margin-bottom: 6px; }
+.study-content code { font-family: 'Consolas','Monaco',monospace; font-size: 12px; background: #F3F4F6; padding: 2px 6px; border-radius: 4px; color: #E55A00; }
+.study-content pre { background: #1E1E2E; color: #CDD6F4; padding: 16px 20px; border-radius: 8px; font-size: 12px; font-family: 'Consolas','Monaco',monospace; overflow-x: auto; margin-bottom: 16px; line-height: 1.7; }
+.study-content .tip-box { background: var(--orange-light); border-left: 3px solid var(--orange); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 13px; }
+.study-content .tip-box strong { color: var(--orange); }
+.study-content .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin: 16px 0; }
+.study-content .tool-card { border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+.study-content .tool-card .tool-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.study-content .tool-card .tool-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.study-content .tool-card .tool-url { font-size: 11px; color: var(--orange); margin-top: 6px; text-decoration: none; display: block; }
+.study-content .step-list { counter-reset: step; list-style: none; padding-left: 0; }
+.study-content .step-list li { counter-increment: step; display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+.study-content .step-list li::before { content: counter(step); width: 24px; height: 24px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.study-content .prompt-box { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-size: 12px; font-family: 'Consolas','Monaco',monospace; line-height: 1.7; margin: 12px 0; color: #374151; white-space: pre-wrap; }
+.study-content .links-list { list-style: none; padding: 0; }
+.study-content .links-list li { padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.study-content .links-list li:last-child { border-bottom: none; }
+.study-content .links-list a { font-size: 13px; color: var(--orange); text-decoration: none; font-weight: 600; }
+.study-content .links-list a:hover { text-decoration: underline; }
+.study-content .links-list .link-desc { font-size: 12px; color: var(--text-tertiary); }
 </style>
 </head>
 <body>
@@ -264,6 +326,12 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
         <span>새 샘플 추가</span>
       </div>
       <div id="sample-list"></div>
+      <div class="divider"></div>
+      <div class="section-label-row">
+        <span class="section-label">개발 스터디</span>
+        <button class="section-add-btn" id="btn-add-study" title="스터디 추가">＋</button>
+      </div>
+      <div id="study-list"></div>
     </div>
   </aside>
 
@@ -474,25 +542,62 @@ const DEFAULT_SAMPLES = [
   }
 ];
 
+const DEFAULT_STUDIES = [
+  {
+    id: "vibe-coding-intro",
+    category: "바이브코딩",
+    categoryIcon: "⚡",
+    title: "바이브코딩 왕초보 가이드",
+    desc: "AI 도구로 코드 없이 제품 만들기 — 처음 시작하는 분을 위한 입문서",
+    tags: ["vibe-coding", "AI", "입문", "Cursor", "Claude"],
+    createdAt: "2026-05-30"
+  },
+  {
+    id: "vibe-coding-tools",
+    category: "바이브코딩",
+    categoryIcon: "⚡",
+    title: "필수 도구 & 세팅 가이드",
+    desc: "Cursor IDE 설치부터 Claude API 연동까지 한 번에",
+    tags: ["Cursor", "Claude", "설치", "세팅"],
+    createdAt: "2026-05-30"
+  },
+  {
+    id: "vibe-coding-prompts",
+    category: "바이브코딩",
+    categoryIcon: "⚡",
+    title: "프롬프트 작성 패턴 모음",
+    desc: "실전에서 바로 쓰는 프롬프트 템플릿 & 꿀팁",
+    tags: ["프롬프트", "패턴", "템플릿"],
+    createdAt: "2026-05-30"
+  }
+];
+
 // ── STATE ─────────────────────────────────────────────
 let brands = [];
 let samples = [];
+let studies = [];
 let openBrands = new Set();
+let openStudyCategories = new Set();
 let selectedBrandId = null;
 let selectedSampleId = null;
+let selectedStudyId = null;
 let searchQuery = "";
 
 // ── STORAGE ───────────────────────────────────────────
 function loadData() {
   const b = localStorage.getItem('nroad_brands');
   const s = localStorage.getItem('nroad_samples');
+  const st = localStorage.getItem('nroad_studies');
   brands = b ? JSON.parse(b) : DEFAULT_BRANDS.map(x => ({...x}));
   samples = s ? JSON.parse(s) : DEFAULT_SAMPLES.map(x => ({...x}));
+  studies = st ? JSON.parse(st) : DEFAULT_STUDIES.map(x => ({...x}));
   if (!b) saveBrands();
   if (!s) saveSamples();
+  if (!st) saveStudies();
 }
 function saveBrands() { localStorage.setItem('nroad_brands', JSON.stringify(brands)); }
 function saveSamples() { localStorage.setItem('nroad_samples', JSON.stringify(samples)); }
+function saveStudies() { localStorage.setItem('nroad_studies', JSON.stringify(studies)); }
 
 // ── UTILS ─────────────────────────────────────────────
 function escHtml(str) {
@@ -602,6 +707,70 @@ function renderSidebar() {
     row.appendChild(nameEl);
     row.addEventListener('click', () => onSampleClick(sample.id));
     sampleList.appendChild(row);
+  });
+
+  // ── render studies ───────────────────────────────────
+  const studyList = document.getElementById('study-list');
+  studyList.innerHTML = '';
+
+  // group by category
+  const catMap = {};
+  const filteredStudies = q ? studies.filter(st => st.title.toLowerCase().includes(q) || st.category.toLowerCase().includes(q)) : studies;
+  filteredStudies.forEach(st => {
+    if (!catMap[st.category]) catMap[st.category] = { icon: st.categoryIcon || '📚', items: [] };
+    catMap[st.category].items.push(st);
+  });
+
+  Object.entries(catMap).forEach(([catName, catData]) => {
+    const isCatOpen = openStudyCategories.has(catName);
+
+    const catRow = document.createElement('div');
+    catRow.className = 'study-cat-row';
+
+    const catIcon = document.createElement('span');
+    catIcon.className = 'study-cat-icon';
+    catIcon.textContent = catData.icon;
+
+    const catText = document.createElement('span');
+    catText.className = 'study-cat-text';
+    catText.textContent = catName;
+
+    const catChev = document.createElement('span');
+    catChev.className = 'study-cat-chevron' + (isCatOpen ? ' open' : '');
+    catChev.textContent = '▶';
+
+    catRow.appendChild(catIcon);
+    catRow.appendChild(catText);
+    catRow.appendChild(catChev);
+    catRow.addEventListener('click', () => {
+      if (openStudyCategories.has(catName)) openStudyCategories.delete(catName);
+      else openStudyCategories.add(catName);
+      renderSidebar();
+    });
+
+    const catChildren = document.createElement('div');
+    catChildren.style.display = isCatOpen ? 'block' : 'none';
+
+    catData.items.forEach(st => {
+      const isActive = selectedStudyId === st.id;
+      const row = document.createElement('div');
+      row.className = 'study-item-row' + (isActive ? ' active' : '');
+
+      const dot = document.createElement('div');
+      dot.className = 'study-item-dot';
+
+      const text = document.createElement('span');
+      text.className = 'study-item-text';
+      text.textContent = st.title;
+
+      row.appendChild(dot);
+      row.appendChild(text);
+      row.addEventListener('click', () => onStudyClick(st.id));
+      catChildren.appendChild(row);
+    });
+
+    studyList.appendChild(catRow);
+    studyList.appendChild(catChildren);
   });
 }
 
@@ -822,6 +991,354 @@ function showSampleEdit(sample, isNew) {
   });
 }
 
+// ── STUDY CONTENT DB ─────────────────────────────────
+const STUDY_CONTENT = {
+  "vibe-coding-intro": `
+<div class="study-view-wrap">
+  <div class="study-view-header">
+    <div class="study-view-title">바이브코딩 왕초보 가이드 ⚡</div>
+    <div class="study-view-meta">
+      <span class="study-view-category">바이브코딩</span>
+      <span class="tag">AI</span>
+      <span class="tag">입문</span>
+      <span class="study-view-date">2026-05-30</span>
+    </div>
+  </div>
+  <div class="study-content">
+
+    <h2>바이브코딩이란?</h2>
+    <p><strong>바이브코딩(Vibe Coding)</strong>은 AI에게 원하는 것을 말(프롬프트)로 설명하면, AI가 코드를 작성해주는 방식으로 개발하는 것입니다. 2025년 OpenAI 공동창업자 Andrej Karpathy가 처음 사용한 용어로, 코딩을 몰라도 아이디어만 있으면 실제 작동하는 앱을 만들 수 있습니다.</p>
+    <div class="tip-box">
+      <strong>💡 핵심 개념:</strong> "코드를 짜는 게 아니라, AI에게 방향을 알려주고 결과를 조율하는 것"
+    </div>
+
+    <h2>왜 지금 배워야 할까?</h2>
+    <ul>
+      <li>✅ 개발자가 아니어도 앱·사이트·자동화 도구를 직접 만들 수 있음</li>
+      <li>✅ 아이디어 → 실제 서비스까지 시간이 몇 시간으로 단축됨</li>
+      <li>✅ 사업가, 디자이너, 기획자 모두에게 강력한 무기가 됨</li>
+      <li>✅ 2025년 현재 기업들이 가장 찾는 스킬 중 하나</li>
+    </ul>
+
+    <h2>필수 도구 5가지</h2>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-name">⚡ Cursor IDE</div>
+        <div class="tool-desc">AI 내장 코드 에디터. 채팅으로 코드 수정 가능. 바이브코딩의 핵심 도구.</div>
+        <a class="tool-url" href="https://cursor.com" target="_blank">cursor.com ↗</a>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">🤖 Claude</div>
+        <div class="tool-desc">Anthropic의 AI. 코드 작성, 설명, 디버깅에 탁월. Cursor에 내장 가능.</div>
+        <a class="tool-url" href="https://claude.ai" target="_blank">claude.ai ↗</a>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">🛠 v0.dev</div>
+        <div class="tool-desc">Vercel의 UI 생성 AI. 텍스트만 입력하면 React 컴포넌트 즉시 생성.</div>
+        <a class="tool-url" href="https://v0.dev" target="_blank">v0.dev ↗</a>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">🚀 Bolt.new</div>
+        <div class="tool-desc">브라우저에서 바로 앱 개발. 설치 없이 프롬프트만으로 풀스택 앱 생성.</div>
+        <a class="tool-url" href="https://bolt.new" target="_blank">bolt.new ↗</a>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">💎 Lovable</div>
+        <div class="tool-desc">자연어로 웹앱을 만들고 Supabase·Stripe 연동까지 자동. No-code의 진화.</div>
+        <a class="tool-url" href="https://lovable.dev" target="_blank">lovable.dev ↗</a>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">🐙 GitHub Copilot</div>
+        <div class="tool-desc">VS Code 내 AI 자동완성. 코드 흐름을 읽고 다음 줄을 예측·제안.</div>
+        <a class="tool-url" href="https://github.com/features/copilot" target="_blank">github.com ↗</a>
+      </div>
+    </div>
+
+    <h2>첫 번째 프로젝트: 5단계로 시작하기</h2>
+    <ol class="step-list">
+      <li>
+        <div>
+          <strong>Cursor 설치하기</strong><br>
+          <span style="color:var(--text-secondary); font-size:13px;">cursor.com에서 다운로드 → VS Code처럼 생긴 에디터 실행 → Claude 모델 선택</span>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>새 폴더 열기</strong><br>
+          <span style="color:var(--text-secondary); font-size:13px;">File → Open Folder → 빈 폴더 선택. 프로젝트 공간을 만드는 과정.</span>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Cmd+K 또는 Ctrl+K 눌러서 채팅 열기</strong><br>
+          <span style="color:var(--text-secondary); font-size:13px;">AI 채팅창이 열림. 여기에 원하는 것을 설명하면 됨.</span>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>프롬프트 입력</strong><br>
+          <div class="prompt-box">할 일 목록(Todo) 앱을 만들어줘.
+- 항목 추가/삭제 가능
+- 완료 체크박스
+- 깔끔한 디자인
+- 단일 HTML 파일로</div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>생성된 파일 실행 & 반복 수정</strong><br>
+          <span style="color:var(--text-secondary); font-size:13px;">index.html 파일이 만들어지면 브라우저로 열기. 마음에 안 드는 부분은 다시 채팅으로 요청!</span>
+        </div>
+      </li>
+    </ol>
+
+    <h2>초보자 실수 Top 5</h2>
+    <ul>
+      <li>❌ <strong>너무 길게 한 번에 요청</strong> → ✅ 기능을 작게 쪼개서 단계별로</li>
+      <li>❌ <strong>에러가 나면 포기</strong> → ✅ 에러 메시지를 그대로 복붙해서 AI에게 붙여넣기</li>
+      <li>❌ <strong>코드를 이해하려고 너무 오래 씀</strong> → ✅ 일단 실행부터, 이해는 나중에</li>
+      <li>❌ <strong>완벽한 결과를 한 번에 기대</strong> → ✅ 반복적으로 수정하는 것이 정상</li>
+      <li>❌ <strong>영어로만 해야 한다는 착각</strong> → ✅ 한국어로 해도 완전히 됨</li>
+    </ul>
+
+    <h2>참고 자료</h2>
+    <ul class="links-list">
+      <li>
+        <span>🌐</span>
+        <div>
+          <a href="https://cursor.com/docs" target="_blank">Cursor 공식 문서</a>
+          <div class="link-desc">Cursor IDE 기능 가이드 (영문)</div>
+        </div>
+      </li>
+      <li>
+        <span>🌐</span>
+        <div>
+          <a href="https://www.youtube.com/results?search_query=바이브코딩+입문" target="_blank">YouTube — 바이브코딩 입문 검색</a>
+          <div class="link-desc">한국어 유튜브 튜토리얼 모음</div>
+        </div>
+      </li>
+      <li>
+        <span>🌐</span>
+        <div>
+          <a href="https://bolt.new" target="_blank">Bolt.new — 브라우저 바이브코딩</a>
+          <div class="link-desc">설치 없이 바로 시작하는 가장 쉬운 방법</div>
+        </div>
+      </li>
+      <li>
+        <span>🌐</span>
+        <div>
+          <a href="https://lovable.dev" target="_blank">Lovable — 프롬프트로 웹앱 생성</a>
+          <div class="link-desc">Supabase 연동 웹앱을 자연어로 만들기</div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</div>
+`,
+  "vibe-coding-tools": `
+<div class="study-view-wrap">
+  <div class="study-view-header">
+    <div class="study-view-title">필수 도구 & 세팅 가이드 🛠</div>
+    <div class="study-view-meta">
+      <span class="study-view-category">바이브코딩</span>
+      <span class="tag">Cursor</span>
+      <span class="tag">Claude</span>
+      <span class="tag">설치</span>
+      <span class="study-view-date">2026-05-30</span>
+    </div>
+  </div>
+  <div class="study-content">
+
+    <h2>Cursor IDE 설치 & 기본 세팅</h2>
+    <ol class="step-list">
+      <li>
+        <div><strong>cursor.com 방문 → Download 클릭</strong><br>
+        <span style="color:var(--text-secondary);font-size:13px;">Windows / Mac / Linux 모두 지원. VS Code 기반이라 기존 익스텐션 사용 가능.</span></div>
+      </li>
+      <li>
+        <div><strong>로그인 (GitHub 계정 추천)</strong><br>
+        <span style="color:var(--text-secondary);font-size:13px;">무료 플랜: Claude 3.5 Sonnet 매월 50회 무료. Pro 플랜($20/월): 제한 없이 사용.</span></div>
+      </li>
+      <li>
+        <div><strong>모델 선택: claude-3.7-sonnet 또는 claude-4-opus</strong><br>
+        <span style="color:var(--text-secondary);font-size:13px;">Settings → Models에서 변경. 코딩에는 Claude가 GPT보다 정확도 높음.</span></div>
+      </li>
+      <li>
+        <div><strong>핵심 단축키 외우기</strong><br>
+        <div class="prompt-box">Ctrl+K (Cmd+K)   → 인라인 AI 편집
+Ctrl+L (Cmd+L)   → AI 채팅창 열기
+Ctrl+I (Cmd+I)   → Composer (멀티파일 편집)
+Tab              → AI 자동완성 수락
+Esc              → AI 제안 거부</div>
+        </div>
+      </li>
+    </ol>
+
+    <h2>Claude API 직접 연동 (선택)</h2>
+    <p>Cursor의 무료 quota가 부족하면 Claude API 키를 직접 연결할 수 있습니다.</p>
+    <ol class="step-list">
+      <li><div><strong>console.anthropic.com 접속 → API Keys → Create Key</strong></div></li>
+      <li><div><strong>Cursor Settings → API Keys → Anthropic 항목에 붙여넣기</strong></div></li>
+      <li><div><strong>사용량 알림 설정 (월 $10~20 예산 추천)</strong></div></li>
+    </ol>
+    <div class="tip-box">
+      <strong>⚠️ 주의:</strong> API 키는 절대 코드에 직접 넣지 말고 환경변수(.env)에 저장하세요!
+    </div>
+
+    <h2>추천 확장 프로그램 (VS Code 호환)</h2>
+    <ul>
+      <li><code>Prettier</code> — 코드 자동 정렬</li>
+      <li><code>ES7+ React/Redux Snippets</code> — React 빠른 코드 조각</li>
+      <li><code>GitLens</code> — Git 이력 시각화</li>
+      <li><code>Live Server</code> — HTML 파일 즉시 브라우저 미리보기</li>
+      <li><code>Tailwind CSS IntelliSense</code> — Tailwind 자동완성</li>
+    </ul>
+
+    <h2>참고 링크</h2>
+    <ul class="links-list">
+      <li>
+        <span>🌐</span>
+        <div>
+          <a href="https://cursor.com/settings" target="_blank">Cursor 설정 페이지</a>
+          <div class="link-desc">모델, API 키, 단축키 설정</div>
+        </div>
+      </li>
+      <li>
+        <span>🌐</span>
+        <div>
+          <a href="https://console.anthropic.com" target="_blank">Anthropic Console</a>
+          <div class="link-desc">Claude API 키 발급 및 사용량 관리</div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</div>
+`,
+  "vibe-coding-prompts": `
+<div class="study-view-wrap">
+  <div class="study-view-header">
+    <div class="study-view-title">프롬프트 작성 패턴 모음 📝</div>
+    <div class="study-view-meta">
+      <span class="study-view-category">바이브코딩</span>
+      <span class="tag">프롬프트</span>
+      <span class="tag">패턴</span>
+      <span class="study-view-date">2026-05-30</span>
+    </div>
+  </div>
+  <div class="study-content">
+
+    <h2>좋은 프롬프트의 3가지 법칙</h2>
+    <ul>
+      <li><strong>구체적으로</strong> — "예쁜 버튼 만들어줘" ❌ → "주황색(#FF6B00) 배경, 흰 글씨, 8px 라운드, hover 시 어두워지는 버튼" ✅</li>
+      <li><strong>맥락 제공</strong> — 현재 파일/상황을 먼저 설명하고 요청</li>
+      <li><strong>출력 형식 지정</strong> — "HTML로", "React 컴포넌트로", "TypeScript로" 등 명시</li>
+    </ul>
+
+    <h2>상황별 프롬프트 템플릿</h2>
+
+    <h3>🆕 새 프로젝트 시작할 때</h3>
+    <div class="prompt-box">[이름]를 만들어줘.
+
+기능:
+- [기능1]
+- [기능2]
+- [기능3]
+
+조건:
+- 단일 HTML 파일 (또는 React, Next.js 등)
+- [스타일 조건] (예: Tailwind CSS 사용, 반응형 필수)
+- 색상: [색상]
+
+예시 데이터 5개 포함해줘.</div>
+
+    <h3>🐛 에러 고칠 때</h3>
+    <div class="prompt-box">아래 에러가 발생했어. 원인과 수정 방법 알려줘.
+
+[에러 메시지 전체 붙여넣기]
+
+관련 코드:
+[코드 붙여넣기]</div>
+
+    <h3>💄 디자인 수정할 때</h3>
+    <div class="prompt-box">현재 [컴포넌트명]을 아래처럼 바꿔줘:
+- 배경색 #F5F5F5로 변경
+- 글자 크기 14px → 16px
+- 버튼 오른쪽 정렬
+- 모바일(375px)에서도 깨지지 않게</div>
+
+    <h3>⚡ 기능 추가할 때</h3>
+    <div class="prompt-box">기존 [기능]에 [새 기능]을 추가해줘.
+
+현재 동작: [현재 어떻게 되는지]
+원하는 동작: [어떻게 되어야 하는지]
+
+기존 코드는 최대한 건드리지 마.</div>
+
+    <h3>🔍 코드 이해할 때</h3>
+    <div class="prompt-box">아래 코드가 무엇을 하는지 왕초보도 이해할 수 있게 설명해줘.
+각 줄에 한글 주석도 달아줘.
+
+[코드 붙여넣기]</div>
+
+    <h2>바이브코딩 꿀팁 모음</h2>
+    <div class="tip-box">
+      <strong>🔥 Tip 1: "~처럼 만들어줘" 활용하기</strong><br>
+      "토스 앱처럼 깔끔하게", "Notion처럼 미니멀하게" — 레퍼런스 브랜드를 언급하면 AI가 스타일을 이해함
+    </div>
+    <div class="tip-box">
+      <strong>🔥 Tip 2: 스크린샷 첨부하기</strong><br>
+      원하는 디자인 스크린샷을 함께 올리면 정확도가 2~3배 올라감. Cursor Composer에서 이미지 첨부 가능.
+    </div>
+    <div class="tip-box">
+      <strong>🔥 Tip 3: 단계별로 쪼개기</strong><br>
+      전체를 한 번에 요청하면 AI도 헷갈림. "레이아웃 먼저" → "기능 추가" → "디자인 다듬기" 순으로 진행
+    </div>
+    <div class="tip-box">
+      <strong>🔥 Tip 4: CLAUDE.md 파일 활용</strong><br>
+      프로젝트 루트에 CLAUDE.md 파일을 만들어 "이 프로젝트의 규칙"을 적어두면, AI가 매 대화마다 참고함. 컬러, 코딩 스타일, 금지사항 등을 적어두기.
+    </div>
+
+  </div>
+</div>
+`
+};
+
+// ── STUDY HANDLERS ────────────────────────────────────
+function showStudyView(study) {
+  mainPanel.style.overflow = '';
+  const content = STUDY_CONTENT[study.id];
+  if (content) {
+    mainPanel.innerHTML = `<div style="overflow-y:auto; height:100%;">${content}</div>`;
+  } else {
+    mainPanel.innerHTML = `
+      <div class="study-view-wrap">
+        <div class="study-view-header">
+          <div class="study-view-title">${escHtml(study.title)}</div>
+          <div class="study-view-meta">
+            <span class="study-view-category">${escHtml(study.category)}</span>
+            <span class="study-view-date">${study.createdAt || ''}</span>
+          </div>
+        </div>
+        <div class="study-content">
+          <p style="color:var(--text-tertiary);">아직 내용이 없습니다. 추후 추가 예정입니다.</p>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function onStudyClick(studyId) {
+  selectedStudyId = studyId;
+  selectedBrandId = null;
+  selectedSampleId = null;
+  mainPanel.style.overflow = '';
+  renderSidebar();
+  const study = studies.find(s => s.id === studyId);
+  if (study) showStudyView(study);
+}
+
 // ── EVENT HANDLERS ────────────────────────────────────
 function onBrandRowClick(brandId) {
   selectedBrandId = brandId;
@@ -860,6 +1377,11 @@ document.getElementById('btn-add-brand').addEventListener('click', () => {
   showBrandEdit({}, true);
 });
 
+// ── ADD STUDY ─────────────────────────────────────────
+document.getElementById('btn-add-study').addEventListener('click', () => {
+  alert('스터디 항목 추가 기능은 준비 중입니다.');
+});
+
 // ── ADD SAMPLE ────────────────────────────────────────
 document.getElementById('btn-add-sample').addEventListener('click', () => {
   selectedBrandId = null;
@@ -871,7 +1393,7 @@ document.getElementById('btn-add-sample').addEventListener('click', () => {
 
 // ── EXPORT JSON ───────────────────────────────────────
 document.getElementById('btn-export').addEventListener('click', () => {
-  const data = { brands, samples, exportedAt: new Date().toISOString() };
+  const data = { brands, samples, studies, exportedAt: new Date().toISOString() };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -896,6 +1418,7 @@ document.getElementById('import-file-input').addEventListener('change', function
       if (!confirm('현재 데이터를 모두 덮어쓁니다. 계속하시겠습니까?')) return;
       if (data.brands) { brands = data.brands; saveBrands(); }
       if (data.samples) { samples = data.samples; saveSamples(); }
+      if (data.studies) { studies = data.studies; saveStudies(); }
       selectedBrandId = null;
       selectedSampleId = null;
       openBrands.clear();
