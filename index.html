@@ -569,6 +569,52 @@ const DEFAULT_STUDIES = [
     desc: "실전에서 바로 쓰는 프롬프트 템플릿 & 꿀팁",
     tags: ["프롬프트", "패턴", "템플릿"],
     createdAt: "2026-05-30"
+  },
+  // ── AI 에이전트 카테고리 ──────────────────────────────
+  {
+    id: "ai-agent-overview",
+    category: "AI 에이전트",
+    categoryIcon: "🤖",
+    title: "AI 에이전트 비교 총정리",
+    desc: "ChatGPT Codex · Gemini · Claude · Hermes — 개발·디자인 용도별 선택 가이드",
+    tags: ["AI", "비교", "overview"],
+    createdAt: "2026-05-30"
+  },
+  {
+    id: "ai-chatgpt-codex",
+    category: "AI 에이전트",
+    categoryIcon: "🤖",
+    title: "ChatGPT / Codex (OpenAI)",
+    desc: "GPT-4o 기반 코딩 어시스턴트 — 특징·장단점·개발/디자인 활용법",
+    tags: ["ChatGPT", "Codex", "OpenAI", "GPT-4o"],
+    createdAt: "2026-05-30"
+  },
+  {
+    id: "ai-gemini",
+    category: "AI 에이전트",
+    categoryIcon: "🤖",
+    title: "Gemini (Google DeepMind)",
+    desc: "200만 토큰 컨텍스트 · Google 생태계 연동 — 특징·장단점·활용법",
+    tags: ["Gemini", "Google", "멀티모달"],
+    createdAt: "2026-05-30"
+  },
+  {
+    id: "ai-claude",
+    category: "AI 에이전트",
+    categoryIcon: "🤖",
+    title: "Claude (Anthropic)",
+    desc: "코딩 정확도 최상위 · 200K 컨텍스트 — 특징·장단점·Cursor 연동 가이드",
+    tags: ["Claude", "Anthropic", "Cursor"],
+    createdAt: "2026-05-30"
+  },
+  {
+    id: "ai-hermes",
+    category: "AI 에이전트",
+    categoryIcon: "🤖",
+    title: "Hermes (Nous Research)",
+    desc: "오픈소스 로컬 AI — Ollama로 프라이빗 개발환경 구축하기",
+    tags: ["Hermes", "Ollama", "로컬", "오픈소스"],
+    createdAt: "2026-05-30"
   }
 ];
 
@@ -591,6 +637,13 @@ function loadData() {
   brands = b ? JSON.parse(b) : DEFAULT_BRANDS.map(x => ({...x}));
   samples = s ? JSON.parse(s) : DEFAULT_SAMPLES.map(x => ({...x}));
   studies = st ? JSON.parse(st) : DEFAULT_STUDIES.map(x => ({...x}));
+  // 새로 추가된 DEFAULT 항목 자동 머지
+  if (st) {
+    const storedIds = new Set(studies.map(s => s.id));
+    let changed = false;
+    DEFAULT_STUDIES.forEach(d => { if (!storedIds.has(d.id)) { studies.push({...d}); changed = true; } });
+    if (changed) saveStudies();
+  }
   if (!b) saveBrands();
   if (!s) saveSamples();
   if (!st) saveStudies();
@@ -1299,6 +1352,580 @@ Esc              → AI 제안 거부</div>
       <strong>🔥 Tip 4: CLAUDE.md 파일 활용</strong><br>
       프로젝트 루트에 CLAUDE.md 파일을 만들어 "이 프로젝트의 규칙"을 적어두면, AI가 매 대화마다 참고함. 컬러, 코딩 스타일, 금지사항 등을 적어두기.
     </div>
+
+  </div>
+</div>
+`,
+
+// ── AI 에이전트 콘텐츠 ────────────────────────────────
+"ai-agent-overview": `
+<div class="study-view-wrap">
+  <div class="study-view-header">
+    <div class="study-view-title">AI 에이전트 비교 총정리 🤖</div>
+    <div class="study-view-meta">
+      <span class="study-view-category">AI 에이전트</span>
+      <span class="tag">비교</span>
+      <span class="tag">개발</span>
+      <span class="tag">디자인</span>
+      <span class="study-view-date">2026-05-30</span>
+    </div>
+  </div>
+  <div class="study-content">
+
+    <h2>한눈에 보는 AI 에이전트 비교표</h2>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+      <table style="width:100%; border-collapse:collapse; font-size:13px;">
+        <thead>
+          <tr style="background:#F3F4F6;">
+            <th style="padding:10px 12px; text-align:left; border:1px solid var(--border); font-weight:700; white-space:nowrap;">항목</th>
+            <th style="padding:10px 12px; text-align:center; border:1px solid var(--border); font-weight:700; white-space:nowrap;">ChatGPT / Codex</th>
+            <th style="padding:10px 12px; text-align:center; border:1px solid var(--border); font-weight:700; white-space:nowrap;">Gemini</th>
+            <th style="padding:10px 12px; text-align:center; border:1px solid var(--border); font-weight:700; white-space:nowrap;">Claude</th>
+            <th style="padding:10px 12px; text-align:center; border:1px solid var(--border); font-weight:700; white-space:nowrap;">Hermes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:9px 12px; border:1px solid var(--border); font-weight:600;">만든 곳</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">OpenAI</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">Google DeepMind</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">Anthropic</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">Nous Research</td>
+          </tr>
+          <tr style="background:#FAFAFA;">
+            <td style="padding:9px 12px; border:1px solid var(--border); font-weight:600;">코딩 실력</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">⭐⭐⭐⭐</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">⭐⭐⭐</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center; color:var(--orange); font-weight:700;">⭐⭐⭐⭐⭐</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">⭐⭐⭐</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 12px; border:1px solid var(--border); font-weight:600;">디자인 생성</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">⭐⭐⭐⭐ (DALL-E)</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">⭐⭐⭐⭐</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">⭐⭐ (코드만)</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">⭐⭐</td>
+          </tr>
+          <tr style="background:#FAFAFA;">
+            <td style="padding:9px 12px; border:1px solid var(--border); font-weight:600;">컨텍스트 창</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">128K</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center; color:var(--orange); font-weight:700;">2M (1.5 Pro)</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">200K</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">4K~32K</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 12px; border:1px solid var(--border); font-weight:600;">무료 사용</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">제한적</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">✅ 넉넉</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">✅ 제한적</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center; color:var(--orange); font-weight:700;">✅ 완전 무료</td>
+          </tr>
+          <tr style="background:#FAFAFA;">
+            <td style="padding:9px 12px; border:1px solid var(--border); font-weight:600;">로컬 실행</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">❌</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">❌</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">❌</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center; color:var(--orange); font-weight:700;">✅</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 12px; border:1px solid var(--border); font-weight:600;">한국어 품질</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">⭐⭐⭐⭐</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">⭐⭐⭐</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center; color:var(--orange); font-weight:700;">⭐⭐⭐⭐⭐</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">⭐⭐</td>
+          </tr>
+          <tr style="background:#FAFAFA;">
+            <td style="padding:9px 12px; border:1px solid var(--border); font-weight:600;">월 요금</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">$20 (Plus)</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">$20 (Advanced)</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center;">$20 (Pro)</td>
+            <td style="padding:9px 12px; border:1px solid var(--border); text-align:center; color:var(--orange); font-weight:700;">무료</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>용도별 추천 AI</h2>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-name">💻 코드 작성 · 디버깅</div>
+        <div class="tool-desc">1순위 <strong>Claude</strong> (Cursor 연동)<br>2순위 ChatGPT Codex<br>예산 없으면 Hermes(로컬)</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">🎨 이미지 · 목업 생성</div>
+        <div class="tool-desc">1순위 <strong>ChatGPT</strong> (DALL-E 3)<br>2순위 Gemini (Imagen 3)</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">📄 대용량 문서 분석</div>
+        <div class="tool-desc">1순위 <strong>Gemini 1.5 Pro</strong> (200만 토큰)<br>2순위 Claude (200K)</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">🔒 보안 · 프라이버시</div>
+        <div class="tool-desc">1순위 <strong>Hermes</strong> (로컬, 데이터 외부 전송 없음)<br>민감 코드베이스에 적합</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">🛠 바이브코딩 (일상)</div>
+        <div class="tool-desc">Cursor + <strong>Claude</strong> 조합이 현재 최강<br>무료 한도 내에서 ChatGPT 병행</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">📊 데이터 분석</div>
+        <div class="tool-desc">1순위 <strong>ChatGPT</strong> (Code Interpreter)<br>2순위 Gemini (Google Sheets 연동)</div>
+      </div>
+    </div>
+
+    <h2>2026년 최신 트렌드</h2>
+    <ul>
+      <li>🔥 <strong>에이전트 모드</strong> — AI가 단순 답변이 아니라 스스로 코드 실행·검색·파일 수정까지 처리</li>
+      <li>🔥 <strong>멀티모달 강화</strong> — 스크린샷·와이어프레임을 보여주면 코드로 변환 (모든 AI 지원)</li>
+      <li>🔥 <strong>MCP (Model Context Protocol)</strong> — AI가 외부 도구(Supabase, GitHub, Figma)와 직접 연결</li>
+      <li>🔥 <strong>로컬 AI 부상</strong> — Hermes, Qwen, Phi 등 소형 모델이 GPU 없이도 실용적 수준 도달</li>
+    </ul>
+
+  </div>
+</div>
+`,
+
+"ai-chatgpt-codex": `
+<div class="study-view-wrap">
+  <div class="study-view-header">
+    <div class="study-view-title">ChatGPT / Codex (OpenAI) 🟢</div>
+    <div class="study-view-meta">
+      <span class="study-view-category">AI 에이전트</span>
+      <span class="tag">OpenAI</span>
+      <span class="tag">GPT-4o</span>
+      <span class="tag">Codex</span>
+      <span class="study-view-date">2026-05-30</span>
+    </div>
+  </div>
+  <div class="study-content">
+
+    <h2>개요</h2>
+    <p><strong>ChatGPT</strong>는 OpenAI의 대화형 AI로, <strong>GPT-4o</strong> 모델을 탑재해 텍스트·이미지·코드를 모두 처리합니다. <strong>Codex</strong>는 GPT 계열 모델 중 코드에 특화된 버전으로, 현재는 GPT-4o에 통합·발전되었습니다. 2026년 기준 <strong>ChatGPT Codex</strong>는 터미널·웹 브라우저·파일 시스템을 직접 조작하는 에이전트 모드를 제공합니다.</p>
+    <div class="tip-box">
+      <strong>📌 핵심:</strong> 세계에서 가장 많이 사용되는 AI. 커뮤니티·튜토리얼·플러그인이 가장 풍부함.
+    </div>
+
+    <h2>장점 ✅</h2>
+    <ul>
+      <li><strong>Code Interpreter (Python 실행)</strong> — 코드를 작성하고 바로 실행 결과까지 확인 가능</li>
+      <li><strong>DALL-E 3 내장</strong> — 텍스트로 이미지·디자인 목업 생성 가능</li>
+      <li><strong>GPTs / 플러그인 생태계</strong> — 수천 개의 커스텀 GPT와 플러그인</li>
+      <li><strong>웹 검색 내장</strong> — 최신 정보를 검색해서 답변에 반영</li>
+      <li><strong>멀티모달 완성도</strong> — 스크린샷 → UI 코드 변환 매우 우수</li>
+      <li><strong>ChatGPT Codex 에이전트</strong> — 터미널·파일 직접 조작, GitHub 연동 자동화</li>
+    </ul>
+
+    <h2>단점 ❌</h2>
+    <ul>
+      <li>긴 코드베이스 이해 시 Claude 대비 정확도 낮음</li>
+      <li>무료 플랜에서 GPT-4o 사용량 제한이 빠르게 소진됨</li>
+      <li>한국어 미묘한 뉘앙스는 Claude 대비 약간 부족</li>
+      <li>Codex 에이전트 모드는 별도 구독($20+) 필요</li>
+    </ul>
+
+    <h2>개발 활용법 💻</h2>
+    <h3>1. Code Interpreter로 데이터 분석</h3>
+    <div class="prompt-box">이 CSV 파일을 분석해줘.
+월별 매출 추이 그래프 그리고,
+이상치(outlier) 있으면 표시해줘.</div>
+
+    <h3>2. 에이전트 모드로 GitHub 작업 자동화</h3>
+    <div class="prompt-box">내 GitHub 저장소 payplay-tms를 분석해서
+버그가 될 수 있는 코드 패턴 찾아줘.
+각 파일별로 정리해서 보여줘.</div>
+
+    <h3>3. GPT-4o로 스크린샷 → 코드</h3>
+    <div class="prompt-box">[스크린샷 첨부]
+이 UI를 HTML + Tailwind CSS로 구현해줘.
+색상은 주황(#FF6B00)으로 변경해줘.</div>
+
+    <h2>디자인 활용법 🎨</h2>
+    <h3>DALL-E 3로 UI 목업 생성</h3>
+    <div class="prompt-box">모바일 앱 대시보드 UI 목업 이미지 만들어줘.
+스타일: 토스 앱처럼 미니멀, 주황 포인트 컬러
+내용: KPI 카드 3개, 리스트, 바텀 네비게이션
+배경 흰색, 고해상도</div>
+
+    <h3>SVG 아이콘 생성</h3>
+    <div class="prompt-box">배달 트럭 SVG 아이콘 만들어줘.
+선형(outline) 스타일, 24x24px, stroke-width 1.5
+색상: currentColor (CSS로 제어 가능하게)</div>
+
+    <h2>추천 플랜 & 가격</h2>
+    <ul>
+      <li><strong>무료</strong>: GPT-4o 제한 사용, DALL-E 하루 소수</li>
+      <li><strong>Plus ($20/월)</strong>: GPT-4o 5배, DALL-E 무제한, 고급 데이터 분석</li>
+      <li><strong>Team ($25/월)</strong>: 팀 공유 워크스페이스, GPT 공유</li>
+      <li><strong>ChatGPT Codex</strong>: 현재 Pro/Plus에 통합 제공</li>
+    </ul>
+
+    <h2>참고 링크</h2>
+    <ul class="links-list">
+      <li><span>🌐</span><div><a href="https://chatgpt.com" target="_blank">ChatGPT</a><div class="link-desc">바로 사용하기</div></div></li>
+      <li><span>🌐</span><div><a href="https://platform.openai.com/docs" target="_blank">OpenAI API 문서</a><div class="link-desc">Codex API 및 개발자 가이드</div></div></li>
+      <li><span>🌐</span><div><a href="https://openai.com/codex" target="_blank">ChatGPT Codex 소개</a><div class="link-desc">에이전트 모드 공식 설명</div></div></li>
+    </ul>
+
+  </div>
+</div>
+`,
+
+"ai-gemini": `
+<div class="study-view-wrap">
+  <div class="study-view-header">
+    <div class="study-view-title">Gemini (Google DeepMind) 🔵</div>
+    <div class="study-view-meta">
+      <span class="study-view-category">AI 에이전트</span>
+      <span class="tag">Google</span>
+      <span class="tag">멀티모달</span>
+      <span class="tag">200만토큰</span>
+      <span class="study-view-date">2026-05-30</span>
+    </div>
+  </div>
+  <div class="study-content">
+
+    <h2>개요</h2>
+    <p>Google DeepMind가 만든 멀티모달 AI. <strong>Gemini 1.5 Pro</strong>는 최대 <strong>200만 토큰</strong> 컨텍스트로 책 1~2권 분량의 코드를 한 번에 분석 가능. <strong>Gemini 2.0 Flash</strong>는 속도를 대폭 개선한 버전으로 일상 개발에 적합. Google Workspace(Docs, Sheets, Gmail)와 자연스럽게 연동됩니다.</p>
+    <div class="tip-box">
+      <strong>📌 핵심:</strong> 대용량 코드베이스 분석 + Google 생태계 자동화에 독보적.
+    </div>
+
+    <h2>모델 라인업 (2026)</h2>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-name">Gemini 2.0 Flash</div>
+        <div class="tool-desc">일상 개발용. 빠른 응답속도, 무료. API 호출 1분 15회 무료.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Gemini 1.5 Pro</div>
+        <div class="tool-desc">200만 토큰 컨텍스트. 대형 코드베이스 분석에 최적. 월 $20.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Gemini Ultra</div>
+        <div class="tool-desc">최고 성능 모델. Google One AI Premium($20/월) 포함.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Gemma (오픈소스)</div>
+        <div class="tool-desc">Google의 경량 오픈소스 모델. 로컬 실행 가능. Hermes와 유사.</div>
+      </div>
+    </div>
+
+    <h2>장점 ✅</h2>
+    <ul>
+      <li><strong>200만 토큰 컨텍스트</strong> — 대형 프로젝트 전체 코드를 한 번에 넣고 분석</li>
+      <li><strong>Google Workspace 연동</strong> — Google Docs, Sheets, Drive 파일 직접 분석</li>
+      <li><strong>무료 플랜 넉넉</strong> — Gemini 2.0 Flash 무제한에 가까운 무료 사용</li>
+      <li><strong>NotebookLM</strong> — 문서·영상을 업로드하면 AI가 요약·Q&A·팟캐스트 생성</li>
+      <li><strong>Google AI Studio</strong> — API 키 발급부터 테스트까지 무료, UI 친화적</li>
+      <li><strong>Imagen 3</strong> — Google의 이미지 생성 AI, 포토리얼리즘 강점</li>
+    </ul>
+
+    <h2>단점 ❌</h2>
+    <ul>
+      <li>순수 코딩 정확도는 Claude·GPT-4o 대비 약간 낮음</li>
+      <li>한국어 복잡한 맥락 이해가 다른 모델 대비 아쉬움</li>
+      <li>API 응답이 가끔 불안정 (한국 서버 기준)</li>
+      <li>Gemini Advanced(유료) 기능이 Google One 묶음이라 필요 없는 서비스가 포함됨</li>
+    </ul>
+
+    <h2>개발 활용법 💻</h2>
+    <h3>1. 대용량 코드베이스 분석 (200만 토큰)</h3>
+    <div class="prompt-box">내 프로젝트 전체 코드를 붙여넣을게.
+(수만 줄 코드 첨부)
+
+질문:
+1. 아키텍처 개선 포인트 3가지
+2. 보안 취약점 있으면 찾아줘
+3. 성능 병목 예상 위치</div>
+
+    <h3>2. Google AI Studio에서 API 테스트</h3>
+    <div class="prompt-box"># Google AI Studio → API Key 발급 → 무료
+import google.generativeai as genai
+genai.configure(api_key="YOUR_KEY")
+model = genai.GenerativeModel("gemini-2.0-flash")
+response = model.generate_content("코드 설명해줘")
+print(response.text)</div>
+
+    <h3>3. NotebookLM으로 문서 자동화</h3>
+    <p>notebooklm.google.com → 업로드 가능: PDF, Google Docs, YouTube URL, 오디오 파일. 업로드 후 AI와 Q&A, 자동 요약, 팟캐스트 변환.</p>
+
+    <h2>디자인 활용법 🎨</h2>
+    <h3>UI 스크린샷 → 코드 변환</h3>
+    <div class="prompt-box">[디자인 스크린샷 첨부]
+이 화면을 HTML + CSS로 구현해줘.
+모바일 반응형 필수.
+Google의 Material Design 가이드 참고해서.</div>
+
+    <h3>Imagen 3으로 디자인 에셋 생성</h3>
+    <div class="prompt-box">브랜드 로고 아이콘 생성해줘.
+스타일: flat, minimal
+색상: 주황과 흰색만 사용
+내용: 배달 트럭 + 체크마크
+배경: 투명</div>
+
+    <h2>참고 링크</h2>
+    <ul class="links-list">
+      <li><span>🌐</span><div><a href="https://gemini.google.com" target="_blank">Gemini 웹앱</a><div class="link-desc">바로 사용하기</div></div></li>
+      <li><span>🌐</span><div><a href="https://aistudio.google.com" target="_blank">Google AI Studio</a><div class="link-desc">API 테스트 & 무료 키 발급</div></div></li>
+      <li><span>🌐</span><div><a href="https://notebooklm.google.com" target="_blank">NotebookLM</a><div class="link-desc">문서 분석 AI (무료)</div></div></li>
+      <li><span>🌐</span><div><a href="https://deepmind.google/technologies/gemini/" target="_blank">Gemini 공식 소개</a><div class="link-desc">모델 라인업 및 기술 설명</div></div></li>
+    </ul>
+
+  </div>
+</div>
+`,
+
+"ai-claude": `
+<div class="study-view-wrap">
+  <div class="study-view-header">
+    <div class="study-view-title">Claude (Anthropic) 🟠</div>
+    <div class="study-view-meta">
+      <span class="study-view-category">AI 에이전트</span>
+      <span class="tag">Anthropic</span>
+      <span class="tag">코딩</span>
+      <span class="tag">Cursor</span>
+      <span class="study-view-date">2026-05-30</span>
+    </div>
+  </div>
+  <div class="study-content">
+
+    <h2>개요</h2>
+    <p>Anthropic이 만든 AI로, <strong>코딩 정확도·한국어 이해·안전성</strong>에서 현재 최상위 평가를 받고 있습니다. <strong>Claude 3.7 Sonnet</strong>과 <strong>Claude 4 Opus</strong>가 2026년 현재 주력 모델. 특히 <strong>Cursor IDE</strong>에 기본 탑재되어 바이브코딩의 핵심 엔진으로 사용됩니다. 200,000 토큰 컨텍스트로 대형 프로젝트도 무리 없이 처리.</p>
+    <div class="tip-box">
+      <strong>📌 핵심:</strong> 개발자에게 가장 신뢰받는 AI. 코드 품질, 설명 정확도, 한국어 이해도 모두 최상위.
+    </div>
+
+    <h2>모델 라인업 (2026)</h2>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-name">Claude 4 Haiku</div>
+        <div class="tool-desc">초고속·저비용. 간단한 코드 자동완성·번역에 최적. API 가장 저렴.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Claude 3.7 Sonnet</div>
+        <div class="tool-desc">성능·속도 균형 최적. 일반 개발 작업의 황금 선택지. Cursor 기본.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Claude 4 Opus</div>
+        <div class="tool-desc">최고 성능. 복잡한 아키텍처 설계, 대규모 리팩토링에 사용.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Claude 3.5 Sonnet</div>
+        <div class="tool-desc">이전 세대 중 최강. Artifacts 기능으로 결과물 즉시 렌더링.</div>
+      </div>
+    </div>
+
+    <h2>장점 ✅</h2>
+    <ul>
+      <li><strong>코딩 정확도 1위</strong> — 복잡한 버그 수정, 리팩토링, 전체 앱 생성 모두 최상위</li>
+      <li><strong>한국어 이해도 최강</strong> — "토스 스타일로", "깔끔하게" 같은 뉘앙스를 정확히 파악</li>
+      <li><strong>긴 대화 맥락 유지</strong> — 200K 토큰으로 긴 세션에서도 앞 내용 잊지 않음</li>
+      <li><strong>CLAUDE.md 지원</strong> — 프로젝트 규칙 파일을 매 대화마다 자동 참조</li>
+      <li><strong>Projects 기능</strong> — 파일 업로드 + 커스텀 지시사항 저장</li>
+      <li><strong>Artifacts</strong> — HTML·React·SVG 코드 작성 시 우측에 바로 렌더링 미리보기</li>
+      <li><strong>MCP 연동</strong> — Supabase·GitHub·Figma 등 외부 도구와 직접 연결</li>
+    </ul>
+
+    <h2>단점 ❌</h2>
+    <ul>
+      <li>이미지 생성 불가 (텍스트·코드 전용)</li>
+      <li>웹 검색은 별도 툴 연결 필요 (기본 비활성)</li>
+      <li>API 비용이 GPT-4o 대비 다소 높음</li>
+      <li>무료 플랜에서 하루 사용량 한도가 빠르게 소진됨</li>
+    </ul>
+
+    <h2>개발 활용법 💻</h2>
+    <h3>1. Cursor + Claude = 바이브코딩 최강 조합</h3>
+    <ol class="step-list">
+      <li><div><strong>Cursor 설치 → Settings → Models → claude-3.7-sonnet 선택</strong></div></li>
+      <li><div><strong>프로젝트 루트에 CLAUDE.md 작성</strong><br>
+        <div class="prompt-box"># 프로젝트 규칙
+- 색상: #FF6B00 (주황), 파랑 사용 금지
+- 스타일: border-left 장식 없음, shadow 최소화
+- 커밋 없이 배포 금지
+- 한국어로 답변</div>
+      </div></li>
+      <li><div><strong>Ctrl+K로 인라인 수정, Ctrl+L로 채팅 시작</strong></div></li>
+      <li><div><strong>Composer(Ctrl+I)로 여러 파일 동시 수정</strong></div></li>
+    </ol>
+
+    <h3>2. Claude.ai Artifacts로 즉시 미리보기</h3>
+    <div class="prompt-box">다음 조건의 대시보드 UI 만들어줘:
+- KPI 카드 4개 (방문, CS, 수금, 계약)
+- 반응형, 주황 포인트 컬러
+- HTML + 인라인 CSS (단일 파일)
+Artifacts로 렌더링해줘.</div>
+
+    <h3>3. Projects로 코드베이스 기억</h3>
+    <p>claude.ai → Projects → 새 프로젝트 → 파일 업로드 → "이 프로젝트의 주요 파일들이야. 질문할 때마다 참고해줘." 설정 후 매 대화에서 파일 맥락 유지.</p>
+
+    <h2>디자인 활용법 🎨</h2>
+    <h3>UI 컴포넌트 코드 생성</h3>
+    <div class="prompt-box">토스 디자인 시스템 기반의 모달 컴포넌트 만들어줘.
+- 헤더: 제목 + 닫기 버튼(X)
+- 바디: 자유 슬롯
+- 푸터: 취소(ghost) + 확인(primary) 버튼
+- 애니메이션: 위에서 내려오는 슬라이드
+- 바텀시트 모바일 변형 포함
+HTML + CSS (Tailwind 없이)</div>
+
+    <h3>디자인 시스템 문서화</h3>
+    <div class="prompt-box">우리 프로젝트 CSS 변수들 보고 디자인 토큰 문서 만들어줘.
+마크다운 형식으로, 각 변수 설명·사용 예시 포함.</div>
+
+    <h2>참고 링크</h2>
+    <ul class="links-list">
+      <li><span>🌐</span><div><a href="https://claude.ai" target="_blank">Claude.ai</a><div class="link-desc">바로 사용하기 (무료 플랜 있음)</div></div></li>
+      <li><span>🌐</span><div><a href="https://console.anthropic.com" target="_blank">Anthropic Console</a><div class="link-desc">API 키 발급, 사용량 관리</div></div></li>
+      <li><span>🌐</span><div><a href="https://docs.anthropic.com" target="_blank">Claude API 공식 문서</a><div class="link-desc">API 사용법, 프롬프트 가이드</div></div></li>
+      <li><span>🌐</span><div><a href="https://cursor.com" target="_blank">Cursor IDE</a><div class="link-desc">Claude 내장 코드 에디터</div></div></li>
+    </ul>
+
+  </div>
+</div>
+`,
+
+"ai-hermes": `
+<div class="study-view-wrap">
+  <div class="study-view-header">
+    <div class="study-view-title">Hermes (Nous Research) 🦅</div>
+    <div class="study-view-meta">
+      <span class="study-view-category">AI 에이전트</span>
+      <span class="tag">오픈소스</span>
+      <span class="tag">로컬</span>
+      <span class="tag">Ollama</span>
+      <span class="study-view-date">2026-05-30</span>
+    </div>
+  </div>
+  <div class="study-content">
+
+    <h2>개요</h2>
+    <p><strong>Hermes</strong>는 Nous Research가 Meta의 Llama 모델을 기반으로 파인튜닝한 <strong>오픈소스 AI</strong>입니다. 가장 큰 특징은 <strong>완전 로컬 실행</strong> — 인터넷 없이, 클라우드 없이, 데이터 유출 없이 내 컴퓨터에서 구동됩니다. <strong>Ollama</strong>를 통해 한 줄 명령으로 설치·실행 가능하며, Cursor·VS Code에 로컬 AI로 연결할 수 있습니다.</p>
+    <div class="tip-box">
+      <strong>📌 핵심:</strong> 완전 무료 + 프라이버시 100% + 오프라인 사용. 민감한 코드베이스나 보안이 중요한 프로젝트에 최적.
+    </div>
+
+    <h2>Hermes 모델 종류</h2>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-name">Hermes 3 (8B)</div>
+        <div class="tool-desc">가볍고 빠름. RAM 8GB로 실행 가능. 일상 코딩 어시스턴트.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Hermes 3 (70B)</div>
+        <div class="tool-desc">고성능. RAM 40GB+ 필요. Claude 3 Sonnet 수준 코딩 가능.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Hermes 3 (405B)</div>
+        <div class="tool-desc">최강 성능. 서버급 GPU 필요. GPT-4 수준에 근접.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Hermes 2 Pro</div>
+        <div class="tool-desc">Function Calling 특화. API 서버·에이전트 구축에 최적.</div>
+      </div>
+    </div>
+
+    <h2>장점 ✅</h2>
+    <ul>
+      <li><strong>완전 무료</strong> — 모델 파일 다운로드 후 영구 무제한 사용</li>
+      <li><strong>프라이버시 100%</strong> — 코드가 외부 서버로 전송되지 않음. 기업 기밀 코드에 안전</li>
+      <li><strong>오프라인 작동</strong> — 인터넷 없는 환경(비행기, 보안 네트워크)에서도 사용</li>
+      <li><strong>커스터마이징 가능</strong> — 사내 데이터로 파인튜닝하여 도메인 특화 AI 구축</li>
+      <li><strong>API 서버 구동</strong> — Ollama로 OpenAI 호환 로컬 API 서버 가동. 기존 앱에 바로 연결</li>
+      <li><strong>Cursor·VS Code 연동</strong> — 로컬 AI를 Cursor에 연결해 무료 바이브코딩 환경 구축</li>
+    </ul>
+
+    <h2>단점 ❌</h2>
+    <ul>
+      <li>클라우드 AI 대비 성능 격차 존재 (특히 8B 모델)</li>
+      <li>최신 정보 없음 (학습 데이터 컷오프 이후 사건 모름)</li>
+      <li>처음 모델 다운로드 시 수 GB (8B: 5GB, 70B: 40GB)</li>
+      <li>GPU 없으면 응답 속도 느림 (CPU 전용 시 8B 기준 초당 5~10 토큰)</li>
+      <li>한국어 데이터가 상대적으로 부족해 한국어 품질 낮음</li>
+    </ul>
+
+    <h2>설치 & 실행 가이드 🛠</h2>
+    <ol class="step-list">
+      <li>
+        <div><strong>Ollama 설치</strong><br>
+        <a href="https://ollama.com" target="_blank" style="color:var(--orange);">ollama.com</a>에서 다운로드 → 설치 완료</div>
+      </li>
+      <li>
+        <div><strong>Hermes 모델 다운로드</strong><br>
+        <div class="prompt-box"># 터미널에서 실행
+ollama pull nous-hermes2          # 7B 모델 (~4GB)
+ollama pull hermes3               # 8B 모델 (~5GB)
+ollama pull nous-hermes2:34b      # 34B 모델 (~20GB)</div>
+        </div>
+      </li>
+      <li>
+        <div><strong>대화 시작</strong><br>
+        <div class="prompt-box">ollama run hermes3
+>>> 안녕, 간단한 투두 앱 HTML로 만들어줘</div>
+        </div>
+      </li>
+      <li>
+        <div><strong>로컬 API 서버 실행</strong><br>
+        <div class="prompt-box"># OpenAI 호환 API 서버 자동 실행 (기본 포트 11434)
+ollama serve
+
+# 테스트
+curl http://localhost:11434/api/generate -d '{
+  "model": "hermes3",
+  "prompt": "Hello, world in Python"
+}'</div>
+        </div>
+      </li>
+      <li>
+        <div><strong>Cursor에 로컬 AI 연결</strong><br>
+        <span style="color:var(--text-secondary);font-size:13px;">Cursor Settings → Models → Add Model → Base URL: <code>http://localhost:11434/v1</code> → Model: hermes3</span>
+        </div>
+      </li>
+    </ol>
+
+    <h2>개발 활용법 💻</h2>
+    <h3>1. 보안 코드 리뷰 (데이터 유출 없이)</h3>
+    <div class="prompt-box">ollama run hermes3
+이 코드의 보안 취약점 찾아줘.
+SQL Injection, XSS, 인증 우회 가능성 중심으로.
+
+[민감한 코드 붙여넣기]</div>
+
+    <h3>2. 오프라인 개발 환경 구축</h3>
+    <p>비행기·지하철·인터넷 불안정 환경에서 Cursor + Hermes(로컬) 조합으로 완전 오프라인 바이브코딩 가능.</p>
+
+    <h3>3. 팀 내 전용 AI 서버</h3>
+    <div class="prompt-box"># 서버(NAS, 회사 PC)에서 Ollama 실행
+OLLAMA_HOST=0.0.0.0 ollama serve
+
+# 팀원들이 사내망에서 접속
+# http://192.168.1.100:11434</div>
+
+    <h2>디자인 활용법 🎨</h2>
+    <p>Hermes는 이미지 생성 기능이 없지만, <strong>UI 코드 생성</strong>에 활용할 수 있습니다. 특히 민감한 내부 디자인 시스템이나 브랜드 가이드라인 작업 시 데이터가 외부로 나가지 않아 안전합니다.</p>
+    <div class="prompt-box">우리 내부 디자인 토큰을 기반으로 버튼 컴포넌트 만들어줘.
+[내부 CSS 변수 붙여넣기 — 외부 유출 걱정 없음]
+
+Primary, Ghost, Danger 3가지 variant
+Hover, Focus, Disabled 상태 포함</div>
+
+    <h2>추천 사용 시나리오</h2>
+    <ul>
+      <li>✅ 기업 내부 코드베이스 리뷰 (보안 정책 준수)</li>
+      <li>✅ 인터넷 없는 환경에서 개발 (출장, 비행기)</li>
+      <li>✅ API 비용 절감 (팀 내 공유 로컬 서버)</li>
+      <li>✅ AI 모델 커스터마이징 학습 및 실험</li>
+      <li>❌ 최신 라이브러리·프레임워크 질문 (학습 데이터 오래됨)</li>
+      <li>❌ 복잡한 풀스택 앱 단독 생성 (8B 모델 기준)</li>
+    </ul>
+
+    <h2>참고 링크</h2>
+    <ul class="links-list">
+      <li><span>🌐</span><div><a href="https://ollama.com" target="_blank">Ollama 공식 사이트</a><div class="link-desc">설치 및 모델 라이브러리</div></div></li>
+      <li><span>🌐</span><div><a href="https://ollama.com/library/hermes3" target="_blank">Hermes 3 — Ollama 라이브러리</a><div class="link-desc">모델 다운로드 및 설명</div></div></li>
+      <li><span>🌐</span><div><a href="https://huggingface.co/NousResearch" target="_blank">Nous Research — HuggingFace</a><div class="link-desc">전체 모델 목록 및 논문</div></div></li>
+      <li><span>🌐</span><div><a href="https://github.com/ollama/ollama" target="_blank">Ollama GitHub</a><div class="link-desc">오픈소스 코드 및 이슈 트래커</div></div></li>
+    </ul>
 
   </div>
 </div>
