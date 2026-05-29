@@ -1,521 +1,919 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nroad education</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --blue: #3182f6; --blue-bg: #e8f3ff; --blue-hover: #c9e2ff;
-      --g50: #f9fafb; --g100: #f2f4f6; --g200: #e5e8eb;
-      --g300: #d1d6db; --g400: #b0b8c1; --g500: #8b95a1;
-      --g600: #6b7684; --g700: #4e5968; --g800: #333d4b; --g900: #191f28;
-      --sidebar-w: 272px;
-    }
-    body {
-      font-family: 'Noto Sans KR', -apple-system, sans-serif;
-      background: var(--g100); color: var(--g900);
-      display: flex; flex-direction: column; height: 100vh; overflow: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>nroad education — Design Library</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --orange: #FF6B00;
+  --orange-light: #FFF4EC;
+  --orange-dark: #E55A00;
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --text-tertiary: #9CA3AF;
+  --surface: #FFFFFF;
+  --bg: #FAFAFA;
+  --border: #E5E5E5;
+  --radius: 8px;
+  --radius-sm: 6px;
+  --header-h: 52px;
+  --sidebar-w: 220px;
+}
+body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text-primary); line-height: 1.5; overflow: hidden; }
 
-    /* ── Header */
-    header {
-      height: 52px; background: #fff; border-bottom: 1px solid var(--g200);
-      display: flex; align-items: center; padding: 0 20px; gap: 10px;
-      flex-shrink: 0; z-index: 20;
-    }
-    .logo { font-size: 15px; font-weight: 700; color: var(--blue); }
-    .logo span { color: var(--g900); }
-    .logo-badge {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.4px;
-      background: var(--blue-bg); color: var(--blue);
-      border-radius: 5px; padding: 2px 7px; text-transform: uppercase;
-    }
+/* HEADER */
+.header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px 0 16px;
+  z-index: 100;
+}
+.header-left { display: flex; align-items: center; gap: 10px; }
+.header-logo { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; color: var(--text-primary); }
+.header-logo span { color: var(--orange); }
+.header-tag {
+  font-size: 11px; font-weight: 600;
+  padding: 3px 9px; border-radius: 999px;
+  background: var(--orange-light); color: var(--orange);
+}
+.header-right { display: flex; align-items: center; gap: 8px; }
+.btn { font-family: inherit; cursor: pointer; font-size: 13px; font-weight: 600; border-radius: var(--radius-sm); transition: background 0.1s, color 0.1s; }
+.btn-primary { background: var(--orange); color: #fff; border: none; padding: 7px 14px; }
+.btn-primary:hover { background: var(--orange-dark); }
+.btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); padding: 7px 14px; }
+.btn-ghost:hover { background: var(--bg); color: var(--text-primary); }
+.btn-sm { font-size: 12px; padding: 5px 10px; }
 
-    /* ── Layout */
-    .layout { display: flex; flex: 1; overflow: hidden; }
+/* LAYOUT */
+.layout {
+  display: flex;
+  margin-top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  overflow: hidden;
+}
 
-    /* ── Sidebar */
-    aside {
-      width: var(--sidebar-w); background: #fff;
-      border-right: 1px solid var(--g200);
-      display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden;
-    }
+/* SIDEBAR */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.sidebar-search-wrap { padding: 10px 10px 6px; flex-shrink: 0; }
+.sidebar-search {
+  width: 100%; padding: 7px 10px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-size: 12px; font-family: inherit;
+  background: var(--bg); color: var(--text-primary);
+  outline: none;
+}
+.sidebar-search:focus { border-color: var(--orange); }
+.sidebar-scroll { flex: 1; overflow-y: auto; }
+.section-label-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 12px 4px;
+}
+.section-label {
+  font-size: 10px; font-weight: 700; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.6px;
+}
+.section-add-btn {
+  font-size: 14px; line-height: 1; color: var(--text-tertiary);
+  border: none; background: none; cursor: pointer; padding: 2px 5px; border-radius: 4px;
+}
+.section-add-btn:hover { color: var(--orange); background: var(--orange-light); }
 
-    .search-box {
-      padding: 10px 12px; border-bottom: 1px solid var(--g200); flex-shrink: 0;
-    }
-    .search-box input {
-      width: 100%; height: 32px; background: var(--g100);
-      border: none; border-radius: 7px; padding: 0 10px;
-      font-size: 12px; font-family: inherit; color: var(--g900); outline: none;
-    }
-    .search-box input::placeholder { color: var(--g500); }
-    .search-box input:focus { box-shadow: 0 0 0 2px var(--blue); }
+/* brand items */
+.brand-row {
+  display: flex; align-items: center; gap: 8px;
+  height: 44px; padding: 0 10px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background 0.1s;
+}
+.brand-row:hover { background: var(--bg); }
+.brand-row.active { background: var(--orange-light); border-left-color: var(--orange); }
+.brand-avatar {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #E5E5E5; color: var(--text-secondary);
+  font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; text-transform: uppercase;
+}
+.brand-row.active .brand-avatar { background: var(--orange); color: #fff; }
+.brand-name-text { font-size: 13px; color: var(--text-secondary); flex: 1; }
+.brand-row.active .brand-name-text { color: var(--text-primary); font-weight: 600; }
+.brand-chevron { font-size: 10px; color: var(--text-tertiary); transition: transform 0.15s; display: inline-block; }
+.brand-chevron.open { transform: rotate(90deg); }
+.brand-children { overflow: hidden; }
+.brand-child {
+  display: flex; align-items: center;
+  height: 32px; padding-left: 40px; padding-right: 10px;
+  font-size: 12px; color: var(--text-secondary);
+  cursor: pointer;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: background 0.1s;
+}
+.brand-child:hover { background: var(--bg); color: var(--text-primary); }
+.brand-child.disabled { color: var(--text-tertiary); cursor: default; pointer-events: none; }
+.brand-child .ext-ico { font-size: 10px; margin-left: 3px; opacity: 0.6; }
 
-    .nav-tree { overflow-y: auto; flex: 1; }
+/* sample items */
+.sample-add-row {
+  display: flex; align-items: center;
+  height: 36px; padding: 0 10px;
+  cursor: pointer;
+  font-size: 12px; color: var(--text-tertiary);
+  border-left: 2px solid transparent;
+  transition: background 0.1s;
+  gap: 6px;
+}
+.sample-add-row:hover { background: var(--bg); color: var(--orange); }
+.sample-row {
+  display: flex; align-items: center;
+  height: 40px; padding: 0 10px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background 0.1s;
+  gap: 8px;
+}
+.sample-row:hover { background: var(--bg); }
+.sample-row.active { background: var(--orange-light); border-left-color: var(--orange); }
+.sample-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+.sample-row.active .sample-dot { background: var(--orange); }
+.sample-name-text { font-size: 13px; color: var(--text-secondary); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sample-row.active .sample-name-text { color: var(--text-primary); font-weight: 600; }
 
-    /* ── Depth 1: Category */
-    .d1-item {
-      display: flex; align-items: center; gap: 9px;
-      padding: 0 14px; height: 44px; cursor: pointer;
-      border-bottom: 1px solid var(--g100);
-      user-select: none;
-    }
-    .d1-item:hover { background: var(--g50); }
-    .d1-icon { font-size: 15px; flex-shrink: 0; }
-    .d1-label {
-      flex: 1; font-size: 13px; font-weight: 700;
-      color: var(--g900); letter-spacing: -0.2px;
-    }
-    .d1-arrow {
-      font-size: 9px; color: var(--g400);
-      transition: transform 0.15s;
-    }
-    .d1-item.open .d1-arrow { transform: rotate(90deg); }
-    .d1-item.open { background: var(--g50); }
-    .d1-count {
-      font-size: 10px; font-weight: 600; color: var(--g500);
-      background: var(--g100); border-radius: 10px;
-      padding: 1px 6px; flex-shrink: 0;
-    }
+/* MAIN */
+.main { flex: 1; overflow-y: auto; }
 
-    .d1-body { display: none; }
-    .d1-body.open { display: block; }
+/* empty state */
+.empty-state {
+  height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 10px; color: var(--text-tertiary);
+}
+.empty-icon { font-size: 40px; opacity: 0.4; }
+.empty-title { font-size: 16px; font-weight: 700; color: var(--text-secondary); }
+.empty-desc { font-size: 13px; text-align: center; max-width: 240px; line-height: 1.6; }
 
-    /* ── Depth 2: Brand / Sub-section */
-    .d2-item {
-      display: flex; align-items: center; gap: 8px;
-      padding: 0 12px 0 28px; height: 36px; cursor: pointer;
-      font-size: 12px; font-weight: 500; color: var(--g700);
-      user-select: none;
-    }
-    .d2-item:hover { background: var(--g50); }
-    .d2-item.open { color: var(--g900); font-weight: 600; }
-    .d2-icon {
-      width: 20px; height: 20px; border-radius: 4px;
-      background: var(--g100); display: flex; align-items: center;
-      justify-content: center; font-size: 10px; font-weight: 700;
-      color: var(--g600); flex-shrink: 0; text-transform: uppercase;
-    }
-    .d2-item.open .d2-icon { background: var(--g900); color: #fff; }
-    .d2-label { flex: 1; }
-    .d2-arrow {
-      font-size: 9px; color: var(--g400);
-      transition: transform 0.15s;
-    }
-    .d2-item.open .d2-arrow { transform: rotate(90deg); }
+/* panels */
+.panel { padding: 28px 32px; }
+.panel-title { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; margin-bottom: 4px; }
+.panel-desc { font-size: 13px; color: var(--text-tertiary); margin-bottom: 24px; }
+.panel-actions { display: flex; gap: 8px; margin-top: 20px; }
 
-    .d2-body { display: none; }
-    .d2-body.open { display: block; }
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; display: block; }
+.form-input, .form-textarea {
+  width: 100%; padding: 9px 12px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-size: 13px; font-family: inherit; color: var(--text-primary);
+  background: var(--surface); outline: none;
+  transition: border-color 0.15s;
+}
+.form-input:focus, .form-textarea:focus { border-color: var(--orange); }
+.form-textarea { resize: vertical; min-height: 80px; }
+.form-textarea.code { font-family: 'Consolas', 'Monaco', monospace; font-size: 12px; min-height: 220px; }
 
-    /* ── Depth 3: Actions */
-    .d3-item {
-      display: flex; align-items: center; gap: 7px;
-      padding: 0 12px 0 52px; height: 32px; cursor: pointer;
-      font-size: 11px; color: var(--g600);
-      border-left: 2px solid transparent;
-      user-select: none;
-    }
-    .d3-item:hover { background: var(--g50); color: var(--g800); }
-    .d3-item.active {
-      background: var(--blue-bg); color: var(--blue);
-      border-left-color: var(--blue); font-weight: 600;
-    }
-    .d3-icon { font-size: 11px; flex-shrink: 0; }
+.tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.tag {
+  font-size: 11px; font-weight: 600;
+  padding: 3px 9px; border-radius: 999px;
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
 
-    /* empty depth2 */
-    .d2-empty {
-      padding: 14px 28px 16px;
-      font-size: 12px; color: var(--g400); font-style: italic;
-    }
-    .no-result { padding: 16px 14px; font-size: 12px; color: var(--g500); text-align: center; }
+/* brand edit panel */
+.brand-edit-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.brand-edit-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--orange); color: #fff;
+  font-size: 16px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  text-transform: uppercase; flex-shrink: 0;
+}
+.url-field-wrap { position: relative; }
+.url-field-wrap .form-input { padding-right: 36px; }
+.url-open-btn {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  font-size: 14px; background: none; border: none; cursor: pointer;
+  color: var(--text-tertiary); padding: 2px;
+}
+.url-open-btn:hover { color: var(--orange); }
 
-    /* ── Main */
-    main { flex: 1; overflow: hidden; position: relative; background: var(--g100); }
+/* sample view */
+.sample-view-wrap { display: flex; flex-direction: column; height: 100%; }
+.sample-view-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.sample-iframe {
+  flex: 1; width: 100%; border: none; display: block;
+}
+.sample-view-btns { display: flex; gap: 8px; flex-shrink: 0; margin-left: 16px; }
 
-    .empty-state {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      height: 100%; color: var(--g400); gap: 10px;
-    }
-    .empty-state .eicon { font-size: 36px; }
-    .empty-state .etitle { font-size: 14px; font-weight: 600; color: var(--g600); }
-    .empty-state .esub { font-size: 12px; color: var(--g400); }
-
-    /* iframe */
-    #site-frame { width: 100%; height: 100%; border: none; display: none; }
-    #site-frame.visible { display: block; }
-
-    /* iframe blocked */
-    .blocked-wrap {
-      display: none; flex-direction: column;
-      align-items: center; justify-content: center;
-      height: 100%; gap: 14px;
-    }
-    .blocked-wrap.visible { display: flex; }
-    .blocked-wrap .b-icon { font-size: 44px; }
-    .blocked-wrap p { font-size: 13px; color: var(--g500); }
-    .open-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--blue); color: #fff; font-size: 13px; font-weight: 600;
-      border-radius: 9px; padding: 10px 18px; text-decoration: none;
-      font-family: inherit; border: none; cursor: pointer;
-    }
-    .open-btn:hover { background: #2272eb; }
-
-    /* toast */
-    .toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-      background: var(--g900); color: #fff; font-size: 12px; font-weight: 500;
-      border-radius: 9px; padding: 10px 18px;
-      display: flex; align-items: center; gap: 7px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-      opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 999;
-    }
-    .toast.show { opacity: 1; }
-  </style>
+/* divider */
+.divider { height: 1px; background: var(--border); margin: 8px 10px; }
+</style>
 </head>
 <body>
 
-<header>
-  <span class="logo">nroad <span>education</span></span>
-  <span class="logo-badge">AI Learning</span>
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">nroad <span>education</span></div>
+    <div class="header-tag">AI Learning</div>
+  </div>
+  <div class="header-right">
+    <button class="btn btn-ghost btn-sm" id="btn-import">JSON 가져오기</button>
+    <input type="file" id="import-file-input" accept=".json" style="display:none">
+    <button class="btn btn-primary btn-sm" id="btn-export">JSON 내보내기</button>
+  </div>
 </header>
 
+<!-- LAYOUT -->
 <div class="layout">
-  <aside>
-    <div class="search-box">
-      <input type="text" id="search" placeholder="검색..." autocomplete="off" />
+  <aside class="sidebar">
+    <div class="sidebar-search-wrap">
+      <input class="sidebar-search" type="text" id="search-input" placeholder="브랜드 · 샘플 검색...">
     </div>
-    <div class="nav-tree" id="navTree"></div>
+    <div class="sidebar-scroll">
+      <div class="section-label-row">
+        <span class="section-label">브랜드 레퍼런스</span>
+        <button class="section-add-btn" id="btn-add-brand" title="브랜드 추가">＋</button>
+      </div>
+      <div id="brand-list"></div>
+      <div class="divider"></div>
+      <div class="section-label-row">
+        <span class="section-label">커스텀 샘플</span>
+      </div>
+      <div class="sample-add-row" id="btn-add-sample">
+        <span style="font-size:15px; line-height:1;">＋</span>
+        <span>새 샘플 추가</span>
+      </div>
+      <div id="sample-list"></div>
+    </div>
   </aside>
 
-  <main id="main">
-    <div class="empty-state" id="emptyState">
-      <div class="eicon">🎓</div>
-      <div class="etitle">nroad education</div>
-      <div class="esub">왼쪽에서 항목을 선택하세요</div>
-    </div>
-    <iframe id="site-frame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
-    <div class="blocked-wrap" id="blockedWrap">
-      <div class="b-icon">🔒</div>
-      <p id="blockedMsg">이 사이트는 iframe 표시를 허용하지 않습니다.</p>
-      <a id="openExternal" class="open-btn" href="#" target="_blank">↗ 새 탭으로 열기</a>
+  <main class="main" id="main-panel">
+    <div class="empty-state">
+      <div class="empty-icon">🎨</div>
+      <div class="empty-title">디자인 라이브러리</div>
+      <div class="empty-desc">좌측에서 브랜드나 샘플을 선택하거나, 새 항목을 추가해보세요.</div>
     </div>
   </main>
 </div>
 
-<div class="toast" id="toast">⬇️ <span id="toastMsg"></span></div>
-
 <script>
-/* ─────────────────────────────
-   데이터
-───────────────────────────── */
-const designBrands = {
-  "airbnb":      "https://airbnb.com",
-  "airtable":    "https://airtable.com",
-  "apple":       "https://apple.com",
-  "binance":     "https://binance.com",
-  "bmw":         "https://bmw.com",
-  "bmw-m":       "https://www.bmw.com/en/bmw-models/bmw-m.html",
-  "bugatti":     "https://bugatti.com",
-  "cal":         "https://cal.com",
-  "claude":      "https://claude.ai",
-  "clay":        "https://clay.com",
-  "clickhouse":  "https://clickhouse.com",
-  "cohere":      "https://cohere.com",
-  "coinbase":    "https://coinbase.com",
-  "composio":    "https://composio.dev",
-  "cursor":      "https://cursor.com",
-  "elevenlabs":  "https://elevenlabs.io",
-  "expo":        "https://expo.dev",
-  "ferrari":     "https://ferrari.com",
-  "figma":       "https://figma.com",
-  "framer":      "https://framer.com",
-  "hashicorp":   "https://hashicorp.com",
-  "ibm":         "https://ibm.com",
-  "intercom":    "https://intercom.com",
-  "kraken":      "https://kraken.com",
-  "lamborghini": "https://lamborghini.com",
-  "linear.app":  "https://linear.app",
-  "lovable":     "https://lovable.dev",
-  "mastercard":  "https://mastercard.com",
-  "meta":        "https://meta.com",
-  "minimax":     "https://minimaxi.com",
-  "mintlify":    "https://mintlify.com",
-  "miro":        "https://miro.com",
-  "mistral.ai":  "https://mistral.ai",
-  "mongodb":     "https://mongodb.com",
-  "nike":        "https://nike.com",
-  "notion":      "https://notion.so",
-  "nvidia":      "https://nvidia.com",
-  "ollama":      "https://ollama.com",
-  "opencode.ai": "https://opencode.ai",
-  "pinterest":   "https://pinterest.com",
-  "playstation": "https://playstation.com",
-  "posthog":     "https://posthog.com",
-  "raycast":     "https://raycast.com",
-  "renault":     "https://renault.com",
-  "replicate":   "https://replicate.com",
-  "resend":      "https://resend.com",
-  "revolut":     "https://revolut.com",
-  "runwayml":    "https://runwayml.com",
-  "sanity":      "https://sanity.io",
-  "sentry":      "https://sentry.io",
-  "shopify":     "https://shopify.com",
-  "slack":       "https://slack.com",
-  "spacex":      "https://spacex.com",
-  "spotify":     "https://spotify.com",
-  "starbucks":   "https://starbucks.com",
-  "stripe":      "https://stripe.com",
-  "supabase":    "https://supabase.com",
-  "superhuman":  "https://superhuman.com",
-  "tesla":       "https://tesla.com",
-  "theverge":    "https://theverge.com",
-  "together.ai": "https://together.ai",
-  "toss":        "https://toss.im",
-  "uber":        "https://uber.com",
-  "vercel":      "https://vercel.com",
-  "vodafone":    "https://vodafone.com",
-  "voltagent":   "https://voltagent.dev",
-  "warp":        "https://warp.dev",
-  "webflow":     "https://webflow.com",
-  "wired":       "https://wired.com",
-  "wise":        "https://wise.com",
-  "x.ai":        "https://x.ai",
-  "zapier":      "https://zapier.com",
-};
+// ── DATA ──────────────────────────────────────────────
+const DEFAULT_BRANDS = [
+  "airbnb","airtable","apple","binance","bmw","bmw-m","bugatti","cal","claude","clay","clickhouse"
+].map(id => ({ id, name: id, designDocUrl: "", siteUrl: "", notes: "" }));
 
-// ── 구현 샘플 데이터 (추가/수정 시 여기만 편집)
-const mySamples = [
-  // { id: 'toss-card', label: 'Toss-Card', icon: '💳', previewUrl: 'samples/toss-card.html' },
-  // { id: 'clean-dashboard', label: 'Clean-Dashboard', icon: '📊', previewUrl: 'samples/clean-dashboard.html' },
-  // 새 샘플 추가: { id: '파일명', label: '표시이름', icon: '이모지', previewUrl: 'samples/파일명.html' }
-];
+// The embedded sample HTML (stored as a JS variable to avoid escaping issues)
+const CLEAN_DASHBOARD_HTML = (function(){
+const t = [];
+t.push('<!DOCTYPE html>');
+t.push('<html lang="ko">');
+t.push('<head>');
+t.push('<meta charset="UTF-8">');
+t.push('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
+t.push('<title>TMS Dashboard — 클린 샘플</title>');
+t.push('<style>');
+t.push("  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');");
+t.push('  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }');
+t.push('  :root {');
+t.push('    --orange: #FF6B00; --orange-light: #FFF4EC; --orange-dark: #E55A00;');
+t.push('    --text-primary: #111827; --text-secondary: #6B7280; --text-tertiary: #9CA3AF;');
+t.push('    --surface: #FFFFFF; --bg: #F7F8FA; --border: #E5E7EB; --border-light: #F0F1F3;');
+t.push('    --success: #12B76A; --danger: #F04452; --warning: #F59E0B;');
+t.push('    --radius: 10px; --radius-sm: 6px;');
+t.push('    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 0 1px rgba(0,0,0,0.04);');
+t.push('  }');
+t.push("  body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--bg); color: var(--text-primary); line-height: 1.5; }");
+t.push('  .app { display: flex; height: 100vh; overflow: hidden; }');
+t.push('  .sidebar { width: 220px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }');
+t.push('  .sidebar-header { padding: 16px 18px; border-bottom: 1px solid var(--border-light); }');
+t.push('  .sidebar-brand { display: flex; align-items: center; gap: 9px; }');
+t.push('  .sidebar-brand-icon { width: 30px; height: 30px; border-radius: 7px; background: var(--orange); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }');
+t.push('  .brand-name { font-size: 14px; font-weight: 800; color: var(--text-primary); }');
+t.push('  .brand-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 1px; }');
+t.push('  .sidebar-nav { padding: 8px 0; flex: 1; }');
+t.push('  .nav-section-label { font-size: 10px; font-weight: 700; color: var(--text-tertiary); padding: 10px 18px 4px; text-transform: uppercase; letter-spacing: 0.6px; }');
+t.push('  .nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 18px; font-size: 13px; color: var(--text-secondary); cursor: pointer; border-left: 2px solid transparent; transition: background 0.1s; }');
+t.push('  .nav-item:hover { background: var(--bg); color: var(--text-primary); }');
+t.push('  .nav-item.active { color: var(--orange); font-weight: 600; border-left-color: var(--orange); background: var(--orange-light); }');
+t.push('  .nav-item .ico { width: 16px; text-align: center; font-size: 14px; opacity: 0.7; }');
+t.push('  .nav-item.active .ico { opacity: 1; }');
+t.push('  .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 56px; flex-shrink: 0; }');
+t.push('  .page-breadcrumb { font-size: 14px; font-weight: 600; }');
+t.push('  .topbar-right { display: flex; align-items: center; gap: 8px; }');
+t.push('  .topbar-btn { width: 34px; height: 34px; border-radius: 50%; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--text-secondary); }');
+t.push('  .topbar-btn:hover { background: var(--bg); }');
+t.push('  .user-pill { display: flex; align-items: center; gap: 8px; padding: 5px 12px 5px 5px; background: var(--bg); border-radius: 999px; cursor: pointer; }');
+t.push('  .user-pill:hover { background: var(--border); }');
+t.push('  .user-av { width: 28px; height: 28px; border-radius: 50%; background: var(--orange); color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }');
+t.push('  .user-name { font-size: 13px; font-weight: 600; }');
+t.push('  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }');
+t.push('  .page { padding: 28px 32px; }');
+t.push('  .page-title { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; }');
+t.push('  .page-desc { font-size: 13px; color: var(--text-tertiary); margin-top: 4px; }');
+t.push('  .section-header { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; margin-top: 28px; }');
+t.push('  .section-title { font-size: 14px; font-weight: 700; }');
+t.push('  .section-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 999px; color: var(--text-secondary); }');
+t.push('  .section-live { font-size: 10px; font-weight: 700; padding: 2px 7px; background: var(--orange-light); color: var(--orange); border-radius: 999px; }');
+t.push('  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 8px; }');
+t.push('  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }');
+t.push('  .kpi-label { font-size: 11px; font-weight: 600; color: var(--text-tertiary); margin-bottom: 8px; }');
+t.push('  .kpi-value { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }');
+t.push('  .kpi-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 999px; margin-top: 6px; }');
+t.push('  .kpi-badge.up { background: #ECFDF5; color: var(--success); }');
+t.push('  .kpi-badge.down { background: #FEF2F2; color: var(--danger); }');
+t.push('  .kpi-badge.neutral { background: var(--bg); color: var(--text-tertiary); }');
+t.push('  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }');
+t.push('  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }');
+t.push('  .card-title { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }');
+t.push('  .card-subtitle { font-size: 11px; color: var(--text-tertiary); margin-bottom: 14px; }');
+t.push('  .stat-rows { display: flex; flex-direction: column; gap: 0; }');
+t.push('  .stat-group-label { font-size: 10px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px; margin: 10px 0 4px; padding-bottom: 4px; border-bottom: 1px solid var(--border-light); }');
+t.push('  .stat-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--border-light); }');
+t.push('  .stat-row:last-child { border-bottom: none; }');
+t.push('  .stat-label { font-size: 12px; color: var(--text-secondary); }');
+t.push('  .stat-val { font-size: 13px; font-weight: 600; }');
+t.push('  .stat-val.zero { color: var(--text-tertiary); font-weight: 400; }');
+t.push('  .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 5px; }');
+t.push('  .dot.pending { background: var(--text-tertiary); }');
+t.push('  .dot.active { background: var(--orange); }');
+t.push('  .dot.done { background: var(--success); }');
+t.push('  .dot.alert { background: var(--danger); }');
+t.push('  .schedule-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }');
+t.push('  .schedule-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }');
+t.push('  .schedule-card-title { font-size: 12px; font-weight: 700; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; margin-bottom: 10px; }');
+t.push('  .schedule-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border-light); font-size: 12px; }');
+t.push('  .schedule-row:last-child { border-bottom: none; }');
+t.push('  .schedule-row-label { color: var(--text-secondary); }');
+t.push('  .schedule-row-val { font-weight: 600; }');
+t.push('  .btn-primary { background: var(--orange); color: white; border: none; padding: 8px 18px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }');
+t.push('  .btn-primary:hover { background: var(--orange-dark); }');
+t.push('  .divider { height: 1px; background: var(--border-light); margin: 28px 0; }');
+t.push('  .sample-banner { background: var(--text-primary); color: white; padding: 10px 32px; font-size: 12px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }');
+t.push('  .sample-banner strong { color: var(--orange); }');
+t.push('  @media (max-width: 1100px) { .team-grid, .schedule-grid, .kpi-grid { grid-template-columns: repeat(2, 1fr); } }');
+t.push('</style>');
+t.push('</head>');
+t.push('<body>');
+t.push('<div class="sample-banner">');
+t.push('  <span>🎨 <strong>클린 디자인 샘플</strong> — border-left 제거 · 그림자 최소화 · 주황은 포인트만</span>');
+t.push('  <span style="opacity:0.6;">실제 TMS에 적용하려면 성재님 확인 후 진행</span>');
+t.push('</div>');
+t.push('<div class="app">');
+t.push('  <aside class="sidebar">');
+t.push('    <div class="sidebar-header">');
+t.push('      <div class="sidebar-brand">');
+t.push('        <div class="sidebar-brand-icon">PP</div>');
+t.push('        <div>');
+t.push('          <div class="brand-name">페이플레이 <span style="color:var(--orange)">TMS</span></div>');
+t.push('          <div class="brand-sub">업무관리 시스템</div>');
+t.push('        </div>');
+t.push('      </div>');
+t.push('    </div>');
+t.push('    <nav class="sidebar-nav">');
+t.push('      <div class="nav-section-label">회사 정보</div>');
+t.push('      <div class="nav-item"><span class="ico">📢</span> 공지사항</div>');
+t.push('      <div class="nav-item"><span class="ico">🔗</span> 페이플레이 네트워크</div>');
+t.push('      <div class="nav-section-label">CS팀 업무관리</div>');
+t.push('      <div class="nav-item active"><span class="ico">📊</span> 대시보드</div>');
+t.push('      <div class="nav-item"><span class="ico">✅</span> 업무 관리</div>');
+t.push('      <div class="nav-item"><span class="ico">🚐</span> [방문] 신규설치 및 A/S</div>');
+t.push('      <div class="nav-item"><span class="ico">🎧</span> [내부] CS 접수센터</div>');
+t.push('      <div class="nav-item"><span class="ico">📦</span> [택배] 배송/수령 관리</div>');
+t.push('      <div class="nav-item"><span class="ico">📋</span> [계약] 해지/이관/연장</div>');
+t.push('      <div class="nav-section-label">재고 및 수발주 관리</div>');
+t.push('      <div class="nav-item"><span class="ico">헤</span> 재고 관리 현황</div>');
+t.push('      <div class="nav-item"><span class="ico">🏭</span> 제조사 A/S 입고 현황</div>');
+t.push('    </nav>');
+t.push('    <div style="padding:12px; border-top:1px solid var(--border-light);">');
+t.push('      <div style="display:flex; align-items:center; gap:8px; padding:8px 6px; border-radius:8px; cursor:pointer;">');
+t.push('        <div style="width:28px; height:28px; border-radius:50%; background:var(--orange); color:white; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;">성</div>');
+t.push('        <div>');
+t.push('          <div style="font-size:12px; font-weight:700;">김성재</div>');
+t.push('          <div style="font-size:10px; color:var(--text-tertiary);">관리자</div>');
+t.push('        </div>');
+t.push('      </div>');
+t.push('    </div>');
+t.push('  </aside>');
+t.push('  <div class="main">');
+t.push('    <header class="topbar">');
+t.push('      <div class="page-breadcrumb">대시보드</div>');
+t.push('      <div class="topbar-right">');
+t.push('        <button class="topbar-btn">⟳</button>');
+t.push('        <button class="topbar-btn">🔔</button>');
+t.push('        <div class="user-pill">');
+t.push('          <div class="user-av">성</div>');
+t.push('          <span class="user-name">김성재</span>');
+t.push('        </div>');
+t.push('      </div>');
+t.push('    </header>');
+t.push('    <div class="page">');
+t.push('      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">');
+t.push('        <div>');
+t.push('          <h1 class="page-title">대시보드</h1>');
+t.push('          <p class="page-desc">팀별 일일 현황과 내일 일정을 한눈에 확인하세요.</p>');
+t.push('        </div>');
+t.push('        <button class="btn-primary">+ 빠른 등록</button>');
+t.push('      </div>');
+t.push('      <div class="kpi-grid">');
+t.push('        <div class="kpi-card"><div class="kpi-label">오늘 방문·AS</div><div class="kpi-value">7</div><div class="kpi-badge up">▲ 2 어제 대비</div></div>');
+t.push('        <div class="kpi-card"><div class="kpi-label">신규 CS 접수</div><div class="kpi-value">4</div><div class="kpi-badge neutral">— 어제와 동일</div></div>');
+t.push('        <div class="kpi-card"><div class="kpi-label">미처리 업무</div><div class="kpi-value">12</div><div class="kpi-badge down">▼ 3 감소</div></div>');
+t.push('        <div class="kpi-card"><div class="kpi-label">이번 달 계약</div><div class="kpi-value">23</div><div class="kpi-badge up">▲ 5 지난달 대비</div></div>');
+t.push('      </div>');
+t.push('      <div class="section-header"><span class="section-title">팀별 현황</span><span class="section-badge">오늘</span><span class="section-live">● 실시간</span></div>');
+t.push('      <div class="team-grid">');
+t.push('        <div class="card"><div class="card-title"><span>🚐</span> VS팀</div><div class="card-subtitle">현장은 우리가 책임집니다</div><div class="stat-rows"><div class="stat-group-label">신규설치</div><div class="stat-row"><span class="stat-label"><span class="dot pending"></span>예정</span><span class="stat-val">3</span></div><div class="stat-row"><span class="stat-label"><span class="dot active"></span>진행중</span><span class="stat-val" style="color:var(--orange)">1</span></div><div class="stat-row"><span class="stat-label"><span class="dot done"></span>완료</span><span class="stat-val" style="color:var(--success)">2</span></div></div></div>');
+t.push('        <div class="card"><div class="card-title"><span>🎧</span> CS팀</div><div class="card-subtitle">고객 만족이 최우선</div><div class="stat-rows"><div class="stat-group-label">고객문의</div><div class="stat-row"><span class="stat-label">대표번호</span><span class="stat-val">12</span></div><div class="stat-row"><span class="stat-label">카카오톡</span><span class="stat-val">8</span></div><div class="stat-row"><span class="stat-label">별도문의</span><span class="stat-val zero">0</span></div></div></div>');
+t.push('        <div class="card"><div class="card-title"><span>💳</span> 수금/결제</div><div class="card-subtitle">철저한 수금 관리</div><div class="stat-rows"><div class="stat-group-label">결제</div><div class="stat-row"><span class="stat-label"><span class="dot done"></span>완료</span><span class="stat-val" style="color:var(--success)">17</span></div><div class="stat-row"><span class="stat-label"><span class="dot pending"></span>대기</span><span class="stat-val">4</span></div><div class="stat-row"><span class="stat-label"><span class="dot alert"></span>연체</span><span class="stat-val" style="color:var(--danger)">2</span></div></div></div>');
+t.push('        <div class="card"><div class="card-title"><span>⚙️</span> 업무지원</div><div class="card-subtitle">신속한 신규문의 대응</div><div class="stat-rows"><div class="stat-group-label">양도양수</div><div class="stat-row"><span class="stat-label"><span class="dot pending"></span>접수</span><span class="stat-val">2</span></div><div class="stat-row"><span class="stat-label"><span class="dot active"></span>진행중</span><span class="stat-val" style="color:var(--orange)">1</span></div><div class="stat-row"><span class="stat-label"><span class="dot done"></span>완료</span><span class="stat-val zero">0</span></div></div></div>');
+t.push('      </div>');
+t.push('      <div class="divider"></div>');
+t.push('      <div class="section-header"><span class="section-title">내일 일정</span><span class="section-badge">5/29 (금)</span></div>');
+t.push('      <div class="schedule-grid">');
+t.push('        <div class="schedule-card"><div class="schedule-card-title"><span style="color:var(--orange)">📅</span> VS</div><div class="schedule-row"><span class="schedule-row-label">방문일정</span><span class="schedule-row-val">4건</span></div><div class="schedule-row"><span class="schedule-row-label">신규설치</span><span class="schedule-row-val">2건</span></div></div>');
+t.push('        <div class="schedule-card"><div class="schedule-card-title"><span style="color:var(--orange)">📅</span> CS</div><div class="schedule-row"><span class="schedule-row-label">CS 예약</span><span class="schedule-row-val">1건</span></div></div>');
+t.push('        <div class="schedule-card"><div class="schedule-card-title"><span style="color:var(--orange)">📅</span> 수금</div><div class="schedule-row"><span class="schedule-row-label">수금 예정</span><span class="schedule-row-val">3건</span></div></div>');
+t.push('        <div class="schedule-card"><div class="schedule-card-title"><span style="color:var(--orange)">📅</span> 지원</div><div class="schedule-row"><span class="schedule-row-label">미팅</span><span class="schedule-row-val">1건</span></div></div>');
+t.push('      </div>');
+t.push('    </div>');
+t.push('  </div>');
+t.push('</div>');
+t.push('</body>');
+t.push('</html>');
+return t.join('\n');
+})();
 
-// 뎁스 1 카테고리 정의
-const categories = [
+const DEFAULT_SAMPLES = [
   {
-    id: 'study',
-    icon: '📚',
-    label: '개발 스터디',
-    empty: '콘텐츠 준비 중...',
-    d2: []
-  },
-  {
-    id: 'samples',
-    icon: '🖥️',
-    label: '구현 샘플',
-    empty: '샘플을 추가해주세요',
-    d2: mySamples.map(s => ({
-      id: s.id,
-      label: s.label,
-      icon: s.icon || s.label[0].toUpperCase(),
-      d3: [
-        { id: 'preview', icon: '👁️', label: '미리보기', action: () => loadSample(s.previewUrl, s.label) },
-        { id: 'download', icon: '⬇️', label: '파일 다운로드', action: () => downloadSample(s.previewUrl, s.id) },
-      ]
-    }))
-  },
-  {
-    id: 'design',
-    icon: '🎨',
-    label: '개발 디자인',
-    d2: Object.keys(designBrands).map(b => ({
-      id: b,
-      label: b,
-      icon: b[0].toUpperCase(),
-      d3: [
-        { id: 'dl', icon: '⬇️', label: '디자인 레퍼런스', action: () => downloadDesign(b) },
-        { id: 'site', icon: '🌐', label: '레퍼런스 사이트', action: () => loadSite(b) },
-      ]
-    }))
+    id: "clean-dashboard",
+    name: "Clean-Dashboard",
+    desc: "border-left 제거, 그림자 최소화, 주황 포인트만 사용. TMS 대시보드 클린 버전.",
+    tags: ["dashboard", "clean", "toss"],
+    html: CLEAN_DASHBOARD_HTML,
+    createdAt: "2026-05-29"
   }
 ];
 
-/* ─────────────────────────────
-   상태
-───────────────────────────── */
-let openD1 = 'design';
-let openD2 = null;
-let activeKey = null; // `${catId}/${brandId}/${d3Id}`
+// ── STATE ─────────────────────────────────────────────
+let brands = [];
+let samples = [];
+let openBrands = new Set();
+let selectedBrandId = null;
+let selectedSampleId = null;
+let searchQuery = "";
 
-/* ─────────────────────────────
-   렌더
-───────────────────────────── */
-function render(filter = '') {
-  const tree = document.getElementById('navTree');
-  const q = filter.toLowerCase();
+// ── STORAGE ───────────────────────────────────────────
+function loadData() {
+  const b = localStorage.getItem('nroad_brands');
+  const s = localStorage.getItem('nroad_samples');
+  brands = b ? JSON.parse(b) : DEFAULT_BRANDS.map(x => ({...x}));
+  samples = s ? JSON.parse(s) : DEFAULT_SAMPLES.map(x => ({...x}));
+  if (!b) saveBrands();
+  if (!s) saveSamples();
+}
+function saveBrands() { localStorage.setItem('nroad_brands', JSON.stringify(brands)); }
+function saveSamples() { localStorage.setItem('nroad_samples', JSON.stringify(samples)); }
 
-  tree.innerHTML = categories.map(cat => {
-    const isD1Open = openD1 === cat.id;
+// ── UTILS ─────────────────────────────────────────────
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+function escAttr(str) { return escHtml(str); }
+function getInitial(name) { return (name || '?').charAt(0).toUpperCase(); }
 
-    // 검색 필터링
-    const filtered = cat.d2.filter(d2 => !q || d2.label.toLowerCase().includes(q));
-    const show = !q || filtered.length > 0;
-    if (!show) return '';
+// ── RENDER SIDEBAR ────────────────────────────────────
+function renderSidebar() {
+  const q = searchQuery.toLowerCase();
+  const brandList = document.getElementById('brand-list');
+  const sampleList = document.getElementById('sample-list');
 
-    const d2Html = filtered.length === 0
-      ? `<div class="d2-empty">${cat.empty || '항목 없음'}</div>`
-      : filtered.map(d2 => {
-          const isD2Open = openD2 === `${cat.id}/${d2.id}`;
-          const d3Html = d2.d3.map(d3 => {
-            const key = `${cat.id}/${d2.id}/${d3.id}`;
-            return `<div class="d3-item ${activeKey === key ? 'active' : ''}"
-                        onclick="handleD3('${cat.id}','${d2.id}','${d3.id}')">
-                      <span class="d3-icon">${d3.icon}</span>${d3.label}
-                    </div>`;
-          }).join('');
-          return `
-            <div class="d2-item ${isD2Open ? 'open' : ''}"
-                 onclick="toggleD2('${cat.id}','${d2.id}')">
-              <div class="d2-icon">${d2.icon}</div>
-              <span class="d2-label">${d2.label}</span>
-              <span class="d2-arrow">▶</span>
-            </div>
-            <div class="d2-body ${isD2Open ? 'open' : ''}">${d3Html}</div>
-          `;
-        }).join('');
+  const filteredBrands = q ? brands.filter(b => b.name.toLowerCase().includes(q)) : brands;
+  brandList.innerHTML = '';
 
-    return `
-      <div class="d1-item ${isD1Open ? 'open' : ''}" onclick="toggleD1('${cat.id}')">
-        <span class="d1-icon">${cat.icon}</span>
-        <span class="d1-label">${cat.label}</span>
-        ${cat.d2.length ? `<span class="d1-count">${cat.d2.length}</span>` : ''}
-        <span class="d1-arrow">▶</span>
+  filteredBrands.forEach(brand => {
+    const isOpen = openBrands.has(brand.id);
+    const isActive = selectedBrandId === brand.id;
+
+    const item = document.createElement('div');
+    item.className = 'brand-item';
+
+    const row = document.createElement('div');
+    row.className = 'brand-row' + (isActive ? ' active' : '');
+
+    const avatar = document.createElement('div');
+    avatar.className = 'brand-avatar';
+    avatar.textContent = getInitial(brand.name);
+
+    const nameEl = document.createElement('span');
+    nameEl.className = 'brand-name-text';
+    nameEl.textContent = brand.name;
+
+    const chev = document.createElement('span');
+    chev.className = 'brand-chevron' + (isOpen ? ' open' : '');
+    chev.textContent = '▶';
+
+    row.appendChild(avatar);
+    row.appendChild(nameEl);
+    row.appendChild(chev);
+    row.addEventListener('click', () => onBrandRowClick(brand.id));
+
+    const children = document.createElement('div');
+    children.className = 'brand-children';
+    children.style.display = isOpen ? 'block' : 'none';
+
+    // design doc link
+    if (brand.designDocUrl) {
+      const a = document.createElement('a');
+      a.className = 'brand-child';
+      a.href = brand.designDocUrl;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.innerHTML = '디자인 레퍼런스 <span class="ext-ico">↗</span>';
+      children.appendChild(a);
+    } else {
+      const span = document.createElement('span');
+      span.className = 'brand-child disabled';
+      span.textContent = '디자인 레퍼런스';
+      children.appendChild(span);
+    }
+
+    // site link
+    if (brand.siteUrl) {
+      const a = document.createElement('a');
+      a.className = 'brand-child';
+      a.href = brand.siteUrl;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.innerHTML = '레퍼런스 사이트 <span class="ext-ico">↗</span>';
+      children.appendChild(a);
+    } else {
+      const span = document.createElement('span');
+      span.className = 'brand-child disabled';
+      span.textContent = '레퍼런스 사이트';
+      children.appendChild(span);
+    }
+
+    item.appendChild(row);
+    item.appendChild(children);
+    brandList.appendChild(item);
+  });
+
+  const filteredSamples = q ? samples.filter(s => s.name.toLowerCase().includes(q)) : samples;
+  sampleList.innerHTML = '';
+
+  filteredSamples.forEach(sample => {
+    const isActive = selectedSampleId === sample.id;
+    const row = document.createElement('div');
+    row.className = 'sample-row' + (isActive ? ' active' : '');
+
+    const dot = document.createElement('div');
+    dot.className = 'sample-dot';
+
+    const nameEl = document.createElement('span');
+    nameEl.className = 'sample-name-text';
+    nameEl.textContent = sample.name;
+
+    row.appendChild(dot);
+    row.appendChild(nameEl);
+    row.addEventListener('click', () => onSampleClick(sample.id));
+    sampleList.appendChild(row);
+  });
+}
+
+// ── MAIN PANEL ────────────────────────────────────────
+const mainPanel = document.getElementById('main-panel');
+
+function showEmpty() {
+  mainPanel.innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">🎨</div>
+      <div class="empty-title">디자인 라이브러리</div>
+      <div class="empty-desc">좌측에서 브랜드나 샘플을 선택하거나, 새 항목을 추가해보세요.</div>
+    </div>
+  `;
+}
+
+function showBrandEdit(brand, isNew) {
+  const initial = isNew ? '?' : getInitial(brand.name);
+  mainPanel.innerHTML = `
+    <div class="panel">
+      <div class="brand-edit-header">
+        <div class="brand-edit-avatar">${escHtml(initial)}</div>
+        <div>
+          <div style="font-size:18px; font-weight:800;">${isNew ? '새 브랜드 추가' : escHtml(brand.name)}</div>
+          <div style="font-size:12px; color:var(--text-tertiary);">${isNew ? '브랜드 정보를 입력하세요' : '브랜드 정보를 편집합니다'}</div>
+        </div>
       </div>
-      <div class="d1-body ${isD1Open ? 'open' : ''}">${d2Html}</div>
-    `;
-  }).join('');
+      <div class="form-group">
+        <label class="form-label">브랜드 이름</label>
+        <input class="form-input" id="field-name" type="text" value="${isNew ? '' : escAttr(brand.name)}" placeholder="예: airbnb">
+      </div>
+      <div class="form-group">
+        <label class="form-label">디자인 문서 URL</label>
+        <div class="url-field-wrap">
+          <input class="form-input" id="field-design-url" type="url" value="${isNew ? '' : escAttr(brand.designDocUrl || '')}" placeholder="https://...">
+          ${!isNew && brand.designDocUrl ? `<button class="url-open-btn" onclick="window.open(document.getElementById('field-design-url').value,'_blank')">↗</button>` : ''}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">공식 사이트 URL</label>
+        <div class="url-field-wrap">
+          <input class="form-input" id="field-site-url" type="url" value="${isNew ? '' : escAttr(brand.siteUrl || '')}" placeholder="https://...">
+          ${!isNew && brand.siteUrl ? `<button class="url-open-btn" onclick="window.open(document.getElementById('field-site-url').value,'_blank')">↗</button>` : ''}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">메모</label>
+        <textarea class="form-textarea" id="field-notes" placeholder="자유롭게 메모...">${isNew ? '' : escHtml(brand.notes || '')}</textarea>
+      </div>
+      <div class="panel-actions">
+        <button class="btn btn-primary" id="btn-save-brand">저장</button>
+        ${!isNew ? `<button class="btn btn-ghost" id="btn-delete-brand" style="color:#F04452; border-color:#F04452;">삭제</button>` : ''}
+        <button class="btn btn-ghost" id="btn-cancel-brand">취소</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('btn-save-brand').addEventListener('click', () => {
+    const name = document.getElementById('field-name').value.trim();
+    if (!name) { alert('브랜드 이름을 입력해주세요.'); return; }
+    const designDocUrl = document.getElementById('field-design-url').value.trim();
+    const siteUrl = document.getElementById('field-site-url').value.trim();
+    const notes = document.getElementById('field-notes').value;
+    if (isNew) {
+      const newId = name.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
+      const newBrand = { id: newId, name, designDocUrl, siteUrl, notes };
+      brands.push(newBrand);
+      selectedBrandId = newId;
+      saveBrands();
+      renderSidebar();
+      showBrandEdit(newBrand, false);
+    } else {
+      const idx = brands.findIndex(b => b.id === brand.id);
+      if (idx !== -1) {
+        brands[idx] = { ...brands[idx], name, designDocUrl, siteUrl, notes };
+        saveBrands();
+        renderSidebar();
+        showBrandEdit(brands[idx], false);
+      }
+    }
+  });
+
+  if (!isNew) {
+    document.getElementById('btn-delete-brand').addEventListener('click', () => {
+      if (confirm('"' + brand.name + '" 브랜드를 삭제하시겠습니까?')) {
+        brands = brands.filter(b => b.id !== brand.id);
+        saveBrands();
+        selectedBrandId = null;
+        openBrands.delete(brand.id);
+        renderSidebar();
+        showEmpty();
+      }
+    });
+  }
+
+  document.getElementById('btn-cancel-brand').addEventListener('click', () => {
+    if (isNew) {
+      selectedBrandId = null;
+      renderSidebar();
+      showEmpty();
+    } else {
+      showBrandEdit(brand, false);
+    }
+  });
 }
 
-function toggleD1(id) {
-  openD1 = openD1 === id ? null : id;
-  render(document.getElementById('search').value);
+function showSampleView(sample) {
+  const tagsHtml = (sample.tags || []).map(t => `<span class="tag">${escHtml(t)}</span>`).join('');
+  mainPanel.style.overflow = 'hidden';
+  mainPanel.innerHTML = `
+    <div class="sample-view-wrap">
+      <div class="sample-view-header">
+        <div style="flex:1;">
+          <div style="font-size:18px; font-weight:800; margin-bottom:4px;">${escHtml(sample.name)}</div>
+          <div style="font-size:13px; color:var(--text-tertiary); margin-bottom:8px;">${escHtml(sample.desc || '')}</div>
+          <div class="tag-list">${tagsHtml}</div>
+          <div style="font-size:11px; color:var(--text-tertiary); margin-top:8px;">생성일: ${sample.createdAt || ''}</div>
+        </div>
+        <div class="sample-view-btns">
+          <button class="btn btn-ghost btn-sm" id="btn-edit-sample">편집</button>
+          <button class="btn btn-ghost btn-sm" id="btn-delete-sample" style="color:#F04452; border-color:#F04452;">삭제</button>
+        </div>
+      </div>
+      <iframe
+        class="sample-iframe"
+        sandbox="allow-scripts"
+        id="sample-iframe"
+        style="flex:1; width:100%; border:none;"
+      ></iframe>
+    </div>
+  `;
+
+  // set srcdoc after render to avoid escaping issues
+  const iframe = document.getElementById('sample-iframe');
+  iframe.srcdoc = sample.html || '';
+
+  document.getElementById('btn-edit-sample').addEventListener('click', () => {
+    mainPanel.style.overflow = '';
+    showSampleEdit(sample, false);
+  });
+  document.getElementById('btn-delete-sample').addEventListener('click', () => {
+    if (confirm('"' + sample.name + '" 샘플을 삭제하시겠습니까?')) {
+      samples = samples.filter(s => s.id !== sample.id);
+      saveSamples();
+      selectedSampleId = null;
+      mainPanel.style.overflow = '';
+      renderSidebar();
+      showEmpty();
+    }
+  });
 }
 
-function toggleD2(catId, d2Id) {
-  const key = `${catId}/${d2Id}`;
-  openD2 = openD2 === key ? null : key;
-  render(document.getElementById('search').value);
+function showSampleEdit(sample, isNew) {
+  mainPanel.style.overflow = '';
+  mainPanel.innerHTML = `
+    <div class="panel">
+      <div class="panel-title">${isNew ? '새 샘플 추가' : '샘플 편집'}</div>
+      <div class="panel-desc">${isNew ? '새로운 HTML 디자인 샘플을 저장합니다.' : '샘플 정보를 수정합니다.'}</div>
+      <div class="form-group">
+        <label class="form-label">샘플 이름</label>
+        <input class="form-input" id="sfield-name" type="text" value="${isNew ? '' : escAttr(sample.name)}" placeholder="예: Clean-Dashboard">
+      </div>
+      <div class="form-group">
+        <label class="form-label">설명</label>
+        <textarea class="form-textarea" id="sfield-desc" placeholder="이 디자인의 특징을 설명해주세요...">${isNew ? '' : escHtml(sample.desc || '')}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">태그 (쉼표로 구분)</label>
+        <input class="form-input" id="sfield-tags" type="text" value="${isNew ? '' : escAttr((sample.tags || []).join(', '))}" placeholder="예: dashboard, clean, toss">
+      </div>
+      <div class="form-group">
+        <label class="form-label">HTML 코드 (전체)</label>
+        <textarea class="form-textarea code" id="sfield-html" placeholder="&lt;!DOCTYPE html&gt;...">${isNew ? '' : escHtml(sample.html || '')}</textarea>
+      </div>
+      <div class="panel-actions">
+        <button class="btn btn-primary" id="btn-save-sample">저장</button>
+        <button class="btn btn-ghost" id="btn-cancel-sample">취소</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('btn-save-sample').addEventListener('click', () => {
+    const name = document.getElementById('sfield-name').value.trim();
+    if (!name) { alert('샘플 이름을 입력해주세요.'); return; }
+    const desc = document.getElementById('sfield-desc').value.trim();
+    const tagsRaw = document.getElementById('sfield-tags').value;
+    const tags = tagsRaw.split(',').map(t => t.trim()).filter(Boolean);
+    const html = document.getElementById('sfield-html').value;
+    const today = new Date().toISOString().slice(0, 10);
+
+    if (isNew) {
+      const newId = name.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
+      const newSample = { id: newId, name, desc, tags, html, createdAt: today };
+      samples.push(newSample);
+      selectedSampleId = newId;
+      saveSamples();
+      renderSidebar();
+      showSampleView(newSample);
+    } else {
+      const idx = samples.findIndex(s => s.id === sample.id);
+      if (idx !== -1) {
+        samples[idx] = { ...samples[idx], name, desc, tags, html };
+        saveSamples();
+        renderSidebar();
+        showSampleView(samples[idx]);
+      }
+    }
+  });
+
+  document.getElementById('btn-cancel-sample').addEventListener('click', () => {
+    if (isNew) {
+      selectedSampleId = null;
+      renderSidebar();
+      showEmpty();
+    } else {
+      showSampleView(sample);
+    }
+  });
 }
 
-function handleD3(catId, d2Id, d3Id) {
-  activeKey = `${catId}/${d2Id}/${d3Id}`;
-  // find action
-  const cat = categories.find(c => c.id === catId);
-  const d2 = cat?.d2.find(d => d.id === d2Id);
-  const d3 = d2?.d3.find(d => d.id === d3Id);
-  d3?.action();
-  render(document.getElementById('search').value);
+// ── EVENT HANDLERS ────────────────────────────────────
+function onBrandRowClick(brandId) {
+  selectedBrandId = brandId;
+  selectedSampleId = null;
+  mainPanel.style.overflow = '';
+  if (openBrands.has(brandId)) {
+    openBrands.delete(brandId);
+  } else {
+    openBrands.add(brandId);
+  }
+  renderSidebar();
+  const brand = brands.find(b => b.id === brandId);
+  if (brand) showBrandEdit(brand, false);
 }
 
-/* ─────────────────────────────
-   액션: 구현 샘플 미리보기
-───────────────────────────── */
-function loadSample(url, label) {
-  const frame = document.getElementById('site-frame');
-  const blocked = document.getElementById('blockedWrap');
-  const empty = document.getElementById('emptyState');
-  empty.style.display = 'none';
-  blocked.classList.remove('visible');
-  frame.classList.remove('visible');
-  frame.src = '';
-  setTimeout(() => { frame.src = url; frame.classList.add('visible'); }, 30);
-  frame.onerror = () => showBlocked(url);
+function onSampleClick(sampleId) {
+  selectedSampleId = sampleId;
+  selectedBrandId = null;
+  renderSidebar();
+  const sample = samples.find(s => s.id === sampleId);
+  if (sample) showSampleView(sample);
 }
 
-/* ─────────────────────────────
-   액션: 구현 샘플 다운로드
-───────────────────────────── */
-function downloadSample(url, id) {
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${id}.html`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  showToast(`${id}.html 다운로드 중...`);
-}
-
-/* ─────────────────────────────
-   액션: 디자인 레퍼런스 다운로드
-───────────────────────────── */
-function downloadDesign(brand) {
-  const a = document.createElement('a');
-  a.href = `design-md/${brand}/DESIGN.md`;
-  a.download = `${brand}-DESIGN.md`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  showToast(`${brand} DESIGN.md 다운로드 중...`);
-}
-
-/* ─────────────────────────────
-   액션: 사이트 iframe
-───────────────────────────── */
-function loadSite(brand) {
-  const url = designBrands[brand];
-  const frame = document.getElementById('site-frame');
-  const blocked = document.getElementById('blockedWrap');
-  const empty = document.getElementById('emptyState');
-
-  empty.style.display = 'none';
-  blocked.classList.remove('visible');
-  frame.classList.remove('visible');
-  frame.src = '';
-
-  setTimeout(() => {
-    frame.src = url;
-    frame.classList.add('visible');
-  }, 30);
-
-  frame.onerror = () => showBlocked(url);
-
-  // 일부 사이트는 load 이벤트는 오지만 빈 페이지 — 타임아웃으로 감지
-  const timer = setTimeout(() => {
-    try {
-      if (!frame.contentDocument || frame.contentDocument.body?.innerHTML === '')
-        showBlocked(url);
-    } catch(e) { /* cross-origin — 정상 */ }
-  }, 5000);
-  frame.onload = () => clearTimeout(timer);
-}
-
-function showBlocked(url) {
-  const frame = document.getElementById('site-frame');
-  const blocked = document.getElementById('blockedWrap');
-  frame.classList.remove('visible');
-  document.getElementById('openExternal').href = url;
-  document.getElementById('blockedMsg').textContent = `이 사이트는 iframe 표시를 허용하지 않습니다.`;
-  blocked.classList.add('visible');
-}
-
-/* ─────────────────────────────
-   토스트
-───────────────────────────── */
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-/* ─────────────────────────────
-   검색
-───────────────────────────── */
-document.getElementById('search').addEventListener('input', e => {
-  if (e.target.value) openD1 = 'design';
-  render(e.target.value);
+// ── SEARCH ────────────────────────────────────────────
+document.getElementById('search-input').addEventListener('input', function() {
+  searchQuery = this.value;
+  renderSidebar();
 });
 
-/* ─────────────────────────────
-   초기화
-───────────────────────────── */
-render();
+// ── ADD BRAND ─────────────────────────────────────────
+document.getElementById('btn-add-brand').addEventListener('click', () => {
+  selectedBrandId = null;
+  selectedSampleId = null;
+  mainPanel.style.overflow = '';
+  renderSidebar();
+  showBrandEdit({}, true);
+});
+
+// ── ADD SAMPLE ────────────────────────────────────────
+document.getElementById('btn-add-sample').addEventListener('click', () => {
+  selectedBrandId = null;
+  selectedSampleId = null;
+  mainPanel.style.overflow = '';
+  renderSidebar();
+  showSampleEdit({}, true);
+});
+
+// ── EXPORT JSON ───────────────────────────────────────
+document.getElementById('btn-export').addEventListener('click', () => {
+  const data = { brands, samples, exportedAt: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'nroad-design-library-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// ── IMPORT JSON ───────────────────────────────────────
+document.getElementById('btn-import').addEventListener('click', () => {
+  document.getElementById('import-file-input').click();
+});
+
+document.getElementById('import-file-input').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!confirm('현재 데이터를 모두 덮어쓁니다. 계속하시겠습니까?')) return;
+      if (data.brands) { brands = data.brands; saveBrands(); }
+      if (data.samples) { samples = data.samples; saveSamples(); }
+      selectedBrandId = null;
+      selectedSampleId = null;
+      openBrands.clear();
+      mainPanel.style.overflow = '';
+      renderSidebar();
+      showEmpty();
+      alert('가져오기 완료!');
+    } catch(err) {
+      alert('JSON 파싱 오류: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  this.value = '';
+});
+
+// ── INIT ──────────────────────────────────────────────
+loadData();
+renderSidebar();
 </script>
 </body>
 </html>
