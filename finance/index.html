@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>금융계산기 | 생존 - 소상공인 창업 플랫폼</title>
+<meta name="description" content="대출, 적금, 수익률, 환율, 연봉까지. 창업에 필요한 모든 금융 계산을 무료로. 생존 금융계산기.">
+<meta property="og:title" content="금융계산기 | 생존">
+<meta property="og:description" content="대출부터 수익률까지, 창업에 필요한 모든 금융 계산을 무료로.">
+<meta property="og:image" content="/finance/og-finance.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#00C471">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --color-primary:#00C471; --color-primary-dark:#00A85E;
+  --color-primary-light:#E8FBF3; --color-primary-soft:#F0FDF8;
+  --color-navy:#0D1B2A;
+  --color-gray-900:#111827; --color-gray-600:#4B5563; --color-gray-400:#9CA3AF;
+  --color-gray-100:#F3F4F6; --color-gray-50:#F9FAFB;
+  --color-red:#FF4D4D; --color-blue:#3B82F6;
+  --color-bg:#FFFFFF; --color-surface:#F9FAFB; --color-border:#E5E7EB;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--color-surface);}
+body{
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--color-gray-900); line-height:1.5;
+  -webkit-font-smoothing:antialiased; letter-spacing:-0.2px;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+button,input,select{font-family:inherit;}
+a{color:inherit;text-decoration:none;}
+
+/* ── HEADER ───────────────────────────────── */
+.header{
+  position:sticky; top:0; z-index:50;
+  height:56px; background:rgba(255,255,255,.92); backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--color-border);
+  display:flex; align-items:center; gap:10px; padding:0 18px;
+}
+.header .back{
+  width:34px; height:34px; margin-left:-6px; border:none; background:transparent;
+  display:none; align-items:center; justify-content:center; cursor:pointer;
+  border-radius:10px; color:var(--color-gray-900); font-size:22px;
+}
+.header .back:hover{background:var(--color-gray-100);}
+body[data-view="calc"] .header .back{display:flex;}
+.header .logo{font-size:17px; font-weight:800; color:var(--color-navy); display:flex; align-items:center; gap:7px;}
+.header .logo .dot{width:9px;height:9px;border-radius:50%;background:var(--color-primary);}
+.header .title{font-size:16px; font-weight:700; color:var(--color-navy);}
+body[data-view="home"] .header .title-calc{display:none;}
+body[data-view="calc"] .header .title-home{display:none;}
+
+/* ── SHELL ────────────────────────────────── */
+.shell{max-width:520px; margin:0 auto; padding:0 18px 120px;}
+
+/* ── HERO ─────────────────────────────────── */
+.hero{padding:40px 4px 28px;}
+.hero h1{font-size:30px; font-weight:800; line-height:1.32; color:var(--color-navy); letter-spacing:-0.8px;}
+.hero h1 b{color:var(--color-primary);}
+.hero p{margin-top:14px; font-size:15px; font-weight:500; color:var(--color-gray-600); line-height:1.6;}
+
+.cat-label{font-size:12px; font-weight:700; color:var(--color-gray-400); text-transform:uppercase; letter-spacing:.5px; margin:26px 4px 12px;}
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.tool{
+  background:#fff; border:1px solid var(--color-border); border-radius:18px;
+  padding:18px 16px; cursor:pointer; text-align:left;
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  display:flex; flex-direction:column; gap:10px; min-height:104px;
+}
+.tool:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.07); border-color:var(--color-primary-light);}
+.tool:active{transform:translateY(0);}
+.tool .ico{
+  width:42px; height:42px; border-radius:12px; background:var(--color-primary-soft);
+  display:flex; align-items:center; justify-content:center; font-size:21px;
+}
+.tool .tname{font-size:15.5px; font-weight:700; color:var(--color-navy);}
+.tool .tdesc{font-size:12px; font-weight:500; color:var(--color-gray-400); line-height:1.45;}
+
+/* ── CALC VIEW ────────────────────────────── */
+#view-calc{display:none;}
+body[data-view="calc"] #view-calc{display:block;}
+body[data-view="calc"] #view-home{display:none;}
+.calc-head{padding:30px 4px 18px;}
+.calc-head h2{font-size:24px; font-weight:800; color:var(--color-navy); letter-spacing:-0.6px;}
+.calc-head p{margin-top:8px; font-size:14px; font-weight:500; color:var(--color-gray-600);}
+
+/* ── TABS / TOGGLE ────────────────────────── */
+.seg{
+  display:flex; background:var(--color-gray-100); border-radius:13px; padding:4px; gap:3px; margin-bottom:18px;
+}
+.seg button{
+  flex:1; border:none; background:transparent; cursor:pointer;
+  height:42px; border-radius:10px; font-size:13.5px; font-weight:600;
+  color:var(--color-gray-400); transition:all .18s ease;
+}
+.seg button.on{background:var(--color-primary); color:#fff; box-shadow:0 2px 8px rgba(0,196,113,.28);}
+
+/* ── FIELDS ───────────────────────────────── */
+.field{display:block; margin-bottom:14px;}
+.field-label{display:block; font-size:13.5px; font-weight:600; color:var(--color-gray-600); margin-bottom:8px;}
+.field-input{position:relative; display:flex; align-items:center;}
+.field-input input, .field-input select{
+  width:100%; height:56px; border:1.5px solid var(--color-border); border-radius:12px;
+  background:var(--color-surface); font-size:18px; font-weight:600; color:var(--color-navy);
+  padding:0 16px; outline:none; transition:border-color .15s ease, background .15s ease;
+  appearance:none; -webkit-appearance:none;
+}
+.field-input input.has-suffix{padding-right:54px;}
+.field-input input::placeholder{color:var(--color-gray-400); font-weight:500;}
+.field-input input:focus, .field-input select:focus{border-color:var(--color-primary); background:#fff;}
+.field-suffix{position:absolute; right:16px; font-size:14px; font-weight:600; color:var(--color-gray-400); pointer-events:none;}
+.field-row{display:flex; gap:12px;}
+.field-row .field{flex:1;}
+select.field-bare{
+  height:56px; border:1.5px solid var(--color-border); border-radius:12px; background:var(--color-surface);
+  font-size:17px; font-weight:600; color:var(--color-navy); padding:0 16px; width:100%; outline:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 14px center; padding-right:42px;
+}
+
+/* ── CALC BUTTON ──────────────────────────── */
+.btn-calc{
+  width:100%; height:56px; border:none; border-radius:14px; cursor:pointer;
+  background:var(--color-primary); color:#fff; font-size:17px; font-weight:700;
+  letter-spacing:-0.3px; box-shadow:0 4px 20px rgba(0,196,113,.3); margin-top:6px;
+  transition:transform .12s ease, background .12s ease;
+}
+.btn-calc:hover{background:var(--color-primary-dark); transform:translateY(-1px);}
+.btn-calc:active{transform:translateY(0);}
+
+/* ── RESULT CARD ──────────────────────────── */
+.result{margin-top:22px;}
+.result-card{
+  background:#fff; border:1px solid var(--color-border); border-radius:20px;
+  padding:24px; box-shadow:0 2px 20px rgba(0,0,0,.06);
+}
+.result-card + .result-card{margin-top:12px;}
+.result-main-label{font-size:13px; font-weight:500; color:var(--color-gray-400);}
+.result-main-value{display:block; margin-top:6px; font-size:32px; font-weight:800; color:var(--color-navy); letter-spacing:-1px; line-height:1.15;}
+.result-main-value.pos{color:var(--color-primary-dark);}
+.result-main-value.neg{color:var(--color-red);}
+.result-main-value small{font-size:17px; font-weight:700; color:var(--color-gray-400); margin-left:3px;}
+.result-divider{height:1px; background:var(--color-gray-100); margin:18px 0;}
+.result-row{display:flex; align-items:center; justify-content:space-between; padding:7px 0; font-size:14.5px;}
+.result-row span:first-child{font-weight:500; color:var(--color-gray-600);}
+.result-row span:last-child{font-weight:700; color:var(--color-navy);}
+.result-row span:last-child.pos{color:var(--color-primary-dark);}
+.result-row span:last-child.neg{color:var(--color-red);}
+.result-hint{margin-top:12px; font-size:12px; color:var(--color-gray-400); line-height:1.55; padding:0 2px;}
+.card-title{font-size:13px; font-weight:700; color:var(--color-primary-dark); margin-bottom:14px;}
+
+/* ── BEST RATE LIST ───────────────────────── */
+.slider-wrap{margin:6px 2px 18px;}
+.slider-wrap .sv{font-size:13.5px; font-weight:600; color:var(--color-gray-600); margin-bottom:10px; display:flex; justify-content:space-between;}
+.slider-wrap .sv b{color:var(--color-primary-dark); font-size:16px;}
+input[type=range]{width:100%; accent-color:var(--color-primary); height:6px;}
+.prod{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:15px 16px; border:1.5px solid var(--color-border); border-radius:14px; margin-bottom:10px;
+  cursor:pointer; background:#fff; transition:border-color .15s, background .15s;
+}
+.prod:hover{border-color:var(--color-primary-light);}
+.prod.on{border-color:var(--color-primary); background:var(--color-primary-soft);}
+.prod .pn{font-size:14.5px; font-weight:700; color:var(--color-navy);}
+.prod .pb{font-size:12px; font-weight:500; color:var(--color-gray-400); margin-top:2px;}
+.prod .pr{font-size:19px; font-weight:800; color:var(--color-primary-dark);}
+.prod .pr small{font-size:12px; color:var(--color-gray-400); font-weight:600;}
+
+/* ── STEP WIZARD (feeCheck) ───────────────── */
+.steps-dots{display:flex; gap:6px; justify-content:center; margin-bottom:22px;}
+.steps-dots i{width:7px; height:7px; border-radius:50%; background:var(--color-gray-100); transition:.2s;}
+.steps-dots i.on{background:var(--color-primary); width:20px; border-radius:4px;}
+.step-q{font-size:19px; font-weight:800; color:var(--color-navy); text-align:center; margin-bottom:6px;}
+.step-sub{font-size:13px; color:var(--color-gray-400); text-align:center; margin-bottom:22px;}
+.choice{
+  width:100%; padding:18px 18px; border:1.5px solid var(--color-border); border-radius:14px;
+  background:#fff; cursor:pointer; text-align:left; margin-bottom:11px;
+  font-size:15px; font-weight:700; color:var(--color-navy); transition:.15s;
+  display:flex; align-items:center; gap:12px;
+}
+.choice:hover{border-color:var(--color-primary); background:var(--color-primary-soft);}
+.choice .em{font-size:22px;}
+.step-back{margin-top:8px; width:100%; height:48px; border:none; background:transparent; color:var(--color-gray-400); font-weight:600; font-size:14px; cursor:pointer;}
+
+/* ── BASIC CALCULATOR ─────────────────────── */
+.calcpad-display{
+  background:var(--color-navy); border-radius:18px; padding:24px 22px; text-align:right;
+  color:#fff; margin-bottom:14px; min-height:96px; display:flex; flex-direction:column; justify-content:flex-end;
+}
+.calcpad-display .expr{font-size:14px; color:rgba(255,255,255,.5); min-height:18px; word-break:break-all;}
+.calcpad-display .now{font-size:38px; font-weight:700; letter-spacing:-1px; margin-top:4px; word-break:break-all;}
+.calcpad{display:grid; grid-template-columns:repeat(4,1fr); gap:10px;}
+.calcpad button{
+  height:62px; border:none; border-radius:16px; font-size:21px; font-weight:600; cursor:pointer;
+  background:#fff; color:var(--color-navy); border:1px solid var(--color-border); transition:.1s;
+}
+.calcpad button:active{transform:scale(.96);}
+.calcpad button.op{background:var(--color-primary-soft); color:var(--color-primary-dark); border-color:var(--color-primary-light);}
+.calcpad button.eq{background:var(--color-primary); color:#fff; border:none;}
+.calcpad button.fn{background:var(--color-gray-100); color:var(--color-gray-600);}
+
+/* ── MEMO ─────────────────────────────────── */
+.memo-row{display:flex; gap:10px; align-items:center; margin-bottom:10px;}
+.memo-row input.mlabel{flex:1.3;}
+.memo-row input.mamt{flex:1; text-align:right;}
+.memo-row .field-input{flex:inherit;}
+.memo-del{width:40px; height:56px; border:none; background:var(--color-gray-50); border-radius:12px; color:var(--color-gray-400); font-size:18px; cursor:pointer; flex-shrink:0;}
+.memo-del:hover{background:#FFECEC; color:var(--color-red);}
+.btn-add{width:100%; height:50px; border:1.5px dashed var(--color-border); background:transparent; border-radius:12px; color:var(--color-gray-600); font-weight:600; font-size:14px; cursor:pointer; margin-top:4px;}
+.btn-add:hover{border-color:var(--color-primary); color:var(--color-primary-dark);}
+
+/* ── PAYPLAY CTA ──────────────────────────── */
+.cta{
+  position:fixed; left:0; right:0; bottom:0; z-index:40;
+  padding:12px 18px calc(12px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top, rgba(249,250,251,1) 60%, rgba(249,250,251,0));
+  pointer-events:none;
+}
+.cta-inner{
+  max-width:484px; margin:0 auto; pointer-events:auto;
+  background:linear-gradient(135deg, #00C471 0%, #00A85E 100%);
+  border-radius:18px; padding:16px 18px; display:flex; align-items:center; gap:14px;
+  box-shadow:0 8px 30px rgba(0,168,94,.35); cursor:pointer;
+  transition:transform .15s ease;
+}
+.cta-inner:hover{transform:translateY(-2px);}
+.cta-emoji{font-size:26px;}
+.cta-txt{flex:1; color:#fff;}
+.cta-txt .t1{font-size:14.5px; font-weight:800; line-height:1.3;}
+.cta-txt .t2{font-size:12px; font-weight:500; opacity:.92; margin-top:2px;}
+.cta-arrow{
+  background:rgba(255,255,255,.22); color:#fff; border-radius:10px; padding:9px 12px;
+  font-size:13px; font-weight:700; white-space:nowrap; display:flex; align-items:center; gap:4px;
+}
+
+.footnote{text-align:center; font-size:11px; color:var(--color-gray-400); padding:24px 0 8px;}
+
+@media(max-width:380px){
+  .hero h1{font-size:26px;}
+  .tool{padding:15px 13px; min-height:96px;}
+  .result-main-value{font-size:28px;}
+}
+</style>
+</head>
+<body data-view="home">
+
+<header class="header">
+  <button class="back" id="backBtn" aria-label="뒤로">‹</button>
+  <div class="logo title-home"><span class="dot"></span>생존 <span style="color:var(--color-gray-400);font-weight:600;">금융계산기</span></div>
+  <div class="title title-calc" id="calcHeaderTitle">계산기</div>
+</header>
+
+<main class="shell">
+
+  <!-- HOME -->
+  <section id="view-home">
+    <div class="hero">
+      <h1>창업의 숫자,<br><b>정확하게</b> 계산하세요</h1>
+      <p>대출부터 수익률까지, 창업에 필요한<br>모든 금융 계산을 무료로 도와드려요.</p>
+    </div>
+    <div id="toolGrid"></div>
+  </section>
+
+  <!-- CALC -->
+  <section id="view-calc">
+    <div class="calc-head">
+      <h2 id="calcTitle"></h2>
+      <p id="calcSub"></p>
+    </div>
+    <div id="calcBody"></div>
+  </section>
+
+</main>
+
+<!-- PAYPLAY CTA -->
+<div class="cta">
+  <a class="cta-inner" href="https://payplay.co.kr" target="_blank" rel="noopener" id="ctaBtn">
+    <span class="cta-emoji">💳</span>
+    <span class="cta-txt">
+      <span class="t1">계산 완료! 이제 시작할 차례</span>
+      <span class="t2">PayPlay POS로 매장을 열어보세요</span>
+    </span>
+    <span class="cta-arrow">무료 상담 →</span>
+  </a>
+</div>
+
+<script>
+/* ════════════════════════════════════════════
+   생존 금융계산기 — 18종 (검증 수식 기준)
+   ════════════════════════════════════════════ */
+
+/* ── helpers ───────────────────────────────── */
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const num  = v => parseFloat(String(v??'').replace(/,/g,''))||0;
+const fmt  = n => isFinite(n)?Math.round(n).toLocaleString('ko-KR'):'0';
+const fmtD = (n,d=2)=> isFinite(n)?Number(n).toLocaleString('ko-KR',{minimumFractionDigits:d,maximumFractionDigits:d}):'0';
+const won  = n => fmt(n)+' 원';
+function ga(name,params){ try{ if(window.gtag) gtag('event',name,params); }catch(e){} }
+
+/* field builders */
+const F = (label,id,o={}) => `
+  <label class="field">
+    <span class="field-label">${label}</span>
+    <div class="field-input">
+      <input id="${id}" type="text" inputmode="decimal" placeholder="${o.ph||'0'}" value="${o.val||''}" ${o.comma!==false?'data-comma':''} class="${o.suffix?'has-suffix':''}">
+      ${o.suffix?`<span class="field-suffix">${o.suffix}</span>`:''}
+    </div>
+  </label>`;
+const SEG = (id,opts) => `<div class="seg" id="${id}">`+opts.map((t,i)=>`<button data-v="${t}" class="${i===0?'on':''}">${t}</button>`).join('')+`</div>`;
+function card(mainLabel,mainValue,rows,cls=''){
+  return `<div class="result-card">
+    <div><span class="result-main-label">${mainLabel}</span>
+    <strong class="result-main-value ${cls}">${mainValue}</strong></div>
+    ${rows&&rows.length?`<div class="result-divider"></div>`+rows.map(r=>`<div class="result-row"><span>${r[0]}</span><span class="${r[2]||''}">${r[1]}</span></div>`).join(''):''}
+  </div>`;
+}
+
+/* comma auto-format on amount inputs */
+document.addEventListener('input', e=>{
+  const el=e.target;
+  if(el.matches('input[data-comma]')){
+    let v=el.value.replace(/[^\d.]/g,'');
+    const parts=v.split('.');
+    parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');
+    el.value=parts.length>1?parts[0]+'.'+parts.slice(1).join(''):parts[0];
+  }
+});
+
+/* segmented control helper */
+function segVal(root,id){ const on=$('#'+id+' .on',root); return on?on.dataset.v:null; }
+function wireSeg(root,onChange){
+  $$('.seg',root).forEach(seg=>{
+    seg.addEventListener('click',e=>{
+      const b=e.target.closest('button'); if(!b)return;
+      $$('button',seg).forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); onChange&&onChange();
+    });
+  });
+}
+
+/* ════════════════════════════════════════════
+   CALCULATOR DEFINITIONS
+   ════════════════════════════════════════════ */
+const CALCS = {};
+
+/* ── 1. 대출계산 ──────────────────────────── */
+CALCS.loan = {
+  cat:'대출', icon:'🏦', name:'대출계산', desc:'원리금·원금균등·만기일시',
+  title:'대출계산', sub:'상환 방식별 월 납입금을 계산해요',
+  body:()=>`
+    ${SEG('loanMode',['원리금균등','원금균등','만기일시'])}
+    ${F('대출원금','loanP',{suffix:'원',ph:'200,000,000'})}
+    <div class="field-row">
+      ${F('연 이자율','loanR',{suffix:'%',comma:false,ph:'5.5'})}
+      ${F('대출기간','loanN',{suffix:'개월',ph:'120'})}
+    </div>
+    <button class="btn-calc" data-calc>계산하기</button>
+    <div class="result" id="loanRes"></div>`,
+  init(root){
+    const compute=()=>{
+      const p=num($('#loanP',root).value), rate=num($('#loanR',root).value), n=num($('#loanN',root).value);
+      const r=rate/100/12; const mode=segVal(root,'loanMode');
+      if(!p||!n){ $('#loanRes',root).innerHTML=''; return; }
+      let out='';
+      if(mode==='원리금균등'){
+        const m = r===0 ? p/n : p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+        const total=m*n, interest=total-p;
+        out=card('월 납입금',won(m),[['총 상환금액',won(total)],['총 이자',won(interest),'neg'],['대출원금',won(p)]]);
+      }else if(mode==='원금균등'){
+        const mp=p/n, first=mp+p*r, last=mp+mp*r;
+        const interest=p*r*(n+1)/2, total=p+interest;
+        out=card('첫 달 납입금',won(first),[['마지막 달 납입금',won(last)],['매월 원금',won(mp)],['총 상환금액',won(total)],['총 이자',won(interest),'neg']]);
+      }else{
+        const mi=p*r, interest=p*r*n, total=p+interest;
+        out=card('매월 이자',won(mi),[['만기 원금상환',won(p)],['총 상환금액',won(total)],['총 이자',won(interest),'neg']]);
+      }
+      $('#loanRes',root).innerHTML=out;
+      ga('calculator_used',{calculator_type:'loan'});
+    };
+    wireSeg(root,compute);
+    root.addEventListener('input',compute);
+    $('[data-calc]',root).addEventListener('click',compute);
+    compute();
+  }
+};
+
+/* ── 2. 대출계산비교 ──────────────────────── */
+CALCS.loanCompare = {
+  cat:'대출', icon:'⚖️', name:'대출 비교', desc:'A vs B 조건 비교',
+  title:'대출 비교', sub:'두 대출 조건을 나란히 비교해요 (원리금균등)',
+  body:()=>`
+    <div class="card-title">상품 A</div>
+    ${F('대출원금','cP1',{suffix:'원',ph:'100,000,000'})}
+    <div class="field-row">${F('연 이자율','cR1',{suffix:'%',comma:false,ph:'4.5'})}${F('기간','cN1',{suffix:'개월',ph:'120'})}</div>
+    <div class="card-title" style="margin-top:8px">상품 B</div>
+    ${F('대출원금','cP2',{suffix:'원',ph:'100,000,000'})}
+    <div class="field-row">${F('연 이자율','cR2',{suffix:'%',comma:false,ph:'5.5'})}${F('기간','cN2',{suffix:'개월',ph:'120'})}</div>
+    <button class="btn-calc" data-calc>비교하기</button>
+    <div class="result" id="cRes"></div>`,
+  init(root){
+    const calc=(p,rate,n)=>{ const r=rate/100/12; const m=r===0?p/n:p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1); return {m, total:m*n, interest:m*n-p}; };
+    const compute=()=>{
+      const a=calc(num($('#cP1',root).value),num($('#cR1',root).value),num($('#cN1',root).value));
+      const b=calc(num($('#cP2',root).value),num($('#cR2',root).value),num($('#cN2',root).value));
+      if(!isFinite(a.m)||!isFinite(b.m)){ $('#cRes',root).innerHTML=''; return; }
+      const cheaper=a.total<b.total?'A':'B'; const diff=Math.abs(a.total-b.total);
+      $('#cRes',root).innerHTML =
+        card('상품 A · 월 납입금',won(a.m),[['총 상환금액',won(a.total)],['총 이자',won(a.interest),'neg']])+
+        card('상품 B · 월 납입금',won(b.m),[['총 상환금액',won(b.total)],['총 이자',won(b.interest),'neg']])+
+        card(`${cheaper}가 더 유리해요`, won(diff)+' 절약', [['더 저렴한 상품','상품 '+cheaper,'pos']],'pos');
+      ga('calculator_used',{calculator_type:'loanCompare'});
+    };
+    root.addEventListener('input',compute);
+    $('[data-calc]',root).addEventListener('click',compute); compute();
+  }
+};
+
+/* ── 3. 적금계산 ──────────────────────────── */
+const TAX = {'일반과세':0.154,'비과세':0,'세금우대':0.099};
+CALCS.savings = {
+  cat:'예적금', icon:'💰', name:'적금계산', desc:'단리·복리 / 세금 유형',
+  title:'적금계산', sub:'매월 납입하는 적금의 만기 수령액',
+  body:()=>`
+    ${SEG('savMode',['단리','복리'])}
+    ${SEG('savTax',['일반과세','비과세','세금우대'])}
+    ${F('월 납입액','savM',{suffix:'원',ph:'500,000'})}
+    <div class="field-row">${F('연 이자율','savR',{suffix:'%',comma:false,ph:'4.0'})}${F('기간','savN',{suffix:'개월',ph:'12'})}</div>
+    <button class="btn-calc" data-calc>계산하기</button>
+    <div class="result" id="savRes"></div>`,
+  init(root){
+    const compute=()=>{
+      const m=num($('#savM',root).value), rate=num($('#savR',root).value), n=num($('#savN',root).value);
+      if(!m||!n){ $('#savRes',root).innerHTML=''; return; }
+      const r=rate/100/12, principal=m*n; let interest;
+      if(segVal(root,'savMode')==='단리') interest = m*(n*(n+1)/2)*r;
+      else interest = (r===0?m*n:m*((Math.pow(1+r,n)-1)/r)*(1+r)) - principal;
+      const t=TAX[segVal(root,'savTax')], tax=interest*t, net=principal+interest-tax;
+      $('#savRes',root).innerHTML = card('세후 수령액',won(net),[
+        ['납입 원금',won(principal)],['세전 이자',won(interest),'pos'],
+        ['이자과세 ('+(t*100).toFixed(1)+'%)','-'+won(tax),'neg'],['세후 이자',won(interest-tax),'pos']]);
+      ga('calculator_used',{calculator_type:'savings'});
+    };
+    wireSeg(root,compute); root.addEventListener('input',compute);
+    $('[data-calc]',root).addEventListener('click',compute); compute();
+  }
+};
+
+/* ── 4. 예금계산 ──────────────────────────── */
+CALCS.deposit = {
+  cat:'예적금', icon:'🏧', name:'예금계산', desc:'목돈 예치 단리·복리',
+  title:'예금계산', sub:'한 번에 예치하는 정기예금 수령액',
+  body:()=>`
+    ${SEG('depMode',['단리','월복리'])}
+    ${SEG('depTax',['일반과세','비과세','세금우대'])}
+    ${F('예치금','depP',{suffix:'원',ph:'10,000,000'})}
+    <div class="field-row">${F('연 이자율','depR',{suffix:'%',comma:false,ph:'3.5'})}${F('기간','depN',{suffix:'개월',ph:'12'})}</div>
+    <button class="btn-calc" data-calc>계산하기</button>
+    <div class="result" id="depRes"></div>`,
+  init(root){
+    const compute=()=>{
+      const p=num($('#depP',root).value), rate=num($('#depR',root).value), n=num($('#depN',root).value);
+      if(!p||!n){ $('#depRes',root).innerHTML=''; return; }
+      let interest;
+      if(segVal(root,'depMode')==='단리') interest=p*(rate/100)*(n/12);
+      else { const r=rate/100/12; interest=p*Math.pow(1+r,n)-p; }
+      const t=TAX[segVal(root,'depTax')], tax=interest*t, net=p+interest-tax;
+      $('#depRes',root).innerHTML = card('세후 수령액',won(net),[
+        ['예치 원금',won(p)],['세전 이자',won(interest),'pos'],
+        ['이자과세 ('+(t*100).toFixed(1)+'%)','-'+won(tax),'neg'],['세후 이자',won(interest-tax),'pos']]);
+      ga('calculator_used',{calculator_type:'deposit'});
+    };
+    wireSeg(root,compute); root.addEventListener('input',compute);
+    $('[data-calc]',root).addEventListener('click',compute); compute();
+  }
+};
+
+/* ── 5. 최고금리찾기 ──────────────────────── */
+const PRODUCTS=[
+  {bank:'OK저축은행',name:'정기적금',type:'적금',rate:5.0},
+  {bank:'웰컴저축은행',name:'WELCOME 정기적금',type:'적금',rate:4.7},
+  {bank:'케이뱅크',name:'코드K 자유적금',type:'적금',rate:4.5},
+  {bank:'카카오뱅크',name:'26주 적금',type:'적금',rate:4.2},
+  {bank:'SBI저축은행',name:'사이다 정기예금',type:'예금',rate:3.9},
+  {bank:'토스뱅크',name:'먼저 이자 받는 예금',type:'예금',rate:3.7},
+  {bank:'신한은행',name:'쏠편한 정기예금',type:'예금',rate:3.5},
+  {bank:'우리은행',name:'WON 적금',type:'적금',rate:3.4},
+];
+CALCS.bestRate = {
+  cat:'예적금', icon:'🔍', name:'최고금리찾기', desc:'금리 비교 + 예상 이자',
+  title:'최고금리 찾기', sub:'금리 기준으로 상품을 찾고 바로 계산해요',
+  body:()=>`
+    <div class="slider-wrap">
+      <div class="sv">최소 금리 <b id="brVal">3.0%</b></div>
+      <input type="range" id="brSlider" min="3" max="5" step="0.1" value="3">
+    </div>
+    <div id="brList"></div>
+    <div class="card-title" style="margin-top:18px">선택 상품으로 계산</div>
+    <div class="field-row">${F('월 납입액','brM',{suffix:'원',ph:'300,000'})}${F('기간','brN',{suffix:'개월',ph:'12'})}</div>
+    <div class="result" id="brRes"></div>`,
+  init(root){
+    let selected=PRODUCTS[0];
+    const renderList=()=>{
+      const min=parseFloat($('#brSlider',root).value);
+      $('#brVal',root).textContent=min.toFixed(1)+'%';
+      $('#brList',root).innerHTML = PRODUCTS.filter(p=>p.rate>=min).map(p=>
+        `<div class="prod ${p===selected?'on':''}" data-r="${p.rate}" data-name="${p.bank}">
+          <div><div class="pn">${p.bank}</div><div class="pb">${p.name} · ${p.type}</div></div>
+          <div class="pr">${p.rate.toFixed(1)}<small>%</small></div>
+        </div>`).join('') || `<div class="result-hint" style="text-align:center;padding:20px">조건에 맞는 상품이 없어요</div>`;
+      $$('.prod',root).forEach(el=>el.addEventListener('click',()=>{
+        selected=PRODUCTS.find(p=>p.bank===el.dataset.name);
+        renderList(); compute();
+      }));
+    };
+    const compute=()=>{
+      const m=num($('#brM',root).value), n=num($('#brN',root).value);
+      if(!m||!n||!selected){ $('#brRes',root).innerHTML=''; return; }
+      const r=selected.rate/100/12, principal=m*n, interest=m*(n*(n+1)/2)*r;
+      const tax=interest*0.154, net=principal+interest-tax;
+      $('#brRes',root).innerHTML=card(`${selected.bank} · 세후 수령액`,won(net),[
+        ['적용 금리',selected.rate.toFixed(1)+'%'],['납입 원금',won(principal)],
+        ['세전 이자',won(interest),'pos'],['세금(15.4%)','-'+won(tax),'neg']]);
+      ga('calculator_used',{calculator_type:'bestRate'});
+    };
+    $('#brSlider',root).addEventListener('input',renderList);
+    root.addEventListener('input',e=>{ if(e.target.matches('#brM,#brN'))compute(); });
+    renderList(); compute();
+  }
+};
+
+/* ── 6. 목표금액계산 ──────────────────────── */
+CALCS.targetAmount = {
+  cat:'예적금', icon:'🎯', name:'목표금액', desc:'목표 → 월 저축액 역산',
+  title:'목표금액 계산', sub:'목표 금액을 모으기 위한 월 저축액',
+  body:()=>`
+    ${SEG('tgMode',['단리','복리'])}
+    ${F('목표 금액','tgT',{suffix:'원',ph:'10,000,000'})}
+    <div class="field-row">${F('연 이자율','tgR',{suffix:'%',comma:false,ph:'4.0'})}${F('기간','tgN',{suffix:'개월',ph:'24'})}</div>
+    <button class="btn-calc" data-calc>계산하기</button>
+    <div class="result" id="tgRes"></div>`,
+  init(root){
+    const compute=()=>{
+      const T=num($('#tgT',root).value), rate=num($('#tgR',root).value), n=num($('#tgN',root).value);
+      if(!T||!n){ $('#tgRes',root).innerHTML=''; return; }
+      const r=rate/100/12; let m;
+      if(segVal(root,'tgMode')==='단리') m = T/(n + n*(n+1)/2*r);
+      else m = r===0 ? T/n : T/(((Math.pow(1+r,n)-1)/r)*(1+r));
+      const principal=m*n, interest=T-principal;
+      $('#tgRes',root).innerHTML=card('필요한 월 저축액',won(m),[
+        ['목표 금액',won(T)],['총 납입 원금',won(principal)],['이자 수익',won(interest),'pos']]);
+      ga('calculator_used',{calculator_type:'targetAmount'});
+    };
+    wireSeg(root,compute); root.addEventListener('input',compute);
+    $('[data-calc]',root).addEventListener('click',compute); compute();
+  }
+};
+
+/* ── 7. 수익률계산 (국내) ─────────────────── */
+CALCS.profit = {
+  cat:'투자', icon:'📈', name:'수익률계산', desc:'국내주식 손익·수익률',
+  title:'수익률 계산 (국내)', sub:'수수료·증권거래세 반영 실현손익',
+  body:()=>`
+    <div class="field-row">${F('매수 단가','pBuy',{suffix:'원',ph:'50,000'})}${F('매도 단가','pSell',{suffix:'원',ph:'55,000'})}</div>
+    ${F('수량','pQty',{suffix:'주',ph:'100'})}
+    <div class="field-row">${F('수수료율','pFee',{suffix:'%',comma:false,ph:'0.015'})}${F('거래세율','pTax',{suffix:'%',comma:false,ph:'0.15'})}</div>
+    <button class="btn-calc" data-calc>계산하기</button>
+    <div class="result" id="pRes"></div>`,
+  init(root){
+    const compute=()=>{
+      const bp=num($('#pBuy',root).value), sp=num($('#pSell',root).value), q=num($('#pQty',root).value);
+      const fee=num($('#pFee',root).value)/100, tax=num($('#pTax',root).value)/100;
+      if(!bp||!sp||!q){ $('#pRes',root).innerHTML=''; return; }
+      const buyAmt=bp*q, sellAmt=sp*q;
+      const buyFee=buyAmt*fee, sellFee=sellAmt*fee, taxAmt=sellAmt*tax;
+      const pl=sellAmt-buyAmt-buyFee-sellFee-taxAmt;
+      const rate=pl/(buyAmt+buyFee)*100;
+      const cls=pl>=0?'pos':'neg';
+      $('#pRes',root).innerHTML=card('실현 손익',(pl>=0?'+':'')+won(pl),[
+        ['수익률',(rate>=0?'+':'')+rate.toFixed(2)+'%',cls],
+        ['매수 금액',won(buyAmt)],['매도 금액',won(sellAmt)],
+        ['총 수수료','-'+won(buyFee+sellFee),'neg'],['증권거래세','-'+won(taxAmt),'neg']],cls);
+      ga('calculator_used',{calculator_type:'profit'});
+    };
+    root.addEventListener('input',compute);
+    $('[data-calc]',root).addEventListener('click',compute); compute();
+  }
+};
+
+/* ── 8. 수익률계산 (해외) ─────────────────── */
+CALCS.profitGlobal = {
+  cat:'투자', icon:'🌎', name:'수익률(해외)', desc:'해외주식 환율 반영',
+  title:'수익률 계산 (해외)', sub:'환율·해외 수수료 반영 원화 손익',
+  body:()=>`
+    <div class="field-row">${F('매수 단가','gBuy',{suffix:'$',comma:false,ph:'150'})}${F('매도 단가','gSell',{suffix:'$',comma:false,ph:'180'})}</div>
+    ${F('수량','gQty',{suffix:'주',ph:'10'})}
+    <div class="field-row">${F('적용 환율','gFx',{suffix:'원',ph:'1,380'})}${F('수수료율','gFee',{suffix:'%',comma:false,ph:'0.25'})}</div>
+    <button class="btn-calc" data-calc>계산하기</button>
+    <div class="result" id="gRes"></div>`,
+  init(root){
+    const compute=()=>{
+      const bp=num($('#gBuy',root).value), sp=num($('#gSell',root).value), q=num($('#gQty',root).value);
+      const fx=num($('#gFx',root).value), fee=num($('#gFee',root).value)/100;
+      if(!bp||!sp||!q||!fx){ $('#gRes',root).innerHTML=''; return; }
+      const buyKRW=bp*q*(1+fee)*fx, sellKRW=sp*q*(1-fee)*fx;
+      const pl=sellKRW-buyKRW, rate=pl/buyKRW*100, cls=pl>=0?'pos':'neg';
+      $('#gRes',root).innerHTML=card('실현 손익 (원화)',(pl>=0?'+':'')+won(pl),[
+        ['수익률',(rate>=0?'+':'')+rate.toFixed(2)+'%',cls],
+        ['매수 금액 ($)','$'+fmtD(bp*q)],['매도 금액 ($)','$'+fmtD(sp*q)],
+        ['매수 원화',won(buyKRW)],['매도 원화',won(sellKRW)]],cls);
+      ga('calculator_used',{calculator_type:'profitGlobal'});
+    };
+    root.addEventListener('input',compute);
+    $('[data-calc]',root).addEventListener('click',compute); compute();
+  }
+};
+
+/* ── 9. 평단가계산 ────────────────────────── */
+CALCS.avgPrice = {
+  cat:'투자', icon:'🧮', name:'평단가계산', desc:'추가매수 평균단가',
+  title:'평단가 계산', sub:'추가 매수 후 평균 단가와 수익률',
+  body:()=>`
+    <div class="card-title">보유 현황</div>
+    <div class="field-row">${F('보유 평단가','avP1',{suffix:'원',ph:'50,000'})}${F('보유 수량','avQ1',{suffix:'주',ph:'100'})}</div>
+    <div class="card-title" style="margin-top:6px">추가 매수</div>
+    <div class="field-row">${F('매수 단가','avP2',{suffix:'원',ph:'45,000'})}${F('매수 수량','avQ2',{suffix:'주',ph:'100'})}</div>
+    ${F('현재가 (선택)','avCur',{suffix:'원',ph:'48,000'})}
+    <button class="btn-calc" data-calc>계산하기</button>
+    <div class="result" id="avRes"></div>`,
+  init(root){
+    const compute=()=>{
+      const p1=num($('#avP1',root).value),q1=num($('#avQ1',root).value);
+      const p2=num($('#avP2',root).value),q2=num($('#avQ2',root).value);
+      const cur=num($('#avCur',root).value);
+      const tq=q1+q2; if(!tq){ $('#avRes',root).innerHTML=''; return; }
+      const avg=(p1*q1+p2*q2)/tq, totalCost=p1*q1+p2*q2;
+      const rows=[['총 보유 수량',fmt(tq)+' 주'],['총 매입 금액',won(totalCost)]];
+      let cls='';
+      if(cur){ const pl=(cur-avg)*tq, rate=(cur-avg)/avg*100; cls=pl>=0?'pos':'neg';
+        rows.push(['평가 손익',(pl>=0?'+':'')+won(pl),cls],['수익률',(rate>=0?'+':'')+rate.toFixed(2)+'%',cls]); }
+      $('#avRes',root).innerHTML=card('평균 매입 단가',won(avg),rows);
+      ga('calculator_used',{calculator_type:'avgPrice'});
+    };
+    root.addEventListener('input',compute);
+    $('[data-calc]',root).addEventListener('click',compute); compute();
+  }
+};
+
+/* ── 10. 수수료진단 (4단계) ───────────────── */
+CALCS.feeCheck = {
+  cat:'투자', icon:'🩺', name:'수수료진단', desc:'4단계 맞춤 추천',
+  title:'수수료 진단', sub:'몇 가지 질문으로 맞는 증권사를 찾아드려요',
+  body:()=>`<div class="steps-dots" id="fcDots"><i class="on"></i><i></i><i></i><i></i></div><div id="fcStep"></div>`,
+  init(root){
+    const state={};
+    const dots=k=>$$('#fcDots i',root).forEach((d,i)=>d.classList.toggle('on',i<=k));
+    const steps=[
+      {q:'주로 어떤 시장에 투자하세요?',sub:'1 / 4',opts:[['🇰🇷','국내주식','market'],['🇺🇸','해외주식','market'],['🌐','국내+해외','market']]},
+      {q:'1회 평균 거래 금액은?',sub:'2 / 4',opts:[['💵','100만원 미만','size'],['💰','100~1,000만원','size'],['🏦','1,000만원 이상','size']]},
+      {q:'한 달 거래 횟수는?',sub:'3 / 4',opts:[['🐢','5회 미만','freq'],['🚶','5~20회','freq'],['🏃','20회 이상','freq']]},
+      {q:'무엇을 가장 중요하게 보세요?',sub:'4 / 4',opts:[['💳','낮은 수수료','pref'],['🎁','이벤트·혜택','pref'],['📱','편한 앱','pref']]},
+    ];
+    const RECO={국내:'키움증권',해외:'토스증권','국내+해외':'미래에셋증권'};
+    let cur=0;
+    const render=()=>{
+      dots(cur);
+      if(cur<steps.length){
+        const s=steps[cur];
+        $('#fcStep',root).innerHTML=`<div class="step-q">${s.q}</div><div class="step-sub">${s.sub}</div>`+
+          s.opts.map((o,i)=>`<button class="choice" data-key="${o[2]}" data-val="${o[1]}"><span class="em">${o[0]}</span>${o[1]}</button>`).join('')+
+          (cur>0?`<button class="step-back" data-back>← 이전</button>`:'');
+        $$('.choice',root).forEach(b=>b.addEventListener('click',()=>{ state[b.dataset.key]=b.dataset.val; cur++; render(); }));
+        const bk=$('[data-back]',root); if(bk)bk.addEventListener('click',()=>{cur--;render();});
+      }else{
+        const rec=RECO[state.market]||'키움증권';
+        const feeMap={'국내':'0.015%','해외':'0.07%','국내+해외':'0.014%'};
+        $('#fcStep',root).innerHTML=card('추천 증권사',rec,[
+          ['주 거래시장',state.market],['거래 규모',state.size],
+          ['거래 빈도',state.freq],['중요 요소',state.pref],
+          ['예상 수수료율',feeMap[state.market]||'0.015%','pos']])+
+          `<div class="result-hint">실제 수수료는 증권사 이벤트·등급에 따라 달라질 수 있어요.</div>`+
+          `<button class="btn-add" data-restart>다시 진단하기</button>`;
+        $('[data-restart]',root).addEventListener('click',()=>{cur=0;render();});
+        ga('calculator_used',{calculator_type:'feeCheck'});
+      }
+    };
+    render();
+  }
+};
+
+/* ── 11. 수수료율계산 ─────────────────────── */
+CALCS.feeRate = {
+  cat:'투자', icon:'💸', name:'수수료율계산', desc:'국내·해외 예상 수수료',
+  title:'수수료율 계산', sub:'거래 금액에 대한 예상 수수료',
+  body:()=>`
+    ${SEG('frMode',['국내','해외'])}
+    ${F('거래 금액','frAmt',{suffix:'원',ph:'10,000,000'})}
+    ${F('수수료율','frRate',{suffix:'%',comma:false,ph:'0.015'})}
+    <button class="btn-calc" data-calc>계산하기</button>
+    <div class="result" id="frRes"></div>`,
+  init(root){
+    const compute=()=>{
+      const amt=num($('#frAmt',root).value), rate=num($('#frRate',root).value)/100;
+      const dom=segVal(root,'frMode')==='국내';
+      if(!amt){ $('#frRes',root).innerHTML=''; return; }
+      const fee=amt*rate;
+      const tax=dom?amt*0.0015:0;
+      const rows=[['수수료',won(fee),'neg']];
+      if(dom) rows.push(['증권거래세 (매도시 0.15%)',won(tax),'neg']);
+      rows.push(['총 비용 (매도 기준)',won(fee*2+tax),'neg']);
+      $('#frRes',root).innerHTML=card('편도 수수료',won(fee),rows);
+      ga('calculator_used',{calculator_type:'feeRate'});
+    };
+    wireSeg(root,compute); root.addEventListener('input',compute);
+    $('[data-calc]',root).addEventListener('click',compute); compute();
+  }
+};
+
+/* ── 12. 환율계산 ─────────────────────────── */
+const RATES={KRW:1540,USD:1,EUR:0.86,CNY:6.77,JPY:159.85,GBP:0.79,HKD:7.78,AUD:1.55};
+const CUR_LABEL={KRW:'🇰🇷 원 (KRW)',USD:'🇺🇸 달러 (USD)',EUR:'🇪🇺 유로 (EUR)',CNY:'🇨🇳 위안 (CNY)',JPY:'🇯🇵 엔 (JPY)',GBP:'🇬🇧 파운드 (GBP)',HKD:'🇭🇰 홍콩달러 (HKD)',AUD:'🇦🇺 호주달러 (AUD)'};
+CALCS.exchange = {
+  cat:'환율', icon:'🌐', name:'환율계산', desc:'8개 통화 실시간 환산',
+  title:'환율 계산', sub:'8개 통화 간 금액을 환산해요',
+  body:()=>{
+    const opts=k=>Object.keys(RATES).map(c=>`<option value="${c}" ${c===k?'selected':''}>${CUR_LABEL[c]}</option>`).join('');
+    return `
+    ${F('금액','exAmt',{ph:'1,000,000'})}
+    <div class="field"><span class="field-label">보내는 통화</span><select class="field-bare" id="exFrom">${opts('KRW')}</select></div>
+    <div class="field"><span class="field-label">받는 통화</span><select class="field-bare" id="exTo">${opts('USD')}</select></div>
+    <button class="btn-calc" data-calc>변환하기</button>
+    <div class="result" id="exRes"></div>`;
+  },
+  init(root){
+    const compute=()=>{
+      const amt=num($('#exAmt',root).value), from=$('#exFrom',root).value, to=$('#exTo',root).value;
+      if(!amt){ $('#exRes',root).innerHTML=''; return; }
+      const result=amt/RATES[from]*RATES[to];
+      const one=1/RATES[from]*RATES[to];
+      $('#exRes',root).innerHTML=card(`${to} 기준 금액`, fmtD(result,2)+' '+to,[
+        [`1 ${from}`, fmtD(one,4)+' '+to],['환산 금액', fmtD(result,2)+' '+to]])+
+        `<div class="result-hint">기준 환율: 2026-06-05 · 실제 거래 시 환전 수수료가 추가됩니다.</div>`;
+      ga('calculator_used',{calculator_type:'exchange'});
+    };
+    root.addEventListener('input',compute); root.addEventListener('change',compute);
+    $('[data-calc]',root).addEventListener('click',compute); compute();
+  }
+};
+
+/* ── 13. 실수령계산 ───────────────────────── */
+CALCS.netSalary = {
+  cat:'생활', icon:'🧾', name:'실수령계산', desc:'연봉 → 월 실수령액',
+  title:'실수령액 계산', sub:'연봉에서 4대보험·세금을 제한 실수령액',
+  body:()=>`
+    ${F('연봉','nsY',{suffix:'원',ph:'40,000,000'})}
+    ${F('월 비과세액','nsNT',{suffix:'원',ph:'200,000'})}
+    <button class="btn-calc" data-calc>계산하기</button>
+    <div class="result" id="nsRes"></div>`,
+  init(root){
+    const compute=()=>{
+      const y=num($('#nsY',root).value), nt=num($('#nsNT',root).value);
+      if(!y){ $('#nsRes',root).innerHTML=''; return; }
+      const gross=y/12, taxable=Math.max(0,gross-nt);
+      let it; // 간이세액표 근사 (월 과세급여 기준)
+      if(taxable<1060000) it=0;
+      else if(taxable<1500000) it=(taxable-1060000)*0.06;
+      else if(taxable<3000000) it=26400+(taxable-1500000)*0.15;
+      else if(taxable<4500000) it=251400+(taxable-3000000)*0.24;
+      else it=611400+(taxable-4500000)*0.35;
+      const localTax=it*0.1;
+      const np=Math.min(taxable*0.045,248850);
+      const health=taxable*0.03545;
+      const care=health*0.1281;
+      const emp=taxable*0.009;
+      const deduct=it+localTax+np+health+care+emp;
+      const net=gross-deduct;
+      $('#nsRes',root).innerHTML=card('월 실수령액',won(net),[
+        ['월 급여 (세전)',won(gross)],['소득세','-'+won(it),'neg'],['지방소득세','-'+won(localTax),'neg'],
+        ['국민연금','-'+won(np),'neg'],['건강보험','-'+won(health),'neg'],
+        ['장기요양','-'+won(care),'neg'],['고용보험','-'+won(emp),'neg'],
+        ['공제 합계','-'+won(deduct),'neg'],['연 실수령액',won(net*12),'pos']])+
+        `<div class="result-hint">간이세액표 근사 기준이며 부양가족·실제 공제에 따라 달라질 수 있어요.</div>`;
+      ga('calculator_used',{calculator_type:'netSalary'});
+    };
+    root.addEventListener('input',compute);
+    $('[data-calc]',root).addEventListener('click',compute); compute();
+  }
+};
+
+/* ── 14. 연봉인상률 ───────────────────────── */
+CALCS.salaryIncrease = {
+  cat:'생활', icon:'📊', name:'연봉인상률', desc:'인상률·월 인상액',
+  title:'연봉 인상률', sub:'기존·변경 연봉으로 인상률을 계산해요',
+  body:()=>`
+    ${F('기존 연봉','siOld',{suffix:'원',ph:'40,000,000'})}
+    ${F('변경 연봉','siNew',{suffix:'원',ph:'44,000,000'})}
+    <button class="btn-calc" data-calc>계산하기</button>
+    <div class="result" id="siRes"></div>`,
+  init(root){
+    const compute=()=>{
+      const o=num($('#siOld',root).value), n=num($('#siNew',root).value);
+      if(!o||!n){ $('#siRes',root).innerHTML=''; return; }
+      const diff=n-o, rate=diff/o*100, cls=diff>=0?'pos':'neg';
+      $('#siRes',root).innerHTML=card('인상률',(rate>=0?'+':'')+rate.toFixed(2)+'%',[
+        ['연봉 증감',(diff>=0?'+':'')+won(diff),cls],
+        ['월 급여 증감',(diff>=0?'+':'')+won(diff/12),cls],
+        ['기존 월급',won(o/12)],['변경 월급',won(n/12)]],cls);
+      ga('calculator_used',{calculator_type:'salaryIncrease'});
+    };
+    root.addEventListener('input',compute);
+    $('[data-calc]',root).addEventListener('click',compute); compute();
+  }
+};
+
+/* ── 15. 퇴직금계산 ───────────────────────── */
+CALCS.severance = {
+  cat:'생활', icon:'🎓', name:'퇴직금계산', desc:'근속·평균임금 기준',
+  title:'퇴직금 계산', sub:'근속 기간과 평균임금으로 퇴직금을 계산해요',
+  body:()=>`
+    <div class="field"><span class="field-label">입사일</span><div class="field-input"><input id="svIn" type="date"></div></div>
+    <div class="field"><span class="field-label">퇴사일</span><div class="field-input"><input id="svOut" type="date"></div></div>
+    ${F('퇴직 전 3개월 임금 총액','svPay',{suffix:'원',ph:'9,000,000'})}
+    <button class="btn-calc" data-calc>계산하기</button>
+    <div class="result" id="svRes"></div>`,
+  init(root){
+    const compute=()=>{
+      const din=$('#svIn',root).value, dout=$('#svOut',root).value, pay=num($('#svPay',root).value);
+      if(!din||!dout||!pay){ $('#svRes',root).innerHTML=''; return; }
+      const d1=new Date(din), d2=new Date(dout);
+      const days=Math.round((d2-d1)/86400000);
+      if(days<=0){ $('#svRes',root).innerHTML=card('재직일수를 확인해주세요','0 원',[]); return; }
+      const dailyAvg=pay/91.25; // 3개월 ≈ 91.25일
+      const severance=dailyAvg*30*(days/365);
+      const years=Math.floor(days/365), months=Math.floor((days%365)/30);
+      $('#svRes',root).innerHTML=card('예상 퇴직금',won(severance),[
+        ['총 재직일수',fmt(days)+' 일'],['근속 기간',`${years}년 ${months}개월`],
+        ['1일 평균임금',won(dailyAvg)],['1일 평균임금 × 30',won(dailyAvg*30)]])+
+        `<div class="result-hint">근로기준법 기준 근사값이며, 상여·수당 포함 여부에 따라 달라질 수 있어요.</div>`;
+      ga('calculator_used',{calculator_type:'severance'});
+    };
+    root.addEventListener('input',compute); root.addEventListener('change',compute);
+    $('[data-calc]',root).addEventListener('click',compute);
+  }
+};
+
+/* ── 16. 평수계산 ─────────────────────────── */
+CALCS.pyeong = {
+  cat:'생활', icon:'📐', name:'평수계산', desc:'㎡ ↔ 평 양방향',
+  title:'평수 계산', sub:'제곱미터와 평을 양방향으로 변환해요',
+  body:()=>`
+    ${SEG('pyMode',['㎡ → 평','평 → ㎡'])}
+    ${F('면적','pyV',{suffix:'',comma:false,ph:'33'})}
+    <button class="btn-calc" data-calc>변환하기</button>
+    <div class="result" id="pyRes"></div>`,
+  init(root){
+    const RATIO=3.305785; // 1평 = 3.305785㎡
+    const compute=()=>{
+      const v=num($('#pyV',root).value); if(!v){ $('#pyRes',root).innerHTML=''; return; }
+      if(segVal(root,'pyMode')==='㎡ → 평'){
+        const p=v/RATIO;
+        $('#pyRes',root).innerHTML=card(fmtD(v,1)+' ㎡ 는', fmtD(p,2)+' 평',[['평',fmtD(p,2)+' 평'],['제곱미터',fmtD(v,2)+' ㎡']]);
+      }else{
+        const m=v*RATIO;
+        $('#pyRes',root).innerHTML=card(fmtD(v,1)+' 평 은', fmtD(m,2)+' ㎡',[['제곱미터',fmtD(m,2)+' ㎡'],['평',fmtD(v,2)+' 평']]);
+      }
+      ga('calculator_used',{calculator_type:'pyeong'});
+    };
+    wireSeg(root,compute); root.addEventListener('input',compute);
+    $('[data-calc]',root).addEventListener('click',compute); compute();
+  }
+};
+
+/* ── 17. 계산노트 (메모) ──────────────────── */
+CALCS.memo = {
+  cat:'생활', icon:'📝', name:'계산노트', desc:'항목별 합산 메모',
+  title:'계산노트', sub:'항목을 기록하면 자동으로 합산해요',
+  body:()=>`<div id="memoList"></div>
+    <button class="btn-add" data-add>+ 항목 추가</button>
+    <div class="result" id="memoRes"></div>`,
+  init(root){
+    const list=$('#memoList',root);
+    const addRow=(l='',a='')=>{
+      const div=document.createElement('div'); div.className='memo-row';
+      div.innerHTML=`<div class="field-input" style="flex:1.3"><input class="mlabel" type="text" placeholder="항목명" value="${l}"></div>
+        <div class="field-input" style="flex:1"><input class="mamt" type="text" inputmode="decimal" data-comma placeholder="0" value="${a}" style="text-align:right"></div>
+        <button class="memo-del" aria-label="삭제">×</button>`;
+      div.querySelector('.memo-del').addEventListener('click',()=>{div.remove();compute();});
+      list.appendChild(div);
+    };
+    const compute=()=>{
+      let sum=0; $$('.mamt',list).forEach(i=>sum+=num(i.value));
+      const cnt=$$('.memo-row',list).length;
+      $('#memoRes',root).innerHTML=card('합계',won(sum),[['항목 수',cnt+' 개'],['평균',won(cnt?sum/cnt:0)]]);
+    };
+    $('[data-add]',root).addEventListener('click',()=>{addRow();compute();});
+    root.addEventListener('input',compute);
+    addRow(); addRow(); compute();
+  }
+};
+
+/* ── 18. 기본계산기 ───────────────────────── */
+CALCS.basic = {
+  cat:'생활', icon:'🔢', name:'기본계산기', desc:'사칙연산 계산기',
+  title:'기본계산기', sub:'간편한 사칙연산 계산기',
+  body:()=>`
+    <div class="calcpad-display"><div class="expr" id="bcExpr"></div><div class="now" id="bcNow">0</div></div>
+    <div class="calcpad" id="bcPad">
+      <button class="fn" data-k="C">C</button><button class="fn" data-k="back">⌫</button><button class="fn" data-k="%">%</button><button class="op" data-k="/">÷</button>
+      <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button class="op" data-k="*">×</button>
+      <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button class="op" data-k="-">−</button>
+      <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button class="op" data-k="+">+</button>
+      <button data-k="00">00</button><button data-k="0">0</button><button data-k=".">.</button><button class="eq" data-k="=">=</button>
+    </div>`,
+  init(root){
+    let cur='0', expr='', reset=false;
+    const now=$('#bcNow',root), ex=$('#bcExpr',root);
+    const show=()=>{ now.textContent=cur.length>12?(+cur).toExponential(5):(+cur).toLocaleString('ko-KR',{maximumFractionDigits:6}); ex.textContent=expr; };
+    const calc=()=>{ try{ const v=Function('"use strict";return ('+expr.replace(/×/g,'*').replace(/÷/g,'/')+cur+')')(); return (Math.round(v*1e8)/1e8)+''; }catch(e){ return cur; } };
+    $('#bcPad',root).addEventListener('click',e=>{
+      const b=e.target.closest('button'); if(!b)return; const k=b.dataset.k;
+      if(/[0-9]|00/.test(k)){ cur = (cur==='0'||reset)?(k==='00'?'0':k):cur+k; reset=false; }
+      else if(k==='.'){ if(!cur.includes('.'))cur+='.'; }
+      else if(k==='C'){ cur='0'; expr=''; }
+      else if(k==='back'){ cur=cur.length>1?cur.slice(0,-1):'0'; }
+      else if(k==='%'){ cur=(parseFloat(cur)/100)+''; }
+      else if(['+','-','*','/'].includes(k)){
+        if(expr&&!reset) cur=calc();
+        expr=cur+' '+({'+':'+','-':'−','*':'×','/':'÷'}[k])+' '; reset=true;
+      }
+      else if(k==='='){ if(expr){ cur=calc(); expr=''; reset=true; } }
+      show();
+    });
+    show();
+  }
+};
+
+/* ════════════════════════════════════════════
+   ROUTER + LANDING
+   ════════════════════════════════════════════ */
+const CAT_ORDER=['대출','예적금','투자','환율','생활'];
+function renderHome(){
+  const grid=$('#toolGrid'); grid.innerHTML='';
+  CAT_ORDER.forEach(cat=>{
+    const items=Object.entries(CALCS).filter(([,c])=>c.cat===cat);
+    if(!items.length)return;
+    const lbl=document.createElement('div'); lbl.className='cat-label'; lbl.textContent=cat; grid.appendChild(lbl);
+    const g=document.createElement('div'); g.className='grid';
+    items.forEach(([id,c])=>{
+      const b=document.createElement('button'); b.className='tool';
+      b.innerHTML=`<span class="ico">${c.icon}</span><div><div class="tname">${c.name}</div><div class="tdesc">${c.desc}</div></div>`;
+      b.addEventListener('click',()=>{location.hash='#/'+id;});
+      g.appendChild(b);
+    });
+    grid.appendChild(g);
+  });
+}
+
+function openCalc(id){
+  const c=CALCS[id]; if(!c){ location.hash=''; return; }
+  $('#calcTitle').textContent=c.title;
+  $('#calcSub').textContent=c.sub;
+  $('#calcHeaderTitle').textContent=c.name;
+  const body=$('#calcBody'); body.innerHTML=c.body();
+  c.init(body);
+  document.body.dataset.view='calc';
+  window.scrollTo(0,0);
+}
+
+function router(){
+  const h=location.hash.replace(/^#\/?/,'');
+  if(h && CALCS[h]){ openCalc(h); }
+  else { document.body.dataset.view='home'; window.scrollTo(0,0); }
+}
+
+$('#backBtn').addEventListener('click',()=>{ location.hash=''; });
+$('#ctaBtn').addEventListener('click',()=>ga('cta_click',{source:'finance_calculator'}));
+window.addEventListener('hashchange',router);
+
+renderHome();
+router();
+</script>
+</body>
+</html>
