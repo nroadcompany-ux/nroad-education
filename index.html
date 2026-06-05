@@ -48,6 +48,8 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
 .btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); padding: 7px 14px; }
 .btn-ghost:hover { background: var(--bg); color: var(--text-primary); }
 .btn-sm { font-size: 12px; padding: 5px 10px; }
+.finance-link { display: inline-flex; align-items: center; gap: 4px; background: #E8FBF3; color: #00A85E; border: 1px solid #C8F3E0; text-decoration: none; padding: 6px 12px; }
+.finance-link:hover { background: #00C471; color: #fff; border-color: #00C471; }
 
 /* LAYOUT */
 .layout {
@@ -299,6 +301,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg);
     <div class="header-tag">AI Learning</div>
   </div>
   <div class="header-right">
+    <a class="btn btn-sm finance-link" href="finance/">💰 금융계산기</a>
     <button class="btn btn-ghost btn-sm" id="btn-import">JSON 가져오기</button>
     <input type="file" id="import-file-input" accept=".json" style="display:none">
     <button class="btn btn-primary btn-sm" id="btn-export">JSON 내보내기</button>
