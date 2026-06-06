@@ -1133,9 +1133,10 @@ $('#audFav').addEventListener('click',()=>{
 });
 
 /* ════════════════════════════════════════════
-   하단 광고 배너 — 관리자 어드민(localStorage) 연동
+   하단 광고 배너 — Supabase(enroad-finance) 연동 + localStorage 캐시 폴백
    ════════════════════════════════════════════ */
 const AD_KEY='finance_ad_config';
+const FINANCE_API='https://xzjsdotolnzewkretqgk.supabase.co/functions/v1/finance-ads';
 const DEFAULT_AD={
   enabled:true, activeId:'payplay',
   ads:[{ id:'payplay', emoji:'💳',
@@ -1143,9 +1144,23 @@ const DEFAULT_AD={
     subtitle:'PayPlay POS로 매장을 열어보세요',
     ctaText:'무료 상담 →', link:'https://payplay.co.kr' }]
 };
+/* 동기: 캐시(localStorage) → 기본값. 즉시 렌더용 */
 function getAdConfig(){
   try{ const c=JSON.parse(localStorage.getItem(AD_KEY)); if(c&&Array.isArray(c.ads)) return c; }catch(e){}
   return DEFAULT_AD;
+}
+/* 비동기: Supabase에서 최신 광고 설정을 받아 캐시에 저장 */
+async function fetchAdConfig(){
+  try{
+    const r=await fetch(FINANCE_API,{cache:'no-store'});
+    if(!r.ok) return null;
+    const d=await r.json();
+    if(d&&d.config&&Array.isArray(d.config.ads)){
+      try{ localStorage.setItem(AD_KEY,JSON.stringify(d.config)); }catch(e){}
+      return d.config;
+    }
+  }catch(e){}
+  return null;
 }
 function esc(s){ return String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
 function renderAd(){
@@ -1177,7 +1192,8 @@ window.addEventListener('storage',e=>{ if(e.key===AD_KEY) renderAd(); });
 
 renderHome();
 router();
-renderAd();
+renderAd();                                  /* 즉시: 캐시/기본값 */
+fetchAdConfig().then(c=>{ if(c) renderAd(); }); /* 원격 최신본 반영 */
 </script>
 </body>
 </html>

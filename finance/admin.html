@@ -25,18 +25,14 @@ body{
 button,input,textarea,select{font-family:inherit;}
 a{color:inherit;}
 
-.top{
-  position:sticky; top:0; z-index:20;
-  background:rgba(255,255,255,.94); backdrop-filter:saturate(180%) blur(12px);
-  border-bottom:1px solid var(--color-border);
-}
+.top{position:sticky; top:0; z-index:20; background:rgba(255,255,255,.94); backdrop-filter:saturate(180%) blur(12px); border-bottom:1px solid var(--color-border);}
 .top-in{max-width:760px; margin:0 auto; height:58px; padding:0 18px; display:flex; align-items:center; gap:10px;}
 .top .logo{font-size:16px; font-weight:800; color:var(--color-navy); display:flex; align-items:center; gap:7px;}
 .top .logo .dot{width:9px; height:9px; border-radius:50%; background:var(--color-primary);}
 .top .badge{font-size:11px; font-weight:700; color:var(--color-primary-dark); background:var(--color-primary-light); padding:3px 8px; border-radius:7px;}
 .top .spacer{flex:1;}
-.top a.view{font-size:13px; font-weight:700; color:var(--color-gray-600); text-decoration:none; padding:8px 12px; border:1.5px solid var(--color-border); border-radius:10px;}
-.top a.view:hover{border-color:var(--color-primary-light); color:var(--color-primary-dark);}
+.top a.view, .top button.pw{font-size:13px; font-weight:700; color:var(--color-gray-600); text-decoration:none; padding:8px 12px; border:1.5px solid var(--color-border); border-radius:10px; background:#fff; cursor:pointer;}
+.top a.view:hover, .top button.pw:hover{border-color:var(--color-primary-light); color:var(--color-primary-dark);}
 
 .wrap{max-width:760px; margin:0 auto; padding:24px 18px 140px;}
 .lead{margin:6px 0 22px;}
@@ -48,7 +44,6 @@ a{color:inherit;}
 .panel-h h2{font-size:15px; font-weight:800; color:var(--color-navy);}
 .panel-h .spacer{flex:1;}
 
-/* master switch */
 .switch{position:relative; display:inline-flex; align-items:center; gap:10px; cursor:pointer; user-select:none;}
 .switch input{position:absolute; opacity:0; width:0; height:0;}
 .track{width:48px; height:28px; border-radius:999px; background:var(--color-gray-100); transition:.2s; flex-shrink:0; position:relative;}
@@ -56,12 +51,10 @@ a{color:inherit;}
 .switch input:checked + .track{background:var(--color-primary);}
 .switch input:checked + .track::after{transform:translateX(20px);}
 .switch .lbl{font-size:14px; font-weight:700; color:var(--color-navy);}
-
 .master-state{font-size:12.5px; font-weight:700; padding:4px 10px; border-radius:8px;}
 .master-state.on{color:var(--color-primary-dark); background:var(--color-primary-light);}
 .master-state.off{color:var(--color-gray-600); background:var(--color-gray-100);}
 
-/* ad item */
 .ad{border:1.5px solid var(--color-border); border-radius:16px; padding:16px; margin-bottom:14px; transition:border-color .15s, box-shadow .15s;}
 .ad.active{border-color:var(--color-primary); box-shadow:0 0 0 3px var(--color-primary-light);}
 .ad-top{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
@@ -75,11 +68,7 @@ a{color:inherit;}
 .field{margin-bottom:12px;}
 .field:last-child{margin-bottom:0;}
 .field label{display:block; font-size:12.5px; font-weight:700; color:var(--color-gray-600); margin-bottom:6px;}
-.field input{
-  width:100%; height:46px; border:1.5px solid var(--color-border); border-radius:11px;
-  background:var(--color-surface); font-size:14.5px; font-weight:600; color:var(--color-navy);
-  padding:0 13px; outline:none; transition:border-color .15s, background .15s;
-}
+.field input{width:100%; height:46px; border:1.5px solid var(--color-border); border-radius:11px; background:var(--color-surface); font-size:14.5px; font-weight:600; color:var(--color-navy); padding:0 13px; outline:none; transition:border-color .15s, background .15s;}
 .field input:focus{border-color:var(--color-primary); background:#fff;}
 .frow{display:flex; gap:12px;}
 .frow .field{flex:1;}
@@ -88,13 +77,8 @@ a{color:inherit;}
 .btn-add{width:100%; height:50px; border:1.5px dashed var(--color-border); background:transparent; border-radius:12px; color:var(--color-gray-600); font-weight:700; font-size:14px; cursor:pointer;}
 .btn-add:hover{border-color:var(--color-primary); color:var(--color-primary-dark);}
 
-/* preview */
 .preview-stage{background:var(--color-surface); border:1px dashed var(--color-border); border-radius:16px; padding:18px;}
-.cta-inner{
-  max-width:484px; margin:0 auto; display:flex; align-items:center; gap:14px;
-  background:linear-gradient(135deg,#00C471 0%,#00A85E 100%);
-  border-radius:18px; padding:16px 18px; box-shadow:0 8px 30px rgba(0,168,94,.28);
-}
+.cta-inner{max-width:484px; margin:0 auto; display:flex; align-items:center; gap:14px; background:linear-gradient(135deg,#00C471 0%,#00A85E 100%); border-radius:18px; padding:16px 18px; box-shadow:0 8px 30px rgba(0,168,94,.28);}
 .cta-emoji{font-size:26px;}
 .cta-txt{flex:1; color:#fff; min-width:0;}
 .cta-txt .t1{font-size:14.5px; font-weight:800; line-height:1.3;}
@@ -102,27 +86,19 @@ a{color:inherit;}
 .cta-arrow{background:rgba(255,255,255,.22); color:#fff; border-radius:10px; padding:9px 12px; font-size:13px; font-weight:700; white-space:nowrap;}
 .preview-off{text-align:center; color:var(--color-gray-400); font-size:13.5px; font-weight:600; padding:26px 0;}
 
-/* save bar */
-.savebar{
-  position:fixed; left:0; right:0; bottom:0; z-index:30;
-  padding:12px 18px calc(12px + env(safe-area-inset-bottom));
-  background:linear-gradient(to top, rgba(249,250,251,1) 70%, rgba(249,250,251,0));
-}
+.savebar{position:fixed; left:0; right:0; bottom:0; z-index:30; padding:12px 18px calc(12px + env(safe-area-inset-bottom)); background:linear-gradient(to top, rgba(249,250,251,1) 70%, rgba(249,250,251,0));}
 .savebar-in{max-width:760px; margin:0 auto; display:flex; gap:10px;}
 .btn{height:52px; border-radius:13px; font-size:15px; font-weight:800; cursor:pointer; border:none; transition:transform .12s, background .12s;}
 .btn:active{transform:translateY(1px);}
+.btn:disabled{opacity:.55; cursor:not-allowed;}
 .btn-save{flex:1; background:var(--color-primary); color:#fff; box-shadow:0 4px 18px rgba(0,196,113,.3);}
 .btn-save:hover{background:var(--color-primary-dark);}
 .btn-reset{flex:0 0 auto; padding:0 18px; background:#fff; border:1.5px solid var(--color-border); color:var(--color-gray-600);}
 .btn-reset:hover{border-color:var(--color-gray-400);}
 
-.toast{
-  position:fixed; left:50%; bottom:90px; transform:translateX(-50%) translateY(20px);
-  background:var(--color-navy); color:#fff; font-size:13.5px; font-weight:700;
-  padding:12px 20px; border-radius:999px; box-shadow:0 8px 30px rgba(0,0,0,.25);
-  opacity:0; pointer-events:none; transition:.25s; z-index:50;
-}
+.toast{position:fixed; left:50%; bottom:90px; transform:translateX(-50%) translateY(20px); background:var(--color-navy); color:#fff; font-size:13.5px; font-weight:700; padding:12px 20px; border-radius:999px; box-shadow:0 8px 30px rgba(0,0,0,.25); opacity:0; pointer-events:none; transition:.25s; z-index:60; max-width:90vw; text-align:center;}
 .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+.toast.err{background:var(--color-red);}
 
 .note{font-size:12.5px; color:var(--color-gray-600); line-height:1.7; background:var(--color-primary-soft); border:1px solid var(--color-primary-light); border-radius:14px; padding:14px 16px;}
 .note b{color:var(--color-navy);}
@@ -133,6 +109,22 @@ a{color:inherit;}
 .mini{font-size:12.5px; font-weight:700; color:var(--color-primary-dark); background:var(--color-primary-light); border:none; border-radius:9px; padding:8px 12px; cursor:pointer;}
 .mini:hover{background:var(--color-primary-soft);}
 
+/* ── GATE (로그인/최초설정) ───────────────── */
+.gate{position:fixed; inset:0; z-index:80; background:rgba(13,27,42,.5); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; padding:20px;}
+.gate-card{width:100%; max-width:380px; background:#fff; border-radius:22px; padding:28px 24px; box-shadow:0 20px 60px rgba(0,0,0,.25);}
+.gate-card .gi{font-size:34px; text-align:center;}
+.gate-card h2{font-size:20px; font-weight:800; color:var(--color-navy); text-align:center; margin-top:10px;}
+.gate-card p{font-size:13px; color:var(--color-gray-600); text-align:center; margin-top:8px; line-height:1.6;}
+.gate-card .field{margin-top:16px;}
+.gate-card .field:first-of-type{margin-top:20px;}
+.gate-card .field input{height:50px; font-size:15px;}
+.gate-btn{width:100%; height:52px; border:none; border-radius:13px; background:var(--color-primary); color:#fff; font-size:15.5px; font-weight:800; cursor:pointer; margin-top:18px; box-shadow:0 4px 18px rgba(0,196,113,.3);}
+.gate-btn:hover{background:var(--color-primary-dark);}
+.gate-btn:disabled{opacity:.55; cursor:not-allowed;}
+.gate-err{margin-top:12px; font-size:13px; font-weight:700; color:var(--color-red); text-align:center; min-height:18px;}
+.gate-loading{text-align:center; color:#fff; font-weight:700; font-size:14px;}
+.hidden{display:none !important;}
+
 @media(max-width:480px){
   .frow{flex-wrap:wrap;}
   .frow .field.emoji{flex:0 0 100%;}
@@ -141,10 +133,18 @@ a{color:inherit;}
 </head>
 <body>
 
+<!-- 로그인 / 최초 설정 게이트 -->
+<div class="gate" id="gate">
+  <div class="gate-card" id="gateCard">
+    <div class="gate-loading" id="gateLoading">연결 중…</div>
+  </div>
+</div>
+
 <div class="top">
   <div class="top-in">
     <div class="logo"><span class="dot"></span>금융계산기 <span class="badge">광고 관리자</span></div>
     <div class="spacer"></div>
+    <button class="pw" id="pwBtn">비밀번호 변경</button>
     <a class="view" href="./index.html" target="_blank">사이트 보기 ↗</a>
   </div>
 </div>
@@ -152,14 +152,12 @@ a{color:inherit;}
 <div class="wrap">
   <div class="lead">
     <h1>하단 광고 배너 관리</h1>
-    <p>금융계산기 화면 하단에 노출되는 광고 배너를 켜고 끄거나, 내용을 직접 수정할 수 있어요.</p>
+    <p>금융계산기 화면 하단에 노출되는 광고 배너를 켜고 끄거나, 내용을 직접 수정할 수 있어요. 저장하면 <b>모든 방문자에게 즉시 반영</b>됩니다.</p>
   </div>
 
-  <!-- 표시 ON/OFF -->
   <div class="panel">
     <div class="panel-h">
-      <h2>광고 표시</h2>
-      <div class="spacer"></div>
+      <h2>광고 표시</h2><div class="spacer"></div>
       <span class="master-state" id="masterState">ON</span>
     </div>
     <label class="switch">
@@ -169,37 +167,29 @@ a{color:inherit;}
     </label>
   </div>
 
-  <!-- 광고 목록 -->
   <div class="panel">
     <div class="panel-h">
-      <h2>광고 목록</h2>
-      <div class="spacer"></div>
+      <h2>광고 목록</h2><div class="spacer"></div>
       <span style="font-size:12px;color:var(--color-gray-400);font-weight:600;">노출할 광고를 ◉ 로 선택</span>
     </div>
     <div id="adList"></div>
     <button class="btn-add" id="addAd">+ 광고 추가</button>
   </div>
 
-  <!-- 미리보기 -->
   <div class="panel">
     <div class="panel-h"><h2>미리보기</h2></div>
     <div class="preview-stage" id="previewStage"></div>
   </div>
 
-  <!-- 내보내기 / 안내 -->
   <div class="panel">
     <div class="panel-h">
-      <h2>설정 내보내기 (영구 적용용)</h2>
-      <div class="spacer"></div>
-      <button class="mini" id="copyJson">JSON 복사</button>
+      <h2>설정 백업 (JSON)</h2><div class="spacer"></div>
+      <button class="mini" id="copyJson">복사</button>
     </div>
     <textarea class="export-box" id="exportBox" readonly></textarea>
     <div class="note" style="margin-top:14px;">
-      <b>💡 저장 방식 안내</b><br>
-      저장 버튼은 설정을 이 브라우저(<code>localStorage</code>)에 보관합니다. 같은 브라우저에서 본 화면에는 바로 반영되지만,
-      <b>다른 사람·다른 기기에는 적용되지 않습니다.</b><br>
-      모든 방문자에게 영구 적용하려면 위 JSON을 <code>finance/index.html</code> 의 <code>DEFAULT_AD</code> 값으로 교체해 배포하세요.
-      (서버 연동이 필요하면 알려주세요.)
+      <b>☁️ 저장 위치</b> · Supabase <code>enroad-finance</code> 프로젝트.<br>
+      저장 시 모든 방문자·기기에 공통 적용됩니다. 광고 <b>조회는 누구나</b> 가능하지만, <b>저장은 관리자 비밀번호</b>가 필요해요.
     </div>
   </div>
 </div>
@@ -207,7 +197,7 @@ a{color:inherit;}
 <div class="savebar">
   <div class="savebar-in">
     <button class="btn btn-reset" id="resetBtn">기본값</button>
-    <button class="btn btn-save" id="saveBtn">저장하기</button>
+    <button class="btn btn-save" id="saveBtn">서버에 저장</button>
   </div>
 </div>
 
@@ -216,7 +206,8 @@ a{color:inherit;}
 <script>
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-const AD_KEY='finance_ad_config';
+const FINANCE_API='https://xzjsdotolnzewkretqgk.supabase.co/functions/v1/finance-ads';
+const PW_KEY='finance_admin_pw';   // sessionStorage (탭 닫으면 사라짐)
 const DEFAULT_AD={
   enabled:true, activeId:'payplay',
   ads:[{ id:'payplay', emoji:'💳',
@@ -227,17 +218,101 @@ const DEFAULT_AD={
 const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 const uid=()=>'ad_'+Math.random().toString(36).slice(2,8);
 
-let state;
-function load(){
-  try{ const c=JSON.parse(localStorage.getItem(AD_KEY)); if(c&&Array.isArray(c.ads)) return c; }catch(e){}
-  return JSON.parse(JSON.stringify(DEFAULT_AD));
+let state=JSON.parse(JSON.stringify(DEFAULT_AD));
+let adminPw=sessionStorage.getItem(PW_KEY)||'';
+
+/* ── API ──────────────────────────────────── */
+async function apiGet(){
+  const r=await fetch(FINANCE_API,{cache:'no-store'});
+  if(!r.ok) throw new Error('연결 실패');
+  return r.json(); // { config, hasPassword }
 }
+async function apiPost(body){
+  const r=await fetch(FINANCE_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(d.error||('오류 '+r.status));
+  return d;
+}
+
+/* ── 게이트 (로그인/최초설정) ─────────────── */
+function gateSetup(){
+  $('#gateCard').innerHTML=`
+    <div class="gi">🔐</div>
+    <h2>관리자 비밀번호 설정</h2>
+    <p>아직 비밀번호가 없습니다.<br>광고를 관리할 비밀번호를 만들어 주세요.</p>
+    <div class="field"><label>새 비밀번호 (4자 이상)</label><input id="gPw1" type="password" autocomplete="new-password"></div>
+    <div class="field"><label>비밀번호 확인</label><input id="gPw2" type="password" autocomplete="new-password"></div>
+    <button class="gate-btn" id="gBtn">설정하고 시작</button>
+    <div class="gate-err" id="gErr"></div>`;
+  const go=async()=>{
+    const p1=$('#gPw1').value, p2=$('#gPw2').value;
+    if(p1.length<4){ $('#gErr').textContent='비밀번호는 4자 이상이어야 합니다.'; return; }
+    if(p1!==p2){ $('#gErr').textContent='비밀번호가 일치하지 않습니다.'; return; }
+    const btn=$('#gBtn'); btn.disabled=true; btn.textContent='설정 중…';
+    try{
+      await apiPost({action:'setup', newPassword:p1});
+      setPw(p1); await afterAuth();
+    }catch(e){ $('#gErr').textContent=e.message; btn.disabled=false; btn.textContent='설정하고 시작'; }
+  };
+  $('#gBtn').addEventListener('click',go);
+  $('#gPw2').addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+  $('#gPw1').focus();
+}
+function gateLogin(msg){
+  $('#gateCard').innerHTML=`
+    <div class="gi">🔑</div>
+    <h2>관리자 로그인</h2>
+    <p>광고 설정을 변경하려면<br>관리자 비밀번호를 입력하세요.</p>
+    <div class="field"><label>비밀번호</label><input id="gPw" type="password" autocomplete="current-password"></div>
+    <button class="gate-btn" id="gBtn">입력</button>
+    <div class="gate-err" id="gErr">${esc(msg||'')}</div>`;
+  const go=async()=>{
+    const pw=$('#gPw').value;
+    if(!pw){ $('#gErr').textContent='비밀번호를 입력하세요.'; return; }
+    const btn=$('#gBtn'); btn.disabled=true; btn.textContent='확인 중…';
+    try{
+      await apiPost({action:'login', password:pw});
+      setPw(pw); await afterAuth();
+    }catch(e){ $('#gErr').textContent=e.message; btn.disabled=false; btn.textContent='입력'; $('#gPw').select(); }
+  };
+  $('#gBtn').addEventListener('click',go);
+  $('#gPw').addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+  $('#gPw').focus();
+}
+function setPw(pw){ adminPw=pw; try{ sessionStorage.setItem(PW_KEY,pw); }catch(e){} }
+function hideGate(){ $('#gate').classList.add('hidden'); }
+function showGate(){ $('#gate').classList.remove('hidden'); }
+
+/* 인증 성공 후: 서버 설정 로드 → 에디터 표시 */
+async function afterAuth(){
+  try{
+    const d=await apiGet();
+    if(d&&d.config&&Array.isArray(d.config.ads)) state=d.config;
+  }catch(e){}
+  hideGate(); syncMaster(); renderList(); preview();
+}
+
+/* ── 부팅 ─────────────────────────────────── */
+async function boot(){
+  try{
+    const d=await apiGet();
+    if(d&&d.config&&Array.isArray(d.config.ads)) state=d.config; // 미리 로드(미리보기용)
+    if(!d.hasPassword){ gateSetup(); return; }
+    if(adminPw){ // 세션에 비번 있으면 자동 로그인 시도
+      try{ await apiPost({action:'login', password:adminPw}); await afterAuth(); return; }
+      catch(e){ setPw(''); }
+    }
+    gateLogin();
+  }catch(e){
+    $('#gateCard').innerHTML=`<div class="gi">⚠️</div><h2>연결 실패</h2><p>${esc(e.message)}<br>네트워크를 확인하고 새로고침해 주세요.</p><button class="gate-btn" onclick="location.reload()">다시 시도</button>`;
+  }
+}
+
+/* ── 광고 목록 렌더 ───────────────────────── */
 function ensureActive(){
   if(!state.ads.length){ state.activeId=null; return; }
   if(!state.ads.some(a=>a.id===state.activeId)) state.activeId=state.ads[0].id;
 }
-
-/* ── render ad list ───────────────────────── */
 function renderList(){
   ensureActive();
   const box=$('#adList'); box.innerHTML='';
@@ -265,26 +340,20 @@ function renderList(){
       </div>`;
     box.appendChild(el);
   });
-
   $$('[data-act]',box).forEach(r=>r.addEventListener('change',()=>{ state.activeId=r.dataset.act; renderList(); preview(); }));
   $$('[data-del]',box).forEach(b=>b.addEventListener('click',()=>{
-    if(state.ads.length<=1){ toast('최소 1개의 광고는 있어야 해요'); return; }
+    if(state.ads.length<=1){ toast('최소 1개의 광고는 있어야 해요',true); return; }
     state.ads=state.ads.filter(a=>a.id!==b.dataset.del); renderList(); preview();
   }));
   $$('input[data-f]',box).forEach(inp=>inp.addEventListener('input',()=>{
     const ad=state.ads.find(a=>a.id===inp.dataset.id); if(ad){ ad[inp.dataset.f]=inp.value; preview(); }
   }));
 }
-
-/* ── master toggle ────────────────────────── */
 function syncMaster(){
   $('#master').checked=!!state.enabled;
-  const s=$('#masterState');
-  s.textContent=state.enabled?'ON':'OFF';
+  const s=$('#masterState'); s.textContent=state.enabled?'ON':'OFF';
   s.className='master-state '+(state.enabled?'on':'off');
 }
-
-/* ── preview + export ─────────────────────── */
 function preview(){
   const stage=$('#previewStage');
   const ad=state.ads.find(a=>a.id===state.activeId);
@@ -299,15 +368,28 @@ function preview(){
   $('#exportBox').value=JSON.stringify(state,null,2);
 }
 
-/* ── actions ──────────────────────────────── */
-function toast(msg){
-  const t=$('#toast'); t.textContent=msg; t.classList.add('show');
-  clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),1900);
+/* ── 동작 ─────────────────────────────────── */
+function toast(msg,err){
+  const t=$('#toast'); t.textContent=msg; t.className='toast show'+(err?' err':'');
+  clearTimeout(toast._t); toast._t=setTimeout(()=>t.className='toast',2200);
 }
-function save(){
+async function save(){
   ensureActive();
-  try{ localStorage.setItem(AD_KEY,JSON.stringify(state)); toast('✓ 저장되었어요'); }
-  catch(e){ toast('저장 실패: 저장공간을 확인해주세요'); }
+  const btn=$('#saveBtn'); btn.disabled=true; btn.textContent='저장 중…';
+  try{
+    await apiPost({ password:adminPw, config:state });
+    try{ localStorage.setItem('finance_ad_config',JSON.stringify(state)); }catch(e){} // 같은 브라우저 즉시 동기화
+    toast('✓ 저장되었어요 · 모든 방문자에게 적용됩니다');
+  }catch(e){
+    if(/비밀번호/.test(e.message)){ setPw(''); showGate(); gateLogin('세션이 만료되었어요. 다시 로그인해 주세요.'); }
+    else toast(e.message,true);
+  }finally{ btn.disabled=false; btn.textContent='서버에 저장'; }
+}
+async function changePassword(){
+  const np=prompt('새 비밀번호를 입력하세요 (4자 이상)'); if(np===null) return;
+  if(np.length<4){ toast('비밀번호는 4자 이상이어야 합니다.',true); return; }
+  try{ await apiPost({action:'changePassword', password:adminPw, newPassword:np}); setPw(np); toast('✓ 비밀번호가 변경되었어요'); }
+  catch(e){ toast(e.message,true); }
 }
 
 $('#master').addEventListener('change',e=>{ state.enabled=e.target.checked; syncMaster(); preview(); });
@@ -316,8 +398,9 @@ $('#addAd').addEventListener('click',()=>{
   renderList(); preview();
 });
 $('#saveBtn').addEventListener('click',save);
+$('#pwBtn').addEventListener('click',changePassword);
 $('#resetBtn').addEventListener('click',()=>{
-  if(!confirm('기본값(PayPlay)으로 되돌릴까요? 저장하지 않은 변경은 사라집니다.')) return;
+  if(!confirm('편집 화면을 기본값(PayPlay)으로 되돌릴까요? (서버 저장 전까지는 반영되지 않습니다)')) return;
   state=JSON.parse(JSON.stringify(DEFAULT_AD)); syncMaster(); renderList(); preview();
 });
 $('#copyJson').addEventListener('click',async()=>{
@@ -325,9 +408,7 @@ $('#copyJson').addEventListener('click',async()=>{
   catch(e){ $('#exportBox').select(); document.execCommand('copy'); toast('✓ 복사됨'); }
 });
 
-/* init */
-state=load();
-syncMaster(); renderList(); preview();
+boot();
 </script>
 </body>
 </html>
