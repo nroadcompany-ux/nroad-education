@@ -64,6 +64,7 @@ body[data-view="calc"] .header .title-home{display:none;}
 .cat-label{font-size:12px; font-weight:700; color:var(--color-gray-400); text-transform:uppercase; letter-spacing:.5px; margin:26px 4px 12px;}
 .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
 .tool{
+  position:relative;
   background:#fff; border:1px solid var(--color-border); border-radius:18px;
   padding:18px 16px; cursor:pointer; text-align:left;
   transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
@@ -77,14 +78,51 @@ body[data-view="calc"] .header .title-home{display:none;}
 }
 .tool .tname{font-size:15.5px; font-weight:700; color:var(--color-navy);}
 .tool .tdesc{font-size:12px; font-weight:500; color:var(--color-gray-400); line-height:1.45;}
+.tool .fav{
+  position:absolute; top:11px; right:11px; width:30px; height:30px;
+  border:none; background:transparent; cursor:pointer; font-size:17px; line-height:1;
+  border-radius:9px; color:var(--color-gray-400); transition:transform .12s ease, background .12s ease;
+  display:flex; align-items:center; justify-content:center;
+}
+.tool .fav:hover{background:var(--color-gray-100); transform:scale(1.12);}
+.tool .fav.on{color:#FFB400;}
+
+/* ── FILTER CHIPS ─────────────────────────── */
+.chips{
+  display:flex; gap:8px; overflow-x:auto; padding:6px 4px 14px;
+  position:sticky; top:56px; z-index:20; background:var(--color-surface);
+  scrollbar-width:none; -webkit-overflow-scrolling:touch;
+}
+.chips::-webkit-scrollbar{display:none;}
+.chip{
+  flex:0 0 auto; height:36px; padding:0 15px; border-radius:999px;
+  border:1.5px solid var(--color-border); background:#fff; color:var(--color-gray-600);
+  font-size:13.5px; font-weight:600; cursor:pointer; white-space:nowrap;
+  transition:all .15s ease; display:inline-flex; align-items:center; gap:5px;
+}
+.chip:hover{border-color:var(--color-primary-light);}
+.chip.on{background:var(--color-primary); color:#fff; border-color:var(--color-primary); box-shadow:0 2px 8px rgba(0,196,113,.28);}
+.fav-empty{
+  text-align:center; padding:30px 24px; color:var(--color-gray-600); font-size:14px; line-height:1.7;
+  background:var(--color-primary-soft); border:1px solid var(--color-primary-light); border-radius:18px;
+}
+.fav-empty b{display:block; color:var(--color-navy); font-weight:700; margin-bottom:4px; font-size:15px;}
 
 /* ── CALC VIEW ────────────────────────────── */
 #view-calc{display:none;}
 body[data-view="calc"] #view-calc{display:block;}
 body[data-view="calc"] #view-home{display:none;}
-.calc-head{padding:30px 4px 18px;}
-.calc-head h2{font-size:24px; font-weight:800; color:var(--color-navy); letter-spacing:-0.6px;}
+.calc-head{padding:30px 4px 18px; position:relative;}
+.calc-head h2{font-size:24px; font-weight:800; color:var(--color-navy); letter-spacing:-0.6px; padding-right:52px;}
 .calc-head p{margin-top:8px; font-size:14px; font-weight:500; color:var(--color-gray-600);}
+.calc-fav{
+  position:absolute; top:28px; right:2px; width:44px; height:44px;
+  border:1.5px solid var(--color-border); border-radius:12px; background:#fff;
+  cursor:pointer; font-size:20px; line-height:1; color:var(--color-gray-400);
+  display:flex; align-items:center; justify-content:center; transition:all .15s ease;
+}
+.calc-fav:hover{border-color:var(--color-gray-400);}
+.calc-fav.on{color:#FFB400; border-color:#FFE08A; background:#FFFBEB;}
 
 /* ── TABS / TOGGLE ────────────────────────── */
 .seg{
@@ -260,12 +298,14 @@ input[type=range]{width:100%; accent-color:var(--color-primary); height:6px;}
       <h1>창업의 숫자,<br><b>정확하게</b> 계산하세요</h1>
       <p>대출부터 수익률까지, 창업에 필요한<br>모든 금융 계산을 무료로 도와드려요.</p>
     </div>
+    <div class="chips" id="chips"></div>
     <div id="toolGrid"></div>
   </section>
 
   <!-- CALC -->
   <section id="view-calc">
     <div class="calc-head">
+      <button class="calc-fav" id="calcFav" aria-label="즐겨찾기 추가">☆</button>
       <h2 id="calcTitle"></h2>
       <p id="calcSub"></p>
     </div>
@@ -940,28 +980,72 @@ CALCS.basic = {
    ROUTER + LANDING
    ════════════════════════════════════════════ */
 const CAT_ORDER=['대출','예적금','투자','환율','생활'];
+let activeFilter='전체';
+
+/* ── favorites (localStorage) ──────────────── */
+const FAV_KEY='finance_favs';
+function getFavs(){ try{ return JSON.parse(localStorage.getItem(FAV_KEY))||[]; }catch(e){ return []; } }
+function setFavs(a){ try{ localStorage.setItem(FAV_KEY,JSON.stringify(a)); }catch(e){} }
+function isFav(id){ return getFavs().includes(id); }
+function toggleFav(id){ const a=getFavs(), i=a.indexOf(id); if(i<0)a.push(id); else a.splice(i,1); setFavs(a); return i<0; }
+
+function toolCard(id,c){
+  const fav=isFav(id);
+  const b=document.createElement('div'); b.className='tool'; b.setAttribute('role','button'); b.tabIndex=0;
+  b.innerHTML=`<button class="fav ${fav?'on':''}" data-fav="${id}" aria-label="즐겨찾기">${fav?'★':'☆'}</button>
+    <span class="ico">${c.icon}</span><div><div class="tname">${c.name}</div><div class="tdesc">${c.desc}</div></div>`;
+  const go=()=>{ location.hash='#/'+id; };
+  b.addEventListener('click',e=>{ if(e.target.closest('[data-fav]'))return; go(); });
+  b.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+  b.querySelector('[data-fav]').addEventListener('click',e=>{ e.stopPropagation(); toggleFav(id); renderHome(); });
+  return b;
+}
+function addSection(grid,label,entries){
+  if(label){ const lbl=document.createElement('div'); lbl.className='cat-label'; lbl.textContent=label; grid.appendChild(lbl); }
+  const g=document.createElement('div'); g.className='grid';
+  entries.forEach(([id,c])=>g.appendChild(toolCard(id,c)));
+  grid.appendChild(g);
+}
+function renderChips(){
+  const bar=$('#chips'); bar.innerHTML='';
+  [['전체','전체'],['즐겨찾기','⭐ 즐겨찾기'],...CAT_ORDER.map(c=>[c,c])].forEach(([key,label])=>{
+    const el=document.createElement('button'); el.className='chip'+(activeFilter===key?' on':'');
+    el.textContent=label; el.addEventListener('click',()=>{ activeFilter=key; renderHome(); });
+    bar.appendChild(el);
+  });
+}
 function renderHome(){
+  renderChips();
   const grid=$('#toolGrid'); grid.innerHTML='';
+  const favEntries=getFavs().map(id=>[id,CALCS[id]]).filter(([,c])=>c);
+
+  if(activeFilter==='즐겨찾기'){
+    if(favEntries.length) addSection(grid,null,favEntries);
+    else grid.innerHTML=`<div class="fav-empty"><b>⭐ 아직 즐겨찾기가 없어요</b>계산기 카드 우측 상단의 별(☆)을 눌러<br>자주 쓰는 계산기를 여기에 모아보세요.</div>`;
+    return;
+  }
+  if(activeFilter!=='전체'){
+    addSection(grid,null,Object.entries(CALCS).filter(([,c])=>c.cat===activeFilter));
+    return;
+  }
+  if(favEntries.length) addSection(grid,'⭐ 즐겨찾기',favEntries);
   CAT_ORDER.forEach(cat=>{
     const items=Object.entries(CALCS).filter(([,c])=>c.cat===cat);
-    if(!items.length)return;
-    const lbl=document.createElement('div'); lbl.className='cat-label'; lbl.textContent=cat; grid.appendChild(lbl);
-    const g=document.createElement('div'); g.className='grid';
-    items.forEach(([id,c])=>{
-      const b=document.createElement('button'); b.className='tool';
-      b.innerHTML=`<span class="ico">${c.icon}</span><div><div class="tname">${c.name}</div><div class="tdesc">${c.desc}</div></div>`;
-      b.addEventListener('click',()=>{location.hash='#/'+id;});
-      g.appendChild(b);
-    });
-    grid.appendChild(g);
+    if(items.length) addSection(grid,cat,items);
   });
 }
 
+function syncCalcFav(id){
+  const btn=$('#calcFav'), on=isFav(id);
+  btn.classList.toggle('on',on); btn.textContent=on?'★':'☆';
+  btn.onclick=()=>{ const now=toggleFav(id); btn.classList.toggle('on',now); btn.textContent=now?'★':'☆'; };
+}
 function openCalc(id){
   const c=CALCS[id]; if(!c){ location.hash=''; return; }
   $('#calcTitle').textContent=c.title;
   $('#calcSub').textContent=c.sub;
   $('#calcHeaderTitle').textContent=c.name;
+  syncCalcFav(id);
   const body=$('#calcBody'); body.innerHTML=c.body();
   c.init(body);
   document.body.dataset.view='calc';
@@ -977,6 +1061,15 @@ function router(){
 $('#backBtn').addEventListener('click',()=>{ location.hash=''; });
 $('#ctaBtn').addEventListener('click',()=>ga('cta_click',{source:'finance_calculator'}));
 window.addEventListener('hashchange',router);
+
+/* iframe 임베드 옵션: ?cta=off → PayPlay 배너 숨김 (사내용 등) */
+(function(){
+  const p=new URLSearchParams(location.search);
+  if(p.get('cta')==='off'){
+    const cta=document.querySelector('.cta'); if(cta) cta.style.display='none';
+    const shell=document.querySelector('.shell'); if(shell) shell.style.paddingBottom='40px';
+  }
+})();
 
 renderHome();
 router();
