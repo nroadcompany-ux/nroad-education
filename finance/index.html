@@ -35,9 +35,12 @@ a{color:inherit;text-decoration:none;}
 /* ── HEADER ───────────────────────────────── */
 .header{
   position:sticky; top:0; z-index:50;
-  height:56px; background:rgba(255,255,255,.92); backdrop-filter:saturate(180%) blur(12px);
+  background:rgba(255,255,255,.92); backdrop-filter:saturate(180%) blur(12px);
   border-bottom:1px solid var(--color-border);
-  display:flex; align-items:center; gap:10px; padding:0 18px;
+}
+.header-inner{
+  height:56px; max-width:520px; margin:0 auto; padding:0 18px;
+  display:flex; align-items:center; gap:10px;
 }
 .header .back{
   width:34px; height:34px; margin-left:-6px; border:none; background:transparent;
@@ -60,6 +63,26 @@ body[data-view="calc"] .header .title-home{display:none;}
 .hero h1{font-size:30px; font-weight:800; line-height:1.32; color:var(--color-navy); letter-spacing:-0.8px;}
 .hero h1 b{color:var(--color-primary);}
 .hero p{margin-top:14px; font-size:15px; font-weight:500; color:var(--color-gray-600); line-height:1.6;}
+
+/* ── AUDIENCE FILTER (top-right) ──────────── */
+.hero-top{display:flex; flex-direction:column; gap:18px;}
+.hero-txt{flex:1; min-width:0;}
+.aud-filter{display:flex; align-items:center; gap:8px;}
+.aud-seg{display:flex; flex:1; background:var(--color-gray-100); border-radius:12px; padding:3px; gap:2px;}
+.aud-seg button{
+  flex:1; border:none; background:transparent; cursor:pointer; height:34px; padding:0 10px;
+  border-radius:9px; font-size:12.5px; font-weight:700; color:var(--color-gray-600);
+  white-space:nowrap; transition:all .15s ease;
+}
+.aud-seg button.on{background:#fff; color:var(--color-primary-dark); box-shadow:0 1px 5px rgba(0,0,0,.1);}
+.aud-fav{
+  display:inline-flex; align-items:center; gap:4px; height:34px; padding:0 14px;
+  border-radius:999px; border:1.5px solid var(--color-border); background:#fff;
+  color:var(--color-gray-600); font-size:12.5px; font-weight:700; cursor:pointer;
+  white-space:nowrap; transition:all .15s ease;
+}
+.aud-fav:hover{border-color:var(--color-primary-light);}
+.aud-fav.on{background:#FFFBEB; border-color:#FFE08A; color:#B7791F;}
 
 .cat-label{font-size:12px; font-weight:700; color:var(--color-gray-400); text-transform:uppercase; letter-spacing:.5px; margin:26px 4px 12px;}
 .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
@@ -275,8 +298,26 @@ input[type=range]{width:100%; accent-color:var(--color-primary); height:6px;}
 
 .footnote{text-align:center; font-size:11px; color:var(--color-gray-400); padding:24px 0 8px;}
 
+/* ── DESKTOP / TABLET (반응형) ─────────────── */
+@media(min-width:768px){
+  .header-inner{max-width:1100px;}
+  .shell{max-width:1100px;}
+  body[data-view="calc"] .shell{max-width:600px;}
+  .hero{padding:52px 4px 30px;}
+  .hero-top{flex-direction:row; justify-content:space-between; align-items:flex-start;}
+  .hero-txt h1{font-size:40px;}
+  .hero-txt p{font-size:16px;}
+  .aud-filter{flex-direction:column; align-items:flex-end; flex-shrink:0; padding-top:6px;}
+  .aud-seg{flex:none;}
+  .aud-seg button{flex:none; padding:0 14px;}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px;}
+  .tool{min-height:120px; padding:20px 18px;}
+  .tool .tname{font-size:16px;}
+  .cta-inner{max-width:600px;}
+}
+
 @media(max-width:380px){
-  .hero h1{font-size:26px;}
+  .hero-txt h1{font-size:26px;}
   .tool{padding:15px 13px; min-height:96px;}
   .result-main-value{font-size:28px;}
 }
@@ -285,9 +326,11 @@ input[type=range]{width:100%; accent-color:var(--color-primary); height:6px;}
 <body data-view="home">
 
 <header class="header">
-  <button class="back" id="backBtn" aria-label="뒤로">‹</button>
-  <div class="logo title-home"><span class="dot"></span>생존 <span style="color:var(--color-gray-400);font-weight:600;">금융계산기</span></div>
-  <div class="title title-calc" id="calcHeaderTitle">계산기</div>
+  <div class="header-inner">
+    <button class="back" id="backBtn" aria-label="뒤로">‹</button>
+    <div class="logo title-home"><span class="dot"></span>생존 <span style="color:var(--color-gray-400);font-weight:600;">금융계산기</span></div>
+    <div class="title title-calc" id="calcHeaderTitle">계산기</div>
+  </div>
 </header>
 
 <main class="shell">
@@ -295,8 +338,20 @@ input[type=range]{width:100%; accent-color:var(--color-primary); height:6px;}
   <!-- HOME -->
   <section id="view-home">
     <div class="hero">
-      <h1>창업의 숫자,<br><b>정확하게</b> 계산하세요</h1>
-      <p>대출부터 수익률까지, 창업에 필요한<br>모든 금융 계산을 무료로 도와드려요.</p>
+      <div class="hero-top">
+        <div class="hero-txt">
+          <h1>창업의 숫자,<br><b>정확하게</b> 계산하세요</h1>
+          <p>대출부터 수익률까지, 창업에 필요한<br>모든 금융 계산을 무료로 도와드려요.</p>
+        </div>
+        <div class="aud-filter" id="audFilter">
+          <div class="aud-seg">
+            <button data-aud="all" class="on">전체보기</button>
+            <button data-aud="biz">사업용</button>
+            <button data-aud="personal">개인용</button>
+          </div>
+          <button class="aud-fav" id="audFav" aria-label="즐겨찾기만 보기">⭐ 즐겨찾기</button>
+        </div>
+      </div>
     </div>
     <div class="chips" id="chips"></div>
     <div id="toolGrid"></div>
@@ -314,17 +369,8 @@ input[type=range]{width:100%; accent-color:var(--color-primary); height:6px;}
 
 </main>
 
-<!-- PAYPLAY CTA -->
-<div class="cta">
-  <a class="cta-inner" href="https://payplay.co.kr" target="_blank" rel="noopener" id="ctaBtn">
-    <span class="cta-emoji">💳</span>
-    <span class="cta-txt">
-      <span class="t1">계산 완료! 이제 시작할 차례</span>
-      <span class="t2">PayPlay POS로 매장을 열어보세요</span>
-    </span>
-    <span class="cta-arrow">무료 상담 →</span>
-  </a>
-</div>
+<!-- 하단 광고 배너 (관리자 어드민 /finance/admin.html 에서 설정) -->
+<div class="cta" id="ctaWrap"></div>
 
 <script>
 /* ════════════════════════════════════════════
@@ -980,7 +1026,17 @@ CALCS.basic = {
    ROUTER + LANDING
    ════════════════════════════════════════════ */
 const CAT_ORDER=['대출','예적금','투자','환율','생활'];
+/* 사업용 / 개인용 분류 ('both' = 공통) */
+const AUD={
+  loan:'both', loanCompare:'both', savings:'personal', deposit:'both',
+  bestRate:'both', targetAmount:'personal', profit:'personal', profitGlobal:'personal',
+  avgPrice:'personal', feeCheck:'personal', feeRate:'personal', exchange:'both',
+  netSalary:'both', salaryIncrease:'both', severance:'both', pyeong:'both',
+  memo:'both', basic:'both'
+};
 let activeFilter='전체';
+let activeAudience='all';
+function audOk(id){ return activeAudience==='all' || AUD[id]==='both' || AUD[id]===activeAudience; }
 
 /* ── favorites (localStorage) ──────────────── */
 const FAV_KEY='finance_favs';
@@ -1014,8 +1070,12 @@ function renderChips(){
     bar.appendChild(el);
   });
 }
+function renderAud(){
+  $$('#audFilter .aud-seg button').forEach(b=>b.classList.toggle('on',b.dataset.aud===activeAudience));
+  const fav=$('#audFav'); if(fav) fav.classList.toggle('on',activeFilter==='즐겨찾기');
+}
 function renderHome(){
-  renderChips();
+  renderChips(); renderAud();
   const grid=$('#toolGrid'); grid.innerHTML='';
   const favEntries=getFavs().map(id=>[id,CALCS[id]]).filter(([,c])=>c);
 
@@ -1025,12 +1085,15 @@ function renderHome(){
     return;
   }
   if(activeFilter!=='전체'){
-    addSection(grid,null,Object.entries(CALCS).filter(([,c])=>c.cat===activeFilter));
+    const items=Object.entries(CALCS).filter(([id,c])=>c.cat===activeFilter && audOk(id));
+    if(items.length) addSection(grid,null,items);
+    else grid.innerHTML=`<div class="fav-empty"><b>해당 조건의 계산기가 없어요</b>다른 카테고리나 '전체보기'를 선택해 보세요.</div>`;
     return;
   }
-  if(favEntries.length) addSection(grid,'⭐ 즐겨찾기',favEntries);
+  const favAud=favEntries.filter(([id])=>audOk(id));
+  if(favAud.length) addSection(grid,'⭐ 즐겨찾기',favAud);
   CAT_ORDER.forEach(cat=>{
-    const items=Object.entries(CALCS).filter(([,c])=>c.cat===cat);
+    const items=Object.entries(CALCS).filter(([id,c])=>c.cat===cat && audOk(id));
     if(items.length) addSection(grid,cat,items);
   });
 }
@@ -1059,20 +1122,62 @@ function router(){
 }
 
 $('#backBtn').addEventListener('click',()=>{ location.hash=''; });
-$('#ctaBtn').addEventListener('click',()=>ga('cta_click',{source:'finance_calculator'}));
 window.addEventListener('hashchange',router);
 
-/* iframe 임베드 옵션: ?cta=off → PayPlay 배너 숨김 (사내용 등) */
-(function(){
+/* 사업용 / 개인용 / 전체보기 필터 (우측 상단) */
+$$('#audFilter .aud-seg button').forEach(b=>b.addEventListener('click',()=>{
+  activeAudience=b.dataset.aud; renderHome();
+}));
+$('#audFav').addEventListener('click',()=>{
+  activeFilter=(activeFilter==='즐겨찾기'?'전체':'즐겨찾기'); renderHome();
+});
+
+/* ════════════════════════════════════════════
+   하단 광고 배너 — 관리자 어드민(localStorage) 연동
+   ════════════════════════════════════════════ */
+const AD_KEY='finance_ad_config';
+const DEFAULT_AD={
+  enabled:true, activeId:'payplay',
+  ads:[{ id:'payplay', emoji:'💳',
+    title:'계산 완료! 이제 시작할 차례',
+    subtitle:'PayPlay POS로 매장을 열어보세요',
+    ctaText:'무료 상담 →', link:'https://payplay.co.kr' }]
+};
+function getAdConfig(){
+  try{ const c=JSON.parse(localStorage.getItem(AD_KEY)); if(c&&Array.isArray(c.ads)) return c; }catch(e){}
+  return DEFAULT_AD;
+}
+function esc(s){ return String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+function renderAd(){
+  const wrap=$('#ctaWrap'); if(!wrap) return;
+  const shell=$('.shell');
   const p=new URLSearchParams(location.search);
-  if(p.get('cta')==='off'){
-    const cta=document.querySelector('.cta'); if(cta) cta.style.display='none';
-    const shell=document.querySelector('.shell'); if(shell) shell.style.paddingBottom='40px';
+  const cfg=getAdConfig();
+  const ad=(cfg.ads||[]).find(a=>a.id===cfg.activeId);
+  /* ?cta=off (임베드) · 관리자 OFF · 활성 광고 없음 → 숨김 */
+  if(p.get('cta')==='off' || !cfg.enabled || !ad){
+    wrap.innerHTML=''; wrap.style.display='none';
+    if(shell) shell.style.paddingBottom='40px';
+    return;
   }
-})();
+  wrap.style.display='';
+  if(shell) shell.style.paddingBottom='';
+  wrap.innerHTML=`<a class="cta-inner" href="${esc(ad.link||'#')}" target="_blank" rel="noopener" id="ctaBtn">
+    <span class="cta-emoji">${esc(ad.emoji||'📢')}</span>
+    <span class="cta-txt">
+      <span class="t1">${esc(ad.title||'')}</span>
+      <span class="t2">${esc(ad.subtitle||'')}</span>
+    </span>
+    <span class="cta-arrow">${esc(ad.ctaText||'자세히 →')}</span>
+  </a>`;
+  const btn=$('#ctaBtn'); if(btn) btn.addEventListener('click',()=>ga('cta_click',{source:'finance_calculator',ad:ad.id}));
+}
+/* 다른 탭(어드민)에서 저장 시 실시간 반영 */
+window.addEventListener('storage',e=>{ if(e.key===AD_KEY) renderAd(); });
 
 renderHome();
 router();
+renderAd();
 </script>
 </body>
 </html>
